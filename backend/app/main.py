@@ -1,9 +1,12 @@
+import threading
+
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.pdf.merge import router as pdf_merge_router
+from app.utils.cleanup import cleanup_old_files
 
 app = FastAPI(
     title="CanIEdit API",
@@ -40,3 +43,8 @@ app.mount(
     StaticFiles(directory="temp_outputs"),
     name="temp_outputs"
 )
+
+
+@app.on_event("startup")
+def start_cleanup_thread() -> None:
+    threading.Thread(target=cleanup_old_files, daemon=True).start()
