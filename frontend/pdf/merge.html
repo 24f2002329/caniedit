@@ -43,7 +43,7 @@
       status.textContent = "Merging PDFs...";
 
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/pdf/merge", {
+        const response = await fetch("https://api.caniedit.in/api/pdf/merge", {
           method: "POST",
           body: formData
         });
