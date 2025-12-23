@@ -52,7 +52,8 @@
 
         if (data.success) {
           status.textContent = "PDF merged successfully!";
-          downloadLink.href = `http://127.0.0.1:8000/temp_outputs/${data.file}`;
+          const API_BASE = "https://api.caniedit.in";
+          downloadLink.href = `${API_BASE}/temp_outputs/${data.file}`;
           downloadLink.style.display = "inline";
           downloadLink.textContent = "Download merged PDF";
         } else {
