@@ -2,4 +2,4 @@ fastapi
 uvicorn
 python-multipart
 pypdf
-cryptography
+cryptography>=3.1
