@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Merge PDF Online – Free PDF Merger | CanIEdit</title>
+  <meta name="description" content="Merge multiple PDF files into one online for free. No signup required." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body style="font-family: system-ui; padding: 40px">
+
+  <h1>Merge PDF Files</h1>
+  <p>Select multiple PDF files and merge them into one.</p>
+
+  <form id="mergeForm">
+    <input type="file" id="pdfFiles" name="files" accept="application/pdf" multiple required />
+    <br><br>
+    <button type="submit">Merge PDFs</button>
+  </form>
+
+  <p id="status"></p>
+  <a id="downloadLink" style="display:none;" target="_blank">Download Merged PDF</a>
+
+  <script>
+    const form = document.getElementById("mergeForm");
+    const status = document.getElementById("status");
+    const downloadLink = document.getElementById("downloadLink");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const filesInput = document.getElementById("pdfFiles");
+      if (filesInput.files.length < 2) {
+        alert("Please select at least two PDF files.");
+        return;
+      }
+
+      const formData = new FormData();
+      for (const file of filesInput.files) {
+        formData.append("files", file);
+      }
+
+      status.textContent = "Merging PDFs...";
+
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/pdf/merge", {
+          method: "POST",
+          body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          status.textContent = "PDF merged successfully!";
+          downloadLink.href = `http://127.0.0.1:8000/temp_outputs/${data.file}`;
+          downloadLink.style.display = "inline";
+          downloadLink.textContent = "Download merged PDF";
+        } else {
+          status.textContent = "Something went wrong.";
+        }
+
+      } catch (err) {
+        status.textContent = "Error connecting to server.";
+      }
+    });
+  </script>
+
+</body>
+</html>
