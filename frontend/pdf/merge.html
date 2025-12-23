@@ -5,42 +5,256 @@
   <title>Merge PDF Online – Free PDF Merger | CanIEdit</title>
   <meta name="description" content="Merge multiple PDF files into one online for free. No signup required." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="keywords" content="merge pdf, combine pdf files, pdf merger, online pdf tools" />
+  <link rel="canonical" href="https://www.caniedit.in/pdf/merge" />
+  <link rel="stylesheet" href="../assets/styles.css" />
 </head>
+<body>
+  <div id="header"></div>
 
-<body style="font-family: system-ui; padding: 40px">
+  <main class="page tool-page">
+    <section class="container">
+      <div class="tool-hero">
+        <div>
+          <h1>Merge PDF files in seconds</h1>
+          <p>Combine multiple PDFs into one clean document. Drag, drop, and download — each file stays private and under the 10&nbsp;MB limit.</p>
+          <div class="tool-tag-list">
+            <span class="tool-tag">Fast merge engine</span>
+            <span class="tool-tag">10&nbsp;MB guardrail</span>
+            <span class="tool-tag is-coming">Reorder pages</span>
+            <span class="tool-tag is-coming">Add bookmarks</span>
+          </div>
+        </div>
+        <div class="ad-slot ad-slot--banner" aria-label="Inline ad placeholder">
+          <strong>AdSense 728×90</strong>
+          <span>Ideal banner position above the conversion form.</span>
+        </div>
+      </div>
+      <div class="tool-layout">
+        <form id="mergeForm" class="upload-card" aria-label="Merge PDF form">
+          <ol class="stepper" aria-label="Merge progress">
+            <li class="step is-active" data-step="upload">
+              <span class="step-index">1</span>
+              <span>Upload</span>
+            </li>
+            <li class="step" data-step="processing">
+              <span class="step-index">2</span>
+              <span>Processing</span>
+            </li>
+            <li class="step" data-step="done">
+              <span class="step-index">3</span>
+              <span>Done</span>
+            </li>
+          </ol>
+          <div class="upload-dropzone">
+            <strong>Drop PDF files here</strong>
+            <span>or</span>
+            <label class="btn-primary" for="pdfFiles">Browse your desktop</label>
+            <input type="file" id="pdfFiles" name="files" accept="application/pdf" multiple required />
+            <p class="helper-text">Upload 2–10 files · Max 10&nbsp;MB per file · PDFs only</p>
+          </div>
 
-  <h1>Merge PDF Files</h1>
-  <p>Select multiple PDF files and merge them into one.</p>
+          <section id="selectedFilesSection" class="selected-files" aria-live="polite" hidden>
+            <header class="selected-files__header">
+              <strong>Files queued for merge</strong>
+              <button type="button" id="clearFilesButton" class="selected-files__clear">Clear all</button>
+            </header>
+            <ul id="selectedFilesList" class="selected-files__list"></ul>
+          </section>
 
-  <form id="mergeForm">
-    <input type="file" id="pdfFiles" name="files" accept="application/pdf" multiple required />
-    <br><br>
-    <button type="submit">Merge PDFs</button>
-  </form>
+          <button type="submit" class="btn-primary">Merge PDFs</button>
+          <div class="status-area">
+            <p id="status" class="status-message" role="status" aria-live="polite"></p>
+            <a id="planUpsell" class="btn-secondary" href="/pricing.html" style="display:none;">Check plans for bigger files</a>
+          </div>
+        </form>
 
-  <p id="status"></p>
-  <a id="downloadLink" style="display:none;" target="_blank">Download Merged PDF</a>
+        <aside>
+          <div class="ad-slot ad-slot--sidebar" aria-label="Sidebar ad placeholder">
+            <strong>AdSense 300×600</strong>
+            <span>Monetize this high-visibility merge page slot.</span>
+          </div>
+          <div class="tool-card">
+            <h3>More PDF power</h3>
+            <div class="tool-table">
+              <ul>
+                <li><a data-tool-link data-tool-title="Merge PDF" data-tool-description="Live now — combine files instantly." href="/pdf/merge.html">Merge PDF<span>Live now — combine files instantly.</span></a></li>
+                <li><a data-tool-link data-tool-title="Compress PDF" data-tool-description="Slim files for email uploads." data-tool-soon="true" href="/#pdf-tools">Compress PDF<span>Slim files for email uploads. (Coming soon)</span></a></li>
+                <li><a data-tool-link data-tool-title="Split PDF" data-tool-description="Create sign-ready packets in minutes." data-tool-soon="true" href="/#pdf-tools">Split PDF<span>Create sign-ready packets in minutes. (Coming soon)</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="container seo-section" aria-labelledby="merge-benefits">
+      <h2 id="merge-benefits">Professional results every time</h2>
+      <p>Our FastAPI-powered merger keeps fonts, bookmarks, and page order intact. Uploads are auto-deleted after processing, protecting your documents for client-ready delivery.</p>
+    </section>
+  </main>
+
+  <noscript>
+    <p style="text-align:center; padding: 16px;">Enable JavaScript to load the CanIEdit navigation and footer.</p>
+  </noscript>
+
+  <div id="footer"></div>
 
   <script>
     const form = document.getElementById("mergeForm");
     const status = document.getElementById("status");
-    const downloadLink = document.getElementById("downloadLink");
+    const submitButton = form.querySelector("button[type='submit']");
+    const filesInput = document.getElementById("pdfFiles");
+    const planUpsell = document.getElementById("planUpsell");
+    const steps = ["upload", "processing", "done"];
+    const selectedFilesSection = document.getElementById("selectedFilesSection");
+    const selectedFilesList = document.getElementById("selectedFilesList");
+    const clearFilesButton = document.getElementById("clearFilesButton");
+    let selectedFiles = [];
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
+    const setStep = (target) => {
+      steps.forEach((stepName, index) => {
+        const stepElement = document.querySelector(`[data-step="${stepName}"]`);
+        if (!stepElement) return;
+        stepElement.classList.remove("is-active", "is-complete");
 
-      const filesInput = document.getElementById("pdfFiles");
-      if (filesInput.files.length < 2) {
-        alert("Please select at least two PDF files.");
+        const targetIndex = steps.indexOf(target);
+        if (index < targetIndex) stepElement.classList.add("is-complete");
+        if (index === targetIndex) stepElement.classList.add("is-active");
+      });
+    };
+
+    setStep("upload");
+
+    function setStatus(message, type = "") {
+      status.textContent = message;
+      status.classList.remove("error", "success");
+      if (type) {
+        status.classList.add(type);
+      }
+    }
+
+    const formatBytes = (value) => {
+      if (value < 1024) return `${value} B`;
+      const units = ["KB", "MB", "GB"];
+      let size = value;
+      let unitIndex = -1;
+      do {
+        size /= 1024;
+        unitIndex += 1;
+      } while (size >= 1024 && unitIndex < units.length - 1);
+      return `${size.toFixed(size >= 10 ? 0 : 1)} ${units[unitIndex]}`;
+    };
+
+    const syncInputFiles = () => {
+      const dataTransfer = new DataTransfer();
+      selectedFiles.forEach((file) => dataTransfer.items.add(file));
+      filesInput.files = dataTransfer.files;
+    };
+
+    const renderSelectedFiles = () => {
+      selectedFilesList.innerHTML = "";
+
+      if (!selectedFiles.length) {
+        selectedFilesSection.hidden = true;
         return;
       }
+
+      selectedFilesSection.hidden = false;
+
+      selectedFiles.forEach((file, index) => {
+        const item = document.createElement("li");
+        item.className = "selected-file";
+
+        const meta = document.createElement("div");
+        meta.className = "selected-file__meta";
+
+        const name = document.createElement("span");
+        name.className = "selected-file__name";
+        name.textContent = file.name;
+
+        const size = document.createElement("span");
+        size.className = "selected-file__size";
+        size.textContent = formatBytes(file.size);
+
+        meta.appendChild(name);
+        meta.appendChild(size);
+
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.className = "selected-file__remove";
+        removeButton.dataset.index = String(index);
+        removeButton.setAttribute("aria-label", `Remove ${file.name}`);
+        removeButton.textContent = "Remove";
+
+        item.appendChild(meta);
+        item.appendChild(removeButton);
+        selectedFilesList.appendChild(item);
+      });
+    };
+
+    const addFiles = (incomingFiles) => {
+      if (!incomingFiles.length) return;
+
+      incomingFiles.forEach((file) => {
+        const exists = selectedFiles.some(
+          (existing) =>
+            existing.name === file.name &&
+            existing.size === file.size &&
+            existing.lastModified === file.lastModified
+        );
+        if (!exists) {
+          selectedFiles.push(file);
+        }
+      });
+
+      syncInputFiles();
+      renderSelectedFiles();
+    };
+
+    filesInput.addEventListener("change", () => {
+      addFiles(Array.from(filesInput.files));
+    });
+
+    clearFilesButton.addEventListener("click", () => {
+      selectedFiles = [];
+      syncInputFiles();
+      renderSelectedFiles();
+      setStatus("", "");
+    });
+
+    selectedFilesList.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLButtonElement)) return;
+
+      const index = Number(target.dataset.index);
+      if (Number.isNaN(index)) return;
+
+      selectedFiles.splice(index, 1);
+      syncInputFiles();
+      renderSelectedFiles();
+      if (!selectedFiles.length) {
+        setStatus("", "");
+      }
+    });
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (filesInput.files.length < 2) {
+        setStatus("Select at least two PDF files to merge.", "error");
+        return;
+      }
+
+      setStatus("Merging PDFs…");
+      planUpsell.style.display = "none";
+      submitButton.disabled = true;
+      setStep("processing");
 
       const formData = new FormData();
       for (const file of filesInput.files) {
         formData.append("files", file);
       }
-
-      status.textContent = "Merging PDFs...";
 
       try {
         const response = await fetch("https://api.caniedit.in/api/pdf/merge", {
@@ -48,23 +262,44 @@
           body: formData
         });
 
-        const data = await response.json();
+        const isJson = response.headers.get("content-type")?.includes("application/json");
+        const data = isJson ? await response.json() : {};
 
-        if (data.success) {
-          status.textContent = "PDF merged successfully!";
-          const API_BASE = "https://api.caniedit.in";
-          downloadLink.href = `${API_BASE}/temp_outputs/${data.file}`;
-          downloadLink.style.display = "inline";
-          downloadLink.textContent = "Download merged PDF";
-        } else {
-          status.textContent = "Something went wrong.";
+        if (!response.ok) {
+          if (response.status === 413) {
+            setStatus("One of your files is over 10 MB. Remove large files and try again.", "error");
+            planUpsell.style.display = "inline-flex";
+          } else {
+            const detail = data.detail || "Unable to merge files right now.";
+            setStatus(detail, "error");
+          }
+          setStep("upload");
+          return;
         }
 
-      } catch (err) {
-        status.textContent = "Error connecting to server.";
+        if (data.success) {
+          setStatus("PDF merged successfully! Redirecting to download page…", "success");
+          setStep("done");
+          selectedFiles = [];
+          syncInputFiles();
+          renderSelectedFiles();
+          const encoded = encodeURIComponent(data.file);
+          setTimeout(() => {
+            window.location.href = `/pdf/download.html?file=${encoded}`;
+          }, 600);
+        } else {
+          setStatus("Something went wrong. Please try again.", "error");
+          setStep("upload");
+        }
+      } catch (error) {
+        setStatus("Network error. Check your connection and retry.", "error");
+        setStep("upload");
+      } finally {
+        submitButton.disabled = false;
       }
     });
   </script>
 
+  <script src="../assets/include.js"></script>
 </body>
 </html>

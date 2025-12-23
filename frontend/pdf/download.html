@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Download Your Merged PDF | CanIEdit</title>
+  <meta name="description" content="Your merged PDF is ready. Download it now or run another merge with CanIEdit." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+  <div id="header"></div>
+
+  <main class="page tool-page download-page">
+    <section class="container download-hero" aria-labelledby="download-heading">
+      <div class="download-card">
+        <h1 id="download-heading">Your merged PDF is ready</h1>
+        <p id="downloadStatus">We are preparing your secure download link. This page will refresh the link if it expires.</p>
+        <div class="hero-actions">
+          <a id="downloadButton" class="btn-primary" href="#">Download again</a>
+          <a class="secondary-link" href="/pdf/merge.html">Merge another PDF</a>
+        </div>
+        <div class="download-share-actions" role="group" aria-label="Save or share your merged PDF">
+          <button id="googleDriveButton" type="button" class="btn-ghost">
+            <span>Add to Google Drive</span>
+          </button>
+          <button id="dropboxButton" type="button" class="btn-ghost">
+            <span>Add to Dropbox</span>
+          </button>
+          <button id="copyLinkButton" type="button" class="btn-ghost">
+            <span>Copy download link</span>
+          </button>
+          <button id="deleteFileButton" type="button" class="btn-danger">
+            <span>Delete now</span>
+          </button>
+        </div>
+        <p class="plan-meta">Need larger files or bulk merges? <a href="/pricing.html">Upgrade for higher limits.</a></p>
+      </div>
+      <div class="ad-slot ad-slot--banner" aria-label="Download hero ad placeholder">
+        <strong>AdSense 970×250</strong>
+        <span>Promote upgrades, partner offers, or onboarding flows here.</span>
+      </div>
+    </section>
+
+    <section class="container download-layout" aria-label="More options">
+      <aside class="download-sidebar">
+        <div class="ad-slot ad-slot--sidebar" aria-label="Download sidebar ad placeholder">
+          <strong>AdSense 300×600</strong>
+          <span>Drive conversions with contextual ads or tutorials.</span>
+        </div>
+        <div class="ad-slot" aria-label="Secondary ad placeholder">
+          <strong>AdSense 300×250</strong>
+          <span>Highlight newsletters, premium add-ons, or affiliate offers.</span>
+        </div>
+      </aside>
+      <div class="download-content">
+        <h2>Next steps</h2>
+        <ul class="download-tips">
+          <li>Files are automatically deleted from our servers within minutes.</li>
+          <li>Save to your cloud drive or send directly to clients once downloaded.</li>
+          <li>Run another merge to reorder pages or prepare signature packets.</li>
+        </ul>
+        <a class="btn-secondary" href="/pricing.html#plans">Compare plans for higher limits</a>
+      </div>
+    </section>
+  </main>
+
+  <noscript>
+    <p style="text-align:center; padding: 16px;">Enable JavaScript to keep your download link fresh.</p>
+  </noscript>
+
+  <div id="footer"></div>
+
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const file = params.get("file");
+      const status = document.getElementById("downloadStatus");
+      const downloadButton = document.getElementById("downloadButton");
+      const googleDriveButton = document.getElementById("googleDriveButton");
+      const dropboxButton = document.getElementById("dropboxButton");
+      const copyLinkButton = document.getElementById("copyLinkButton");
+      const deleteFileButton = document.getElementById("deleteFileButton");
+      const API_BASE = "https://api.caniedit.in";
+      const safePattern = /^[\w.-]+$/;
+
+      if (!file || !safePattern.test(file)) {
+        status.textContent = "The download link is missing. Merge another PDF to get started.";
+        downloadButton.style.display = "none";
+        return;
+      }
+
+      const downloadUrl = `${API_BASE}/temp_outputs/${file}`;
+      downloadButton.href = downloadUrl;
+
+      let isDownloading = false;
+      let lastObjectUrl = null;
+      let fileDeleted = false;
+
+      const disableDownloadActions = () => {
+        downloadButton.classList.add("is-disabled");
+        downloadButton.setAttribute("aria-disabled", "true");
+        downloadButton.removeAttribute("href");
+        [googleDriveButton, dropboxButton, copyLinkButton, deleteFileButton].forEach((btn) => {
+          if (!btn) return;
+          btn.disabled = true;
+          btn.classList.add("is-disabled");
+        });
+      };
+
+      const triggerDownload = async () => {
+        if (isDownloading || fileDeleted) {
+          return;
+        }
+        isDownloading = true;
+        downloadButton.setAttribute("aria-busy", "true");
+        status.textContent = "Starting your download…";
+
+        try {
+          const response = await fetch(downloadUrl, { mode: "cors" });
+          if (!response.ok) {
+            throw new Error(`Download failed with status ${response.status}`);
+          }
+
+          const blob = await response.blob();
+          if (lastObjectUrl) {
+            URL.revokeObjectURL(lastObjectUrl);
+          }
+
+          const objectUrl = URL.createObjectURL(blob);
+          lastObjectUrl = objectUrl;
+
+          const anchor = document.createElement("a");
+          anchor.href = objectUrl;
+          anchor.download = file.toLowerCase().endsWith(".pdf") ? file : `${file}.pdf`;
+          anchor.style.display = "none";
+          document.body.appendChild(anchor);
+          anchor.click();
+          anchor.remove();
+
+          status.textContent = "Download started. Check your downloads folder.";
+
+          setTimeout(() => {
+            URL.revokeObjectURL(objectUrl);
+            if (lastObjectUrl === objectUrl) {
+              lastObjectUrl = null;
+            }
+          }, 3000);
+        } catch (error) {
+          console.error(error);
+          status.textContent = "We could not start the download automatically. Click the button again to retry.";
+          isDownloading = false;
+          downloadButton.removeAttribute("aria-busy");
+          return;
+        }
+
+        isDownloading = false;
+        downloadButton.removeAttribute("aria-busy");
+      };
+
+      status.textContent = "Preparing your secure download link…";
+      triggerDownload();
+
+      downloadButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        triggerDownload();
+      });
+
+      if (googleDriveButton) {
+        googleDriveButton.addEventListener("click", () => {
+          if (fileDeleted) return;
+          window.open("https://drive.google.com/drive/my-drive", "_blank", "noopener");
+          status.textContent = "Opened Google Drive in a new tab. Upload the downloaded file to your Drive.";
+        });
+      }
+
+      if (dropboxButton) {
+        dropboxButton.addEventListener("click", () => {
+          if (fileDeleted) return;
+          window.open("https://www.dropbox.com/home", "_blank", "noopener");
+          status.textContent = "Opened Dropbox in a new tab. Upload the downloaded file to your Dropbox.";
+        });
+      }
+
+      if (copyLinkButton) {
+        copyLinkButton.addEventListener("click", async () => {
+          if (fileDeleted) return;
+          try {
+            await navigator.clipboard.writeText(downloadUrl);
+            status.textContent = "Secure download link copied to clipboard.";
+          } catch (error) {
+            console.error(error);
+            const tempInput = document.createElement("input");
+            tempInput.value = downloadUrl;
+            tempInput.style.position = "absolute";
+            tempInput.style.left = "-9999px";
+            document.body.appendChild(tempInput);
+            tempInput.select();
+
+            let fallbackSucceeded = false;
+            try {
+              fallbackSucceeded = typeof document.execCommand === "function" && document.execCommand("copy");
+            } catch (execError) {
+              console.error(execError);
+            }
+            document.body.removeChild(tempInput);
+
+            if (fallbackSucceeded) {
+              status.textContent = "Secure download link copied to clipboard.";
+              return;
+            }
+
+            status.textContent = "Unable to copy automatically. Highlight and copy this link: " + downloadUrl;
+          }
+        });
+      }
+
+      if (deleteFileButton) {
+        deleteFileButton.addEventListener("click", async () => {
+          if (fileDeleted) return;
+          deleteFileButton.disabled = true;
+          deleteFileButton.setAttribute("aria-busy", "true");
+          status.textContent = "Requesting immediate deletion…";
+
+          try {
+            const endpoint = `${API_BASE}/api/pdf/merge/${encodeURIComponent(file)}`;
+            const response = await fetch(endpoint, { method: "DELETE" });
+            if (!response.ok) {
+              throw new Error(`Unable to delete file (${response.status})`);
+            }
+
+            fileDeleted = true;
+            status.textContent = "File deleted from the server. Refresh to start a new merge.";
+            disableDownloadActions();
+          } catch (error) {
+            console.error(error);
+            status.textContent = "We couldn't delete the file right now. Try again in a moment.";
+            deleteFileButton.disabled = false;
+            deleteFileButton.removeAttribute("aria-busy");
+            deleteFileButton.classList.remove("is-disabled");
+            return;
+          }
+
+          deleteFileButton.removeAttribute("aria-busy");
+        });
+      }
+
+      window.addEventListener("beforeunload", () => {
+        if (lastObjectUrl) {
+          URL.revokeObjectURL(lastObjectUrl);
+        }
+      });
+    })();
+  </script>
+
+  <script src="../assets/include.js"></script>
+</body>
+</html>

@@ -5,15 +5,332 @@
   <title>CanIEdit – Free Online File Editing Tools</title>
   <meta name="description" content="Merge PDFs, compress images and edit files online for free. No signup required." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="keywords" content="merge pdf online, pdf tools, file converter, compress pdf, free pdf merger" />
+  <link rel="canonical" href="https://www.caniedit.in/" />
+  <link rel="stylesheet" href="./assets/styles.css" />
 </head>
-<body style="font-family: system-ui; padding: 40px">
+<body>
+  <div id="header"></div>
 
-  <h1>CanIEdit</h1>
-  <p>Fast, free online tools to edit and manage files.</p>
+  <main class="page home-page">
+    <section class="container hero">
+      <div class="hero-content">
+        <h1>Scale your file workflows with 100+ instant tools</h1>
+        <p>CanIEdit gives you enterprise-grade PDF, image, and document utilities in a single dashboard. No logins, no watermarks, just blazing-fast results.</p>
+        <div class="hero-actions">
+          <a class="btn-primary" href="/pdf/merge.html">Merge PDFs now</a>
+          <a class="secondary-link" href="/#tools">Explore all tools</a>
+        </div>
+        <form id="toolSearch" class="tool-search" role="search" aria-label="Search CanIEdit tools">
+          <label class="sr-only" for="toolSearchInput">Search tool library</label>
+          <input id="toolSearchInput" type="search" name="query" placeholder="Search tools, e.g. compress pdf" autocomplete="off" />
+          <button class="btn-primary" type="submit">Search</button>
+        </form>
+        <div id="toolSearchResults" class="tool-search-results" aria-live="polite" hidden></div>
+        <div class="tool-tag-list" style="margin-top: 0.5rem;">
+          <span class="tool-tag">PDF mergers</span>
+          <span class="tool-tag is-coming">Image optimizers</span>
+          <span class="tool-tag is-coming">AI summaries</span>
+          <span class="tool-tag is-coming">Secure cleanup</span>
+        </div>
+      </div>
+      <div class="ad-slot ad-slot--banner hero-ad" aria-label="Homepage ad placeholder">
+        <strong>AdSense 728×90</strong>
+        <span>Reserve this high-impact slot for your top-performing banner.</span>
+      </div>
+    </section>
 
-  <ul>
-    <li><a href="/pdf/merge.html">Merge PDF</a></li>
-  </ul>
+    <section id="tools" class="container feature-grid" aria-labelledby="tools-heading">
+      <h2 id="tools-heading" class="sr-only">Popular CanIEdit tools</h2>
+      <article class="feature-card highlight">
+        <h3>Universal toolkit</h3>
+        <p>One dashboard for more than 100 PDF, image, and document workflows. New utilities ship every month.</p>
+        <a class="secondary-link" href="/#submit-tool">Request a tool</a>
+      </article>
+      <article class="feature-card">
+        <h3>PDF workspace</h3>
+        <p>Merge, split, compress, and secure PDFs without losing formatting.</p>
+        <a class="secondary-link" href="/pdf/merge.html">Open PDF tools</a>
+      </article>
+      <article class="feature-card">
+        <h3>Image studio</h3>
+        <p>Batch resize, compress, and convert popular image formats with AI enhancements.</p>
+        <a class="secondary-link" href="/#image-tools">Preview roadmap</a>
+      </article>
+      <article class="feature-card">
+        <h3>Automation hub</h3>
+        <p>AI-assisted cleanups, summaries, and formatting recipes tailored for busy teams.</p>
+        <a class="secondary-link" href="/#ai-tools">See what’s next</a>
+      </article>
+    </section>
 
+    <section id="pdf-tools" class="container tool-directory" aria-labelledby="pdf-tools-heading">
+      <header>
+        <h2 id="pdf-tools-heading">PDF tools you can launch today</h2>
+        <p>Our PDF stack keeps fonts intact, respects page order, and scrubs uploads after each job.</p>
+      </header>
+      <div class="tool-table">
+        <ul>
+          <li><a data-tool-link data-tool-title="Merge PDF" data-tool-description="Combine multiple files into one polished document." href="/pdf/merge.html">Merge PDF<span>Combine multiple files into one polished document.</span></a></li>
+          <li><a data-tool-link data-tool-title="Compress PDF" data-tool-description="Shrink file sizes for email and portals." data-tool-soon="true" href="/#pdf-tools">Compress PDF<span>Shrink file sizes for email and portals. (Coming soon)</span></a></li>
+          <li><a data-tool-link data-tool-title="Split PDF" data-tool-description="Extract and reorder pages for signature packets." data-tool-soon="true" href="/#pdf-tools">Split PDF<span>Extract and reorder pages for signature packets. (Coming soon)</span></a></li>
+          <li><a data-tool-link data-tool-title="Protect PDF" data-tool-description="Add passwords and permissions in a click." data-tool-soon="true" href="/#pdf-tools">Protect PDF<span>Add passwords and permissions in a click. (Coming soon)</span></a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="image-tools" class="container tool-directory" aria-labelledby="image-tools-heading">
+      <header>
+        <h2 id="image-tools-heading">Image tools for creators</h2>
+        <p>Ship-ready image utilities that batch-process uploads, optimize for the web, and preserve quality.</p>
+      </header>
+      <div class="tool-card">
+        <h3>Roadmap highlights</h3>
+        <p>These modules unlock as we grow the library.</p>
+        <div class="tool-tag-list">
+          <span class="tool-tag is-coming">PNG → WEBP converter</span>
+          <span class="tool-tag is-coming">Background remover</span>
+          <span class="tool-tag is-coming">Social media resizer</span>
+          <span class="tool-tag is-coming">Watermark builder</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="doc-tools" class="container tool-directory" aria-labelledby="doc-tools-heading">
+      <header>
+        <h2 id="doc-tools-heading">Document automation hub</h2>
+        <p>Convert, format, and standardize Office files without installing bulky desktop software.</p>
+      </header>
+      <div class="tool-card">
+        <h3>Coming next</h3>
+        <div class="tool-table">
+          <ul>
+              <li><a data-tool-link data-tool-title="DOCX to PDF" data-tool-description="Instantly render branded proposals." data-tool-soon="true" href="/#doc-tools">DOCX to PDF<span>Instantly render branded proposals.</span></a></li>
+              <li><a data-tool-link data-tool-title="Excel cleanup" data-tool-description="Format tables, remove blanks, and auto-style." data-tool-soon="true" href="/#doc-tools">Excel cleanup<span>Format tables, remove blanks, and auto-style.</span></a></li>
+              <li><a data-tool-link data-tool-title="PowerPoint compressor" data-tool-description="Reduce deck size without hurting slides." data-tool-soon="true" href="/#doc-tools">PowerPoint compressor<span>Reduce deck size without hurting slides.</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="ai-tools" class="container tool-directory" aria-labelledby="ai-tools-heading">
+      <header>
+        <h2 id="ai-tools-heading">AI copilots built into your workflow</h2>
+        <p>Pair every manual task with an intelligent assistant — summaries, rewrites, and compliance-ready notes.</p>
+      </header>
+      <div class="tool-card">
+        <h3>Automation lineup</h3>
+        <div class="tool-tag-list">
+          <span class="tool-tag is-coming">Meeting notes summary</span>
+          <span class="tool-tag is-coming">Contract redline helper</span>
+          <span class="tool-tag is-coming">Document translation</span>
+          <span class="tool-tag is-coming">Content rewrites</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="container seo-section" aria-labelledby="why-caniedit">
+      <div>
+        <h2 id="why-caniedit">Why creators choose CanIEdit</h2>
+        <p>Our serverless pipeline merges files, runs AI workflows, and clears storage automatically every few minutes.</p>
+      </div>
+      <div>
+        <h3>Built for productivity</h3>
+        <ul>
+          <li>Instant processing powered by optimized FastAPI microservices.</li>
+          <li>Automatic cleanup routines keep storage usage low and performance high.</li>
+          <li>Works on any modern browser with full drag-and-drop support for busy teams.</li>
+        </ul>
+      </div>
+      <div class="ad-slot ad-slot--banner" aria-label="Content ad placeholder">
+        <strong>AdSense 728×90</strong>
+        <span>Drop contextual ad code to monetize educational content.</span>
+      </div>
+    </section>
+
+    <section id="pricing" class="container pricing-preview" aria-labelledby="pricing-heading">
+      <div class="pricing-header">
+        <h2 id="pricing-heading">Plans for every workflow</h2>
+        <p>Start with free daily merges or upgrade for bulk processing, larger files, and priority support. All plans run on the same secure infrastructure.</p>
+        <span class="plan-toggle">Monthly billing · Annual saves 20%</span>
+      </div>
+      <div class="plan-grid">
+        <article class="plan-card">
+          <h3>Starter</h3>
+          <p class="plan-price">$0<span>/month</span></p>
+          <ul>
+            <li>Merge up to 10 PDF files</li>
+            <li>10 MB per file limit</li>
+            <li>Instant cleanup after downloads</li>
+            <li>Community roadmap access</li>
+          </ul>
+          <a class="btn-secondary" href="/pdf/merge.html">Keep using free tools</a>
+          <p class="plan-meta">Perfect for students and freelancers getting started.</p>
+        </article>
+        <article class="plan-card highlight">
+          <h3>Pro</h3>
+          <p class="plan-price">$12<span>/month</span></p>
+          <ul>
+            <li>Up to 50 PDF files per merge</li>
+            <li>100 MB per file uploads</li>
+            <li>Batch processing &amp; queueing</li>
+            <li>Email support within 4 hours</li>
+          </ul>
+          <a class="btn-primary" href="/pricing.html#plans">Upgrade to Pro</a>
+          <p class="plan-meta">Recommended for agencies and busy operations teams.</p>
+        </article>
+        <article class="plan-card">
+          <h3>Teams</h3>
+          <p class="plan-price">$29<span>/month</span></p>
+          <ul>
+            <li>Unlimited merges &amp; uploads</li>
+            <li>Shared cloud workspace</li>
+            <li>Custom retention policies</li>
+            <li>SLA-backed priority support</li>
+          </ul>
+          <a class="btn-secondary" href="mailto:hello@caniedit.in?subject=Teams%20Plan">Talk to sales</a>
+          <p class="plan-meta">Ideal for compliance-focused teams that need white-labeling.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="faq" class="container seo-section" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">Frequently asked questions</h2>
+      <div>
+      <h3 style="margin-bottom: 0; margin-top: 0;">Is the PDF merger free?</h3>
+      <p style="margin-top: 0; margin-bottom: 0;">Yes. Merge unlimited PDFs without signups, hidden trials, or watermarks.</p>
+      </div>
+      <div>
+      <h3 style="margin-bottom: 0; margin-top: 0;">Are my documents secure?</h3>
+      <p style="margin-top: 0; margin-bottom: 0;">Uploads are encrypted in transit and automatically deleted after processing, so your documents remain private.</p>
+      </div>
+      <div>
+      <h3 style="margin-bottom: 0; margin-top: 0;">Will more tools be added?</h3>
+      <p style="margin-top: 0; margin-bottom: 24px;">Absolutely. Compression, splitting, image automation, and AI helpers are on the roadmap. Join our newsletter to get notified.</p>
+      </div>
+    </section>
+
+    <section id="privacy" class="container privacy-note" aria-labelledby="privacy-heading">
+      <h2 id="privacy-heading">Privacy-first by design</h2>
+      <p>Temporary uploads live in isolated storage, wiped within minutes by our automated cleanup service. No training, no sharing, no third-party tracking.</p>
+      <p>Need a custom retention window? Contact us for an enterprise-ready deployment that fits your compliance checklist.</p>
+    </section>
+
+    <section id="contact" class="container contact-cta" aria-labelledby="contact-heading">
+      <div class="contact-card">
+        <h2 id="contact-heading">Let’s launch your custom toolkit</h2>
+        <p>We’re adding 100+ tools across PDF, image, and AI workflows. Tell us what you need for your team and we’ll prioritize it on the roadmap.</p>
+        <div class="hero-actions">
+          <a class="btn-primary" href="mailto:hello@caniedit.in">Email the founders</a>
+          <a class="secondary-link" href="https://cal.com" target="_blank" rel="noopener">Book a discovery call</a>
+        </div>
+      </div>
+      <div class="ad-slot ad-slot--sidebar" aria-label="Contact ad placeholder">
+        <strong>AdSense 300×600</strong>
+        <span>Place onboarding or product education campaigns here.</span>
+      </div>
+    </section>
+
+    <section id="submit-tool" class="container cta-card" aria-labelledby="submit-tool-heading">
+      <h2 id="submit-tool-heading">Launch your tool with CanIEdit</h2>
+      <p>Have a PDF, image, or document workflow you want to share with the community? Partner with us and we’ll add it to the 100+ tool library.</p>
+      <a class="btn-primary" href="mailto:hello@caniedit.in">Partner with our team</a>
+    </section>
+  </main>
+
+  <noscript>
+    <p style="text-align:center; padding: 16px;">Enable JavaScript to load the CanIEdit navigation and footer.</p>
+  </noscript>
+
+  <div id="footer"></div>
+
+  <script src="./assets/include.js"></script>
+
+  <script>
+    (function () {
+      const form = document.getElementById("toolSearch");
+      if (!form) return;
+
+      const input = document.getElementById("toolSearchInput");
+      const results = document.getElementById("toolSearchResults");
+      const toolAnchors = Array.from(document.querySelectorAll("[data-tool-link]"));
+
+      if (!toolAnchors.length || !input || !results) {
+        return;
+      }
+
+      const tools = toolAnchors.map((anchor) => ({
+        title: anchor.dataset.toolTitle || anchor.textContent.trim(),
+        description: anchor.dataset.toolDescription || "",
+        href: anchor.getAttribute("href"),
+        comingSoon: anchor.dataset.toolSoon === "true"
+      }));
+
+      const sanitize = (value) => {
+        const div = document.createElement("div");
+        div.textContent = value;
+        return div.innerHTML;
+      };
+
+      const renderResults = (items, query) => {
+        if (!query) {
+          results.innerHTML = "";
+          results.hidden = true;
+          return;
+        }
+
+        if (!items.length) {
+          results.innerHTML = `<p class="search-empty">No tools match “${sanitize(query)}” yet. Request one from the team.</p>`;
+          results.hidden = false;
+          return;
+        }
+
+        const markup = items.slice(0, 6).map((tool) => {
+          const title = sanitize(tool.title);
+          let description = "";
+
+          if (tool.description) {
+            description = sanitize(tool.description);
+          }
+
+          const status = tool.comingSoon ? `<span>${description ? `${description} · ` : ""}Coming soon</span>` : (description ? `<span>${description}</span>` : "");
+
+          return `<li><a href="${tool.href}"><strong>${title}</strong>${status}</a></li>`;
+        }).join("");
+
+        results.innerHTML = `<ul>${markup}</ul>`;
+        results.hidden = false;
+      };
+
+      const filterTools = () => {
+        const query = input.value.trim();
+        const normalized = query.toLowerCase();
+
+        if (!normalized) {
+          renderResults([], "");
+          return;
+        }
+
+        const matches = tools.filter((tool) => {
+          const haystack = `${tool.title} ${tool.description}`.toLowerCase();
+          return haystack.includes(normalized);
+        });
+
+        renderResults(matches, query);
+      };
+
+      input.addEventListener("input", filterTools);
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const firstResult = results.querySelector("a");
+        if (firstResult) {
+          window.location.href = firstResult.getAttribute("href");
+        } else {
+          filterTools();
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
