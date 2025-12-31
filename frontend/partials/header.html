@@ -1,102 +1,125 @@
-<header class="site-header">
-	<div class="header-top">
-		<div class="container header-banner">
-			<strong>New</strong>
-			<span>We Launched are first tool i.e. PDF Merger & We are rolling out 100+ PDF, image, and document tools.</span>
-			<a class="secondary-link" href="/#tools">Explore tools</a>
-		</div>
-	</div>
+<header class="site-header border-b border-slate-200 bg-white">
+  <div class="hidden border-b border-blue-100 bg-blue-50 md:block">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-3 px-4 py-2 text-sm text-slate-700">
+      <strong class="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">New</strong>
+      <span class="text-center">We launched our first tool (PDF Merger) and are rolling out 100+ PDF, image, and document tools.</span>
+      <a class="inline-flex items-center gap-2 font-semibold text-slate-900 transition hover:text-blue-600" href="/#tools">Explore tools</a>
+    </div>
+  </div>
 
-	<div class="container header-inner">
-		<a class="brand" href="/" aria-label="CanIEdit home">
-			<img src="../assets/images/CanIEdit_(1200x300px).png" alt="CanIEdit" width="160" height="40" />
-		</a>
+  <div class="mx-auto w-full max-w-6xl px-4 py-4">
+    <div class="relative flex items-center gap-6">
+      <a class="brand flex items-center" href="/" aria-label="CanIEdit home">
+        <img class="h-10 w-auto" src="/assets/images/CanIEdit_(1200x300px).png" alt="CanIEdit" loading="lazy" />
+      </a>
 
-		<nav class="primary-nav" aria-label="Main navigation">
-			<ul class="nav-menu">
-				<li><a href="/">Home</a></li>
-				<li><a href="/#about">About</a></li>
-				<li class="has-dropdown">
-					<button class="nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">
-						<span>Tools</span>
-					</button>
-					<div class="dropdown-panel" role="menu">
-						<div class="dropdown-grid">
-							<section aria-label="PDF tools">
-								<h3>PDF</h3>
-								<ul>
-									<li><a href="/pdf/merge.html">Merge PDF</a></li>
-									<li><a href="/#pdf-tools">Compress PDF</a></li>
-									<li><a href="/#pdf-tools">Split &amp; reorder</a></li>
-									<li><a href="/#pdf-tools">Protect PDF</a></li>
-									<li><a href="/#pdf-tools">PDF to Word</a></li>
-									<li><a href="/#pdf-tools">Word to PDF</a></li>
-									<li><a href="/#pdf-tools">PDF watermark</a></li>
-									<li><a href="/#pdf-tools">Organize pages</a></li>
-									<li><a href="/#pdf-tools">Unlock PDF</a></li>
-									<li><a href="/#pdf-tools">PDF OCR</a></li>
-								</ul>
-							</section>
-							<section aria-label="Image tools">
-								<h3>Image</h3>
-								<ul>
-									<li><a href="/#image-tools">Compress images</a></li>
-									<li><a href="/#image-tools">PNG → WEBP</a></li>
-									<li><a href="/#image-tools">Background remover</a></li>
-									<li><a href="/#image-tools">Social resizer</a></li>
-									<li><a href="/#image-tools">Image enhancer</a></li>
-									<li><a href="/#image-tools">Bulk rename</a></li>
-									<li><a href="/#image-tools">HEIC to JPG</a></li>
-									<li><a href="/#image-tools">SVG optimizer</a></li>
-									<li><a href="/#image-tools">Remove metadata</a></li>
-									<li><a href="/#image-tools">Icon generator</a></li>
-								</ul>
-							</section>
-							<section aria-label="Document tools">
-								<h3>Docs</h3>
-								<ul>
-									<li><a href="/#doc-tools">DOCX → PDF</a></li>
-									<li><a href="/#doc-tools">Excel cleanup</a></li>
-									<li><a href="/#doc-tools">PowerPoint shrink</a></li>
-									<li><a href="/#doc-tools">All doc tools</a></li>
-									<li><a href="/#doc-tools">Invoice standardizer</a></li>
-									<li><a href="/#doc-tools">Contract redlines</a></li>
-									<li><a href="/#doc-tools">Form filler</a></li>
-									<li><a href="/#doc-tools">Letterhead builder</a></li>
-									<li><a href="/#doc-tools">Resume formatter</a></li>
-									<li><a href="/#doc-tools">Bulk eSign prep</a></li>
-								</ul>
-							</section>
-							<section aria-label="AI tools">
-								<h3>AI</h3>
-								<ul>
-									<li><a href="/#ai-tools">Summary assistant</a></li>
-									<li><a href="/#ai-tools">Text cleanup</a></li>
-									<li><a href="/#ai-tools">Transcription</a></li>
-									<li><a href="/#ai-tools">Automation hub</a></li>
-									<li><a href="/#ai-tools">Voice cleanup</a></li>
-									<li><a href="/#ai-tools">Policy drafts</a></li>
-									<li><a href="/#ai-tools">Meeting recaps</a></li>
-									<li><a href="/#ai-tools">Smart redaction</a></li>
-									<li><a href="/#ai-tools">Workflow bots</a></li>
-									<li><a href="/#ai-tools">Template builder</a></li>
-								</ul>
-							</section>
-						</div>
-						<div class="dropdown-cta">
-							<p>Need a custom workflow?</p>
-							<a class="btn-secondary" href="/#submit-tool">Request a tool</a>
-						</div>
-					</div>
-				</li>
-				<li><a href="/pricing.html">Pricing</a></li>
-				<li><a href="/#contact">Contact</a></li>
-			</ul>
-		</nav>
+      <div
+        id="site-menu"
+        data-nav-menu
+        class="absolute left-0 right-0 top-full z-20 hidden mt-3 flex-col gap-6 rounded-3xl border border-slate-200 bg-white px-4 py-6 shadow-lg lg:static lg:mt-0 lg:flex lg:flex-1 lg:flex-row lg:items-center lg:justify-center lg:gap-8 lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none"
+      >
+        <nav class="primary-nav w-full lg:flex-1" aria-label="Main navigation">
+          <ul class="nav-menu flex flex-col gap-4 text-sm font-semibold text-slate-700 lg:flex-row lg:items-center lg:justify-center lg:gap-8">
+            <li><a class="rounded-md px-2 py-2 transition hover:text-blue-600" href="/">Home</a></li>
+            <li><a class="rounded-md px-2 py-2 transition hover:text-blue-600" href="/#about">About</a></li>
+            <li class="has-dropdown relative">
+              <button class="nav-trigger inline-flex items-center gap-2 rounded-md px-2 py-2 text-inherit transition hover:text-blue-600" type="button" aria-haspopup="true" aria-expanded="false">
+                <span>Tools</span>
+                <svg class="h-3 w-3 transition-transform" aria-hidden="true" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1.25 5 4.75 9 1.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+              <div class="dropdown-panel absolute left-0 top-full z-20 hidden w-[min(90vw,52rem)] rounded-2xl bg-white p-6 shadow-xl ring-1 ring-slate-200 lg:left-1/2 lg:-translate-x-1/2" role="menu">
+                <div class="dropdown-grid grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+                  <section aria-label="PDF tools" class="space-y-3">
+                    <h3 class="text-xs font-semibold uppercase tracking-wide text-slate-500">PDF</h3>
+                    <ul class="space-y-2 text-sm text-slate-600">
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/pdf/merge.html">Merge PDF</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#pdf-tools">Compress PDF</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#pdf-tools">Split &amp; reorder</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#pdf-tools">Protect PDF</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#pdf-tools">PDF to Word</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#pdf-tools">Word to PDF</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#pdf-tools">PDF watermark</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#pdf-tools">Organize pages</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#pdf-tools">Unlock PDF</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#pdf-tools">PDF OCR</a></li>
+                    </ul>
+                  </section>
+                  <section aria-label="Image tools" class="space-y-3">
+                    <h3 class="text-xs font-semibold uppercase tracking-wide text-slate-500">Image</h3>
+                    <ul class="space-y-2 text-sm text-slate-600">
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#image-tools">Compress images</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#image-tools">PNG → WEBP</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#image-tools">Background remover</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#image-tools">Social resizer</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#image-tools">Image enhancer</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#image-tools">Bulk rename</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#image-tools">HEIC to JPG</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#image-tools">SVG optimizer</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#image-tools">Remove metadata</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#image-tools">Icon generator</a></li>
+                    </ul>
+                  </section>
+                  <section aria-label="Document tools" class="space-y-3">
+                    <h3 class="text-xs font-semibold uppercase tracking-wide text-slate-500">Docs</h3>
+                    <ul class="space-y-2 text-sm text-slate-600">
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#doc-tools">DOCX → PDF</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#doc-tools">Excel cleanup</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#doc-tools">PowerPoint shrink</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#doc-tools">All doc tools</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#doc-tools">Invoice standardizer</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#doc-tools">Contract redlines</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#doc-tools">Form filler</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#doc-tools">Letterhead builder</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#doc-tools">Resume formatter</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#doc-tools">Bulk eSign prep</a></li>
+                    </ul>
+                  </section>
+                  <section aria-label="AI tools" class="space-y-3">
+                    <h3 class="text-xs font-semibold uppercase tracking-wide text-slate-500">AI</h3>
+                    <ul class="space-y-2 text-sm text-slate-600">
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#ai-tools">Summary assistant</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#ai-tools">Text cleanup</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#ai-tools">Transcription</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#ai-tools">Automation hub</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#ai-tools">Voice cleanup</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#ai-tools">Policy drafts</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#ai-tools">Meeting recaps</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#ai-tools">Smart redaction</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#ai-tools">Workflow bots</a></li>
+                      <li><a class="block rounded-md px-2 py-1 transition hover:bg-blue-50 hover:text-blue-600" href="/#ai-tools">Template builder</a></li>
+                    </ul>
+                  </section>
+                </div>
+                <div class="dropdown-cta mt-6 rounded-xl bg-slate-50 p-4 text-sm text-slate-700">
+                  <p class="mb-3 font-semibold text-slate-900">Need a custom workflow?</p>
+                  <a class="inline-flex items-center rounded-md border border-blue-200 px-3 py-2 font-semibold text-blue-600 transition hover:bg-blue-50" href="/#submit-tool">Request a tool</a>
+                </div>
+              </div>
+            </li>
+            <li><a class="rounded-md px-2 py-2 transition hover:text-blue-600" href="/pricing.html">Pricing</a></li>
+            <li><a class="rounded-md px-2 py-2 transition hover:text-blue-600" href="/#contact">Contact</a></li>
+          </ul>
+        </nav>
+        <a class="inline-flex w-full items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 lg:hidden" href="/pricing.html">Login / Sign up</a>
+      </div>
 
-		<div class="header-actions">
-			<a class="btn-secondary" href="/#submit-tool">Suggest a tool</a>
-			<a class="btn-primary" href="/pricing.html">Login / Sign up</a>
-		</div>
-	</div>
+      <div class="ml-auto flex items-center gap-3">
+        <button class="inline-flex items-center justify-center rounded-md border border-slate-200 p-2 text-slate-700 transition hover:border-blue-500 hover:text-blue-600 lg:hidden" type="button" aria-expanded="false" aria-controls="site-menu" data-nav-toggle>
+          <span class="sr-only">Toggle navigation</span>
+          <svg data-nav-icon="menu" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 6h16" />
+            <path d="M4 12h16" />
+            <path d="M4 18h16" />
+          </svg>
+          <svg data-nav-icon="close" class="hidden h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 6 6 18" />
+            <path d="M6 6l12 12" />
+          </svg>
+        </button>
+        <a class="hidden items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 lg:inline-flex" href="/pricing.html">Login / Sign up</a>
+      </div>
+    </div>
+  </div>
 </header>

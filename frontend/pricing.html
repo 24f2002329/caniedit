@@ -5,139 +5,188 @@
   <title>Pricing – CanIEdit Plans for Every Team</title>
   <meta name="description" content="Compare CanIEdit pricing plans and upgrade for higher file limits, batch processing, and team features." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./assets/styles.css" />
   <link rel="icon" href="/assets/images/CanIEdit_(64x64px).png" type="image/png" sizes="64x64" />
+  <link rel="prefetch" href="./partials/header.html" as="fetch" crossorigin="anonymous" />
+  <link rel="prefetch" href="./partials/footer.html" as="fetch" crossorigin="anonymous" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: "#2563eb",
+            brandDark: "#1d4ed8",
+            brandAccent: "#14b8a6"
+          },
+          boxShadow: {
+            card: "0 20px 45px rgba(15, 23, 42, 0.08)"
+          },
+          fontFamily: {
+            sans: ["Inter", "Segoe UI", "system-ui", "-apple-system", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
 </head>
-<body>
+<body class="flex min-h-screen flex-col bg-slate-50 font-sans text-slate-900">
   <div id="header"></div>
 
-  <main class="page pricing-page">
-    <section class="container pricing-hero" aria-labelledby="pricing-page-heading">
-      <div class="pricing-hero-copy">
-        <h1 id="pricing-page-heading">Upgrade when you need bigger, faster, smarter tools</h1>
-        <p>From everyday merges to compliance-ready deployments, choose a plan that scales with your file volume. Switch or cancel anytime—your documents stay private.</p>
-        <div class="hero-actions">
-          <a class="btn-primary" href="#plans">See plans</a>
-          <a class="secondary-link" href="/pdf/merge.html">Try a free merge</a>
+  <main class="flex-1">
+    <section class="bg-white">
+      <div class="mx-auto grid max-w-6xl gap-10 px-4 py-16 lg:grid-cols-[2fr,1fr]" aria-labelledby="pricing-page-heading">
+        <div class="space-y-6">
+          <h1 id="pricing-page-heading" class="text-3xl font-bold leading-snug text-slate-900 sm:text-4xl">Upgrade when you need bigger, faster, smarter tools</h1>
+          <p class="text-lg text-slate-600">From everyday merges to compliance-ready deployments, choose a plan that scales with your file volume. Switch or cancel anytime — your documents stay private.</p>
+          <div class="flex flex-wrap gap-3">
+            <a class="inline-flex items-center rounded-lg bg-brand px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-brandDark" href="#plans">See plans</a>
+            <a class="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-6 py-3 font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="/pdf/merge.html">Try a free merge</a>
+          </div>
+          <ul class="space-y-3 text-sm text-slate-600">
+            <li class="flex items-start gap-2"><span class="mt-1 h-2 w-2 rounded-full bg-brand"></span><span>Annual subscribers lock in 20% savings.</span></li>
+            <li class="flex items-start gap-2"><span class="mt-1 h-2 w-2 rounded-full bg-brand"></span><span>Priority support for Pro and Teams tiers.</span></li>
+            <li class="flex items-start gap-2"><span class="mt-1 h-2 w-2 rounded-full bg-brand"></span><span>Custom retention and bulk processing available on Teams.</span></li>
+          </ul>
         </div>
-        <ul class="hero-benefits">
-          <li>Annual subscribers lock in 20% savings.</li>
-          <li>Priority support for Pro and Teams tiers.</li>
-          <li>Custom retention and bulk processing available on Teams.</li>
-        </ul>
-      </div>
-      <div class="ad-slot ad-slot--banner" aria-label="Pricing hero ad placeholder">
-        <strong>AdSense 970×250</strong>
-        <span>Showcase enterprise offers or partner deals here.</span>
-      </div>
-    </section>
-
-    <section id="plans" class="container pricing-page" aria-labelledby="plan-comparison">
-      <div class="pricing-header">
-        <h2 id="plan-comparison">Choose your CanIEdit plan</h2>
-        <p>Every plan includes secure uploads, instant cleanup, and access to the growing suite of PDF, image, and AI tools.</p>
-      </div>
-      <div class="plan-grid">
-        <article class="plan-card" data-plan="starter">
-          <h3>Starter</h3>
-          <p class="plan-price">$0<span>/month</span></p>
-          <ul>
-            <li>10 merges per day</li>
-            <li>10 MB per file</li>
-            <li>Standard processing queue</li>
-            <li>Community support</li>
-          </ul>
-          <a class="btn-secondary" href="/pdf/merge.html">Use free tools</a>
-          <p class="plan-meta">Great for individuals with occasional PDF tasks.</p>
-        </article>
-        <article class="plan-card highlight" data-plan="pro">
-          <h3>Pro</h3>
-          <p class="plan-price">$12<span>/month</span></p>
-          <ul>
-            <li>Unlimited daily merges</li>
-            <li>100 MB per file</li>
-            <li>Batch automation queue</li>
-            <li>Email support in four hours</li>
-            <li>Early access to beta tools</li>
-          </ul>
-          <a class="btn-primary" href="mailto:hello@caniedit.in?subject=Upgrade%20to%20CanIEdit%20Pro">Start Pro trial</a>
-          <p class="plan-meta">Built for agencies and power users who need speed.</p>
-        </article>
-        <article class="plan-card" data-plan="teams">
-          <h3>Teams</h3>
-          <p class="plan-price">$29<span>/month</span></p>
-          <ul>
-            <li>Unlimited users &amp; merges</li>
-            <li>1 GB per file with S3 offload</li>
-            <li>Custom retention windows</li>
-            <li>SLA-backed priority support</li>
-            <li>Dedicated onboarding engineer</li>
-          </ul>
-          <a class="btn-secondary" href="mailto:hello@caniedit.in?subject=CanIEdit%20Teams">Book a demo</a>
-          <p class="plan-meta">Best for compliance-driven teams and resellers.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="container pricing-value" aria-labelledby="value-heading">
-      <div class="value-grid">
-        <article>
-          <h3 id="value-heading">Why upgrade?</h3>
-          <p>Higher limits unlock advanced automation, bulk processing, and priority support. Teams can white-label tools, enforce retention rules, and request custom endpoints.</p>
-        </article>
-        <article>
-          <h3>Built for security</h3>
-          <p>All uploads are encrypted in transit and wiped within minutes. Paid plans add audit logs, custom regions, and hourly cleanup cadence.</p>
-        </article>
-        <article>
-          <h3>Flexible billing</h3>
-          <p>Monthly or annual billing, consolidated invoices, and procurement-friendly options. Cancel anytime and keep access through the period.</p>
-        </article>
-      </div>
-      <div class="ad-slot ad-slot--banner" aria-label="Mid-page ad placeholder">
-        <strong>AdSense 728×90</strong>
-        <span>Promote tutorials or cross-sell partner integrations.</span>
-      </div>
-    </section>
-
-    <section class="container plan-faq" aria-labelledby="pricing-faq-heading">
-      <h2 id="pricing-faq-heading">Pricing FAQs</h2>
-      <details>
-        <summary>Can I switch plans later?</summary>
-        <p>Yes. Upgrade, downgrade, or cancel anytime. Changes apply immediately and prorating is automatic.</p>
-      </details>
-      <details>
-        <summary>Do you offer enterprise options?</summary>
-        <p>Teams plan customers can request custom SLAs, private deployments, and VPC networking. Contact us to scope the project.</p>
-      </details>
-      <details>
-        <summary>Is there a free trial?</summary>
-        <p>Pro includes a 7-day trial. Teams pilots include guided onboarding and bulk credit import.</p>
-      </details>
-      <details>
-        <summary>How do you handle storage?</summary>
-        <p>Temporary files live in isolated buckets and are cleaned within minutes. Teams can request longer retention windows.</p>
-      </details>
-    </section>
-
-    <section id="contact" class="container contact-cta" aria-labelledby="contact-heading">
-      <div class="contact-card">
-        <h2 id="contact-heading">Need a tailored plan?</h2>
-        <p>We are building 100+ smart file tools. Tell us what your team needs and we’ll design a workflow with the right limits and support.</p>
-        <div class="hero-actions">
-          <a class="btn-primary" href="mailto:hello@caniedit.in">Email the founders</a>
-          <a class="secondary-link" href="https://cal.com" target="_blank" rel="noopener">Schedule a call</a>
+        <div class="ad-slot ad-slot--banner flex flex-col gap-2 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center shadow-sm">
+          <strong class="text-base font-semibold text-slate-900">AdSense 970×250</strong>
+          <span class="text-sm text-slate-600">Showcase enterprise offers or partner deals here.</span>
         </div>
       </div>
-      <div class="ad-slot ad-slot--sidebar" aria-label="Contact sidebar ad placeholder">
-        <strong>AdSense 300×600</strong>
-        <span>High-visibility slot for onboarding guides or partners.</span>
+    </section>
+
+    <section id="plans" class="bg-slate-50">
+      <div class="mx-auto max-w-6xl px-4 py-16" aria-labelledby="plan-comparison">
+        <div class="text-center">
+          <h2 id="plan-comparison" class="text-3xl font-semibold text-slate-900">Choose your CanIEdit plan</h2>
+          <p class="mt-3 text-lg text-slate-600">Every plan includes secure uploads, instant cleanup, and access to the growing suite of PDF, image, and AI tools.</p>
+        </div>
+        <div class="mt-12 grid gap-6 md:grid-cols-3">
+          <article class="flex flex-col rounded-3xl border border-slate-200 bg-white p-8 shadow-card" data-plan="starter">
+            <h3 class="text-xl font-semibold text-slate-900">Starter</h3>
+            <p class="mt-4 text-4xl font-bold text-brand">$0<span class="text-base font-semibold text-slate-500">/month</span></p>
+            <ul class="mt-6 space-y-3 text-sm text-slate-600">
+              <li>10 merges per day</li>
+              <li>10 MB per file</li>
+              <li>Standard processing queue</li>
+              <li>Community support</li>
+            </ul>
+            <a class="mt-8 inline-flex items-center justify-center rounded-lg border border-slate-200 px-5 py-3 font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="/pdf/merge.html">Use free tools</a>
+            <p class="mt-6 text-sm text-slate-500">Great for individuals with occasional PDF tasks.</p>
+          </article>
+          <article class="flex flex-col rounded-3xl border border-blue-200 bg-white p-8 shadow-card" data-plan="pro">
+            <h3 class="text-xl font-semibold text-slate-900">Pro</h3>
+            <p class="mt-4 text-4xl font-bold text-brand">$12<span class="text-base font-semibold text-slate-500">/month</span></p>
+            <ul class="mt-6 space-y-3 text-sm text-slate-600">
+              <li>Unlimited daily merges</li>
+              <li>100 MB per file</li>
+              <li>Batch automation queue</li>
+              <li>Email support in four hours</li>
+              <li>Early access to beta tools</li>
+            </ul>
+            <a class="mt-8 inline-flex items-center justify-center rounded-lg bg-brand px-5 py-3 font-semibold text-white transition hover:bg-brandDark" href="mailto:hello@caniedit.in?subject=Upgrade%20to%20CanIEdit%20Pro">Start Pro trial</a>
+            <p class="mt-6 text-sm text-slate-500">Built for agencies and power users who need speed.</p>
+          </article>
+          <article class="flex flex-col rounded-3xl border border-slate-200 bg-white p-8 shadow-card" data-plan="teams">
+            <h3 class="text-xl font-semibold text-slate-900">Teams</h3>
+            <p class="mt-4 text-4xl font-bold text-brand">$29<span class="text-base font-semibold text-slate-500">/month</span></p>
+            <ul class="mt-6 space-y-3 text-sm text-slate-600">
+              <li>Unlimited users &amp; merges</li>
+              <li>1 GB per file with S3 offload</li>
+              <li>Custom retention windows</li>
+              <li>SLA-backed priority support</li>
+              <li>Dedicated onboarding engineer</li>
+            </ul>
+            <a class="mt-8 inline-flex items-center justify-center rounded-lg border border-slate-200 px-5 py-3 font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="mailto:hello@caniedit.in?subject=CanIEdit%20Teams">Book a demo</a>
+            <p class="mt-6 text-sm text-slate-500">Best for compliance-driven teams and resellers.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white">
+      <div class="mx-auto max-w-6xl px-4 py-16" aria-labelledby="value-heading">
+        <div class="grid gap-6 md:grid-cols-3">
+          <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-card">
+            <h3 id="value-heading" class="text-xl font-semibold text-slate-900">Why upgrade?</h3>
+            <p class="mt-3 text-sm leading-6 text-slate-600">Higher limits unlock advanced automation, bulk processing, and priority support. Teams can white-label tools, enforce retention rules, and request custom endpoints.</p>
+          </article>
+          <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-card">
+            <h3 class="text-xl font-semibold text-slate-900">Built for security</h3>
+            <p class="mt-3 text-sm leading-6 text-slate-600">All uploads are encrypted in transit and wiped within minutes. Paid plans add audit logs, custom regions, and hourly cleanup cadence.</p>
+          </article>
+          <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-card">
+            <h3 class="text-xl font-semibold text-slate-900">Flexible billing</h3>
+            <p class="mt-3 text-sm leading-6 text-slate-600">Monthly or annual billing, consolidated invoices, and procurement-friendly options. Cancel anytime and keep access through the period.</p>
+          </article>
+        </div>
+        <div class="mt-10 flex flex-col items-center gap-2 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center shadow-sm">
+          <strong class="text-base font-semibold text-slate-900">AdSense 728×90</strong>
+          <span class="text-sm text-slate-600">Promote tutorials or cross-sell partner integrations.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-slate-50" aria-labelledby="pricing-faq-heading">
+      <div class="mx-auto max-w-6xl px-4 py-16">
+        <h2 id="pricing-faq-heading" class="text-3xl font-semibold text-slate-900">Pricing FAQs</h2>
+        <div class="mt-8 space-y-4">
+          <details class="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <summary class="flex cursor-pointer list-none items-center justify-between text-lg font-semibold text-slate-900">
+              Can I switch plans later?
+              <span class="ml-4 text-sm text-slate-500 group-open:hidden">+</span>
+              <span class="ml-4 hidden text-sm text-slate-500 group-open:inline">−</span>
+            </summary>
+            <p class="mt-3 text-sm text-slate-600">Yes. Upgrade, downgrade, or cancel anytime. Changes apply immediately and prorating is automatic.</p>
+          </details>
+          <details class="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <summary class="flex cursor-pointer list-none items-center justify-between text-lg font-semibold text-slate-900">
+              Do you offer enterprise options?
+              <span class="ml-4 text-sm text-slate-500 group-open:hidden">+</span>
+              <span class="ml-4 hidden text-sm text-slate-500 group-open:inline">−</span>
+            </summary>
+            <p class="mt-3 text-sm text-slate-600">Teams plan customers can request custom SLAs, private deployments, and VPC networking. Contact us to scope the project.</p>
+          </details>
+          <details class="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <summary class="flex cursor-pointer list-none items-center justify-between text-lg font-semibold text-slate-900">
+              Is there a free trial?
+              <span class="ml-4 text-sm text-slate-500 group-open:hidden">+</span>
+              <span class="ml-4 hidden text-sm text-slate-500 group-open:inline">−</span>
+            </summary>
+            <p class="mt-3 text-sm text-slate-600">Pro includes a 7-day trial. Teams pilots include guided onboarding and bulk credit import.</p>
+          </details>
+          <details class="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <summary class="flex cursor-pointer list-none items-center justify-between text-lg font-semibold text-slate-900">
+              How do you handle storage?
+              <span class="ml-4 text-sm text-slate-500 group-open:hidden">+</span>
+              <span class="ml-4 hidden text-sm text-slate-500 group-open:inline">−</span>
+            </summary>
+            <p class="mt-3 text-sm text-slate-600">Temporary files live in isolated buckets and are cleaned within minutes. Teams can request longer retention windows.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="bg-white">
+      <div class="mx-auto grid max-w-6xl gap-8 px-4 py-16 lg:grid-cols-[2fr,1fr]" aria-labelledby="contact-heading">
+        <div class="rounded-3xl border border-slate-200 bg-white p-8 shadow-card">
+          <h2 id="contact-heading" class="text-3xl font-semibold text-slate-900">Need a tailored plan?</h2>
+          <p class="mt-4 text-lg text-slate-600">We are building 100+ smart file tools. Tell us what your team needs and we’ll design a workflow with the right limits and support.</p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a class="inline-flex items-center rounded-lg bg-brand px-5 py-3 font-semibold text-white shadow-sm transition hover:bg-brandDark" href="mailto:hello@caniedit.in">Email the founders</a>
+            <a class="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-5 py-3 font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="https://cal.com" target="_blank" rel="noopener">Schedule a call</a>
+          </div>
+        </div>
+        <div class="ad-slot ad-slot--sidebar flex flex-col gap-2 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center shadow-sm">
+          <strong class="text-base font-semibold text-slate-900">AdSense 300×600</strong>
+          <span class="text-sm text-slate-600">High-visibility slot for onboarding guides or partners.</span>
+        </div>
       </div>
     </section>
   </main>
 
   <noscript>
-    <p style="text-align:center; padding: 16px;">Enable JavaScript to load the CanIEdit navigation and footer.</p>
+    <p class="px-4 py-4 text-center text-sm text-slate-600">Enable JavaScript to load the CanIEdit navigation and footer.</p>
   </noscript>
 
   <div id="footer"></div>

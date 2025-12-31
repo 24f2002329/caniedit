@@ -2,245 +2,269 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>CanIEdit – Free Online File Editing Tools</title>
+  <title>Free Online File Editing Tools – CanIEdit</title>
   <meta name="description" content="Merge PDFs, compress images and edit files online for free. No signup required." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="keywords" content="merge pdf online, pdf tools, file converter, compress pdf, free pdf merger" />
   <link rel="canonical" href="https://www.caniedit.in/" />
   <link rel="icon" href="/assets/images/CanIEdit_(64x64px).png" type="image/png" sizes="64x64" />
-  <link rel="stylesheet" href="./assets/styles.css" />
+  <link rel="prefetch" href="./partials/header.html" as="fetch" crossorigin="anonymous" />
+  <link rel="prefetch" href="./partials/footer.html" as="fetch" crossorigin="anonymous" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: "#2563eb",
+            brandDark: "#1d4ed8",
+            brandAccent: "#14b8a6"
+          },
+          boxShadow: {
+            card: "0 20px 45px rgba(15, 23, 42, 0.08)"
+          },
+          fontFamily: {
+            sans: ["Inter", "Segoe UI", "system-ui", "-apple-system", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
 </head>
-<body>
+<body class="flex min-h-screen flex-col bg-slate-50 font-sans text-slate-900">
   <div id="header"></div>
 
-  <main class="page home-page">
-    <section class="container hero">
-      <div class="hero-content">
-        <h1>Scale your file workflows with 100+ instant tools</h1>
-        <p>CanIEdit gives you enterprise-grade PDF, image, and document utilities in a single dashboard. No logins, no watermarks, just blazing-fast results.</p>
-        <div class="hero-actions">
-          <a class="btn-primary" href="/pdf/merge.html">Merge PDFs now</a>
-          <a class="secondary-link" href="/#tools">Explore all tools</a>
+  <main class="flex-1">
+    <section class="bg-gradient-to-br from-blue-50 via-white to-slate-50">
+      <div class="mx-auto flex max-w-6xl flex-col gap-12 px-4 py-16 lg:flex-row lg:items-center">
+        <div class="flex-1 space-y-6">
+          <h1 class="text-3xl font-bold leading-tight text-slate-900 sm:text-4xl lg:text-5xl">Scale your file workflows with 100+ instant tools</h1>
+          <p class="text-lg text-slate-600 sm:text-xl">CanIEdit gives you enterprise-grade PDF, image, and document utilities in a single dashboard. No logins, no watermarks, just blazing-fast results.</p>
+          <div class="flex flex-wrap gap-3">
+            <a class="inline-flex items-center rounded-lg bg-brand px-5 py-3 font-semibold text-white shadow-sm transition hover:bg-brandDark" href="/pdf/merge.html">Merge PDFs now</a>
+            <a class="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-5 py-3 font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="/#tools">Explore all tools</a>
+          </div>
+          <form id="toolSearch" class="space-y-3 rounded-3xl border border-slate-200 bg-white p-6 shadow-card" role="search" aria-label="Search CanIEdit tools">
+            <label class="sr-only" for="toolSearchInput">Search tool library</label>
+            <div class="flex flex-col gap-3 sm:flex-row">
+              <input id="toolSearchInput" class="w-full rounded-2xl border border-slate-200 px-4 py-3 text-base shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20" type="search" name="query" placeholder="Search tools, e.g. compress pdf" autocomplete="off" />
+              <button class="inline-flex items-center justify-center rounded-2xl bg-brand px-6 py-3 text-base font-semibold text-white transition hover:bg-brandDark" type="submit">Search</button>
+            </div>
+            <div id="toolSearchResults" class="mt-2 w-full rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-700 shadow-sm" aria-live="polite" hidden></div>
+          </form>
+          <div class="flex flex-wrap gap-2 text-sm text-slate-600">
+            <span class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 font-medium text-brandDark">PDF mergers</span>
+            <span class="inline-flex items-center rounded-full bg-purple-100 px-3 py-1 font-medium text-purple-700">Image optimizers</span>
+            <span class="inline-flex items-center rounded-full bg-purple-100 px-3 py-1 font-medium text-purple-700">AI summaries</span>
+            <span class="inline-flex items-center rounded-full bg-purple-100 px-3 py-1 font-medium text-purple-700">Secure cleanup</span>
+          </div>
         </div>
-        <form id="toolSearch" class="tool-search" role="search" aria-label="Search CanIEdit tools">
-          <label class="sr-only" for="toolSearchInput">Search tool library</label>
-          <input id="toolSearchInput" type="search" name="query" placeholder="Search tools, e.g. compress pdf" autocomplete="off" />
-          <button class="btn-primary" type="submit">Search</button>
-        </form>
-        <div id="toolSearchResults" class="tool-search-results" aria-live="polite" hidden></div>
-        <div class="tool-tag-list" style="margin-top: 0.5rem;">
-          <span class="tool-tag">PDF mergers</span>
-          <span class="tool-tag is-coming">Image optimizers</span>
-          <span class="tool-tag is-coming">AI summaries</span>
-          <span class="tool-tag is-coming">Secure cleanup</span>
+        <div class="flex w-full max-w-sm flex-col gap-2 rounded-3xl border border-dashed border-slate-300 bg-white p-8 text-center shadow-card">
+          <strong class="text-lg font-semibold text-slate-900">AdSense 728×90</strong>
+          <span class="text-sm text-slate-600">Reserve this high-impact slot for your top-performing banner.</span>
         </div>
-      </div>
-      <div class="ad-slot ad-slot--banner hero-ad" aria-label="Homepage ad placeholder">
-        <strong>AdSense 728×90</strong>
-        <span>Reserve this high-impact slot for your top-performing banner.</span>
       </div>
     </section>
 
-    <section id="tools" class="container feature-grid" aria-labelledby="tools-heading">
+    <section id="tools" class="mx-auto max-w-6xl px-4 py-16" aria-labelledby="tools-heading">
       <h2 id="tools-heading" class="sr-only">Popular CanIEdit tools</h2>
-      <article class="feature-card highlight">
-        <h3>Universal toolkit</h3>
-        <p>One dashboard for more than 100 PDF, image, and document workflows. New utilities ship every month.</p>
-        <a class="secondary-link" href="/#submit-tool">Request a tool</a>
-      </article>
-      <article class="feature-card">
-        <h3>PDF workspace</h3>
-        <p>Merge, split, compress, and secure PDFs without losing formatting.</p>
-        <a class="secondary-link" href="/pdf/merge.html">Open PDF tools</a>
-      </article>
-      <article class="feature-card">
-        <h3>Image studio</h3>
-        <p>Batch resize, compress, and convert popular image formats with AI enhancements.</p>
-        <a class="secondary-link" href="/#image-tools">Preview roadmap</a>
-      </article>
-      <article class="feature-card">
-        <h3>Automation hub</h3>
-        <p>AI-assisted cleanups, summaries, and formatting recipes tailored for busy teams.</p>
-        <a class="secondary-link" href="/#ai-tools">See what’s next</a>
-      </article>
-    </section>
-
-    <section id="pdf-tools" class="container tool-directory" aria-labelledby="pdf-tools-heading">
-      <header>
-        <h2 id="pdf-tools-heading">PDF tools you can launch today</h2>
-        <p>Our PDF stack keeps fonts intact, respects page order, and scrubs uploads after each job.</p>
-      </header>
-      <div class="tool-table">
-        <ul>
-          <li><a data-tool-link data-tool-title="Merge PDF" data-tool-description="Combine multiple files into one polished document." href="/pdf/merge.html">Merge PDF<span>Combine multiple files into one polished document.</span></a></li>
-          <li><a data-tool-link data-tool-title="Compress PDF" data-tool-description="Shrink file sizes for email and portals." data-tool-soon="true" href="/#pdf-tools">Compress PDF<span>Shrink file sizes for email and portals. (Coming soon)</span></a></li>
-          <li><a data-tool-link data-tool-title="Split PDF" data-tool-description="Extract and reorder pages for signature packets." data-tool-soon="true" href="/#pdf-tools">Split PDF<span>Extract and reorder pages for signature packets. (Coming soon)</span></a></li>
-          <li><a data-tool-link data-tool-title="Protect PDF" data-tool-description="Add passwords and permissions in a click." data-tool-soon="true" href="/#pdf-tools">Protect PDF<span>Add passwords and permissions in a click. (Coming soon)</span></a></li>
-        </ul>
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <article class="rounded-3xl bg-white p-6 shadow-card ring-1 ring-blue-100">
+          <h3 class="text-xl font-semibold text-slate-900">Universal toolkit</h3>
+          <p class="mt-4 text-sm leading-6 text-slate-600">One dashboard for more than 100 PDF, image, and document workflows. New utilities ship every month.</p>
+          <a class="mt-6 inline-flex items-center font-semibold text-brand transition hover:text-brandDark" href="/#submit-tool">Request a tool</a>
+        </article>
+        <article class="rounded-3xl bg-white p-6 shadow-card">
+          <h3 class="text-xl font-semibold text-slate-900">PDF workspace</h3>
+          <p class="mt-4 text-sm leading-6 text-slate-600">Merge, split, compress, and secure PDFs without losing formatting.</p>
+          <a class="mt-6 inline-flex items-center font-semibold text-brand transition hover:text-brandDark" href="/pdf/merge.html">Open PDF tools</a>
+        </article>
+        <article class="rounded-3xl bg-white p-6 shadow-card">
+          <h3 class="text-xl font-semibold text-slate-900">Image studio</h3>
+          <p class="mt-4 text-sm leading-6 text-slate-600">Batch resize, compress, and convert popular image formats with AI enhancements.</p>
+          <a class="mt-6 inline-flex items-center font-semibold text-brand transition hover:text-brandDark" href="/#image-tools">Preview roadmap</a>
+        </article>
+        <article class="rounded-3xl bg-white p-6 shadow-card">
+          <h3 class="text-xl font-semibold text-slate-900">Automation hub</h3>
+          <p class="mt-4 text-sm leading-6 text-slate-600">AI-assisted cleanups, summaries, and formatting recipes tailored for busy teams.</p>
+          <a class="mt-6 inline-flex items-center font-semibold text-brand transition hover:text-brandDark" href="/#ai-tools">See what’s next</a>
+        </article>
       </div>
     </section>
 
-    <section id="image-tools" class="container tool-directory" aria-labelledby="image-tools-heading">
-      <header>
-        <h2 id="image-tools-heading">Image tools for creators</h2>
-        <p>Ship-ready image utilities that batch-process uploads, optimize for the web, and preserve quality.</p>
+    <section id="image-tools" class="mx-auto max-w-6xl px-4 py-16" aria-labelledby="image-tools-heading">
+      <header class="space-y-3">
+        <h2 id="image-tools-heading" class="text-3xl font-semibold text-slate-900">Image tools for creators</h2>
+        <p class="text-lg text-slate-600">Ship-ready image utilities that batch-process uploads, optimize for the web, and preserve quality.</p>
       </header>
-      <div class="tool-card">
-        <h3>Roadmap highlights</h3>
-        <p>These modules unlock as we grow the library.</p>
-        <div class="tool-tag-list">
-          <span class="tool-tag is-coming">PNG → WEBP converter</span>
-          <span class="tool-tag is-coming">Background remover</span>
-          <span class="tool-tag is-coming">Social media resizer</span>
-          <span class="tool-tag is-coming">Watermark builder</span>
+      <div class="mt-8 rounded-3xl border border-dashed border-slate-300 bg-white p-6 shadow-card">
+        <h3 class="text-xl font-semibold text-slate-900">Roadmap highlights</h3>
+        <p class="mt-3 text-sm leading-6 text-slate-600">These modules unlock as we grow the library.</p>
+        <div class="mt-4 flex flex-wrap gap-2 text-sm text-slate-600">
+          <span class="inline-flex items-center rounded-full bg-purple-100 px-3 py-1 font-medium text-purple-700">PNG → WEBP converter</span>
+          <span class="inline-flex items-center rounded-full bg-purple-100 px-3 py-1 font-medium text-purple-700">Background remover</span>
+          <span class="inline-flex items-center rounded-full bg-purple-100 px-3 py-1 font-medium text-purple-700">Social media resizer</span>
+          <span class="inline-flex items-center rounded-full bg-purple-100 px-3 py-1 font-medium text-purple-700">Watermark builder</span>
         </div>
       </div>
     </section>
 
-    <section id="doc-tools" class="container tool-directory" aria-labelledby="doc-tools-heading">
-      <header>
-        <h2 id="doc-tools-heading">Document automation hub</h2>
-        <p>Convert, format, and standardize Office files without installing bulky desktop software.</p>
+    <section id="doc-tools" class="bg-white">
+      <div class="mx-auto max-w-6xl px-4 py-16" aria-labelledby="doc-tools-heading">
+        <header class="space-y-3">
+          <h2 id="doc-tools-heading" class="text-3xl font-semibold text-slate-900">Document automation hub</h2>
+          <p class="text-lg text-slate-600">Convert, format, and standardize Office files without installing bulky desktop software.</p>
+        </header>
+        <div class="mt-8 rounded-3xl border border-slate-200 bg-slate-50 p-6">
+          <h3 class="text-xl font-semibold text-slate-900">Coming next</h3>
+          <div class="mt-4 overflow-hidden rounded-2xl border border-slate-200 bg-white">
+            <ul class="divide-y divide-slate-200 text-sm font-semibold text-slate-700">
+              <li><a class="flex items-center justify-between px-6 py-4 transition hover:bg-slate-50" data-tool-link data-tool-title="DOCX to PDF" data-tool-description="Instantly render branded proposals." data-tool-soon="true" href="/#doc-tools">DOCX to PDF<span class="text-sm font-normal text-slate-500">Instantly render branded proposals.</span></a></li>
+              <li><a class="flex items-center justify-between px-6 py-4 transition hover:bg-slate-50" data-tool-link data-tool-title="Excel cleanup" data-tool-description="Format tables, remove blanks, and auto-style." data-tool-soon="true" href="/#doc-tools">Excel cleanup<span class="text-sm font-normal text-slate-500">Format tables, remove blanks, and auto-style.</span></a></li>
+              <li><a class="flex items-center justify-between px-6 py-4 transition hover:bg-slate-50" data-tool-link data-tool-title="PowerPoint compressor" data-tool-description="Reduce deck size without hurting slides." data-tool-soon="true" href="/#doc-tools">PowerPoint compressor<span class="text-sm font-normal text-slate-500">Reduce deck size without hurting slides.</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="ai-tools" class="mx-auto max-w-6xl px-4 py-16" aria-labelledby="ai-tools-heading">
+      <header class="space-y-3">
+        <h2 id="ai-tools-heading" class="text-3xl font-semibold text-slate-900">AI copilots built into your workflow</h2>
+        <p class="text-lg text-slate-600">Pair every manual task with an intelligent assistant — summaries, rewrites, and compliance-ready notes.</p>
       </header>
-      <div class="tool-card">
-        <h3>Coming next</h3>
-        <div class="tool-table">
-          <ul>
-              <li><a data-tool-link data-tool-title="DOCX to PDF" data-tool-description="Instantly render branded proposals." data-tool-soon="true" href="/#doc-tools">DOCX to PDF<span>Instantly render branded proposals.</span></a></li>
-              <li><a data-tool-link data-tool-title="Excel cleanup" data-tool-description="Format tables, remove blanks, and auto-style." data-tool-soon="true" href="/#doc-tools">Excel cleanup<span>Format tables, remove blanks, and auto-style.</span></a></li>
-              <li><a data-tool-link data-tool-title="PowerPoint compressor" data-tool-description="Reduce deck size without hurting slides." data-tool-soon="true" href="/#doc-tools">PowerPoint compressor<span>Reduce deck size without hurting slides.</span></a></li>
+      <div class="mt-8 rounded-3xl border border-dashed border-slate-300 bg-white p-6 shadow-card">
+        <h3 class="text-xl font-semibold text-slate-900">Automation lineup</h3>
+        <div class="mt-4 flex flex-wrap gap-2 text-sm text-slate-600">
+          <span class="inline-flex items-center rounded-full bg-purple-100 px-3 py-1 font-medium text-purple-700">Meeting notes summary</span>
+          <span class="inline-flex items-center rounded-full bg-purple-100 px-3 py-1 font-medium text-purple-700">Contract redline helper</span>
+          <span class="inline-flex items-center rounded-full bg-purple-100 px-3 py-1 font-medium text-purple-700">Document translation</span>
+          <span class="inline-flex items-center rounded-full bg-purple-100 px-3 py-1 font-medium text-purple-700">Content rewrites</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="bg-white">
+      <div class="mx-auto grid max-w-6xl gap-10 px-4 py-16 md:grid-cols-3" aria-labelledby="why-caniedit">
+        <div class="space-y-4">
+          <h2 id="why-caniedit" class="text-3xl font-semibold text-slate-900">Why creators choose CanIEdit</h2>
+          <p class="text-lg text-slate-600">Our serverless pipeline merges files, runs AI workflows, and clears storage automatically every few minutes.</p>
+        </div>
+        <div class="space-y-4">
+          <h3 class="text-xl font-semibold text-slate-900">Built for productivity</h3>
+          <ul class="space-y-3 text-sm leading-6 text-slate-600">
+            <li>Instant processing powered by optimized FastAPI microservices.</li>
+            <li>Automatic cleanup routines keep storage usage low and performance high.</li>
+            <li>Works on any modern browser with full drag-and-drop support for busy teams.</li>
           </ul>
         </div>
-      </div>
-    </section>
-
-    <section id="ai-tools" class="container tool-directory" aria-labelledby="ai-tools-heading">
-      <header>
-        <h2 id="ai-tools-heading">AI copilots built into your workflow</h2>
-        <p>Pair every manual task with an intelligent assistant — summaries, rewrites, and compliance-ready notes.</p>
-      </header>
-      <div class="tool-card">
-        <h3>Automation lineup</h3>
-        <div class="tool-tag-list">
-          <span class="tool-tag is-coming">Meeting notes summary</span>
-          <span class="tool-tag is-coming">Contract redline helper</span>
-          <span class="tool-tag is-coming">Document translation</span>
-          <span class="tool-tag is-coming">Content rewrites</span>
+        <div class="ad-slot ad-slot--banner flex flex-col gap-2 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center shadow-sm">
+          <strong class="text-base font-semibold text-slate-900">AdSense 728×90</strong>
+          <span class="text-sm text-slate-600">Drop contextual ad code to monetize educational content.</span>
         </div>
       </div>
     </section>
 
-    <section id="about" class="container seo-section" aria-labelledby="why-caniedit">
-      <div>
-        <h2 id="why-caniedit">Why creators choose CanIEdit</h2>
-        <p>Our serverless pipeline merges files, runs AI workflows, and clears storage automatically every few minutes.</p>
+    <section id="pricing" class="mx-auto max-w-6xl px-4 py-16" aria-labelledby="pricing-heading">
+      <div class="text-center">
+        <h2 id="pricing-heading" class="text-3xl font-semibold text-slate-900">Plans for every workflow</h2>
+        <p class="mt-3 text-lg text-slate-600">Start with free daily merges or upgrade for bulk processing, larger files, and priority support. All plans run on the same secure infrastructure.</p>
+        <span class="mt-2 inline-block rounded-full bg-blue-100 px-3 py-1 text-sm font-semibold text-brandDark">Monthly billing · Annual saves 20%</span>
       </div>
-      <div>
-        <h3>Built for productivity</h3>
-        <ul>
-          <li>Instant processing powered by optimized FastAPI microservices.</li>
-          <li>Automatic cleanup routines keep storage usage low and performance high.</li>
-          <li>Works on any modern browser with full drag-and-drop support for busy teams.</li>
-        </ul>
-      </div>
-      <div class="ad-slot ad-slot--banner" aria-label="Content ad placeholder">
-        <strong>AdSense 728×90</strong>
-        <span>Drop contextual ad code to monetize educational content.</span>
-      </div>
-    </section>
-
-    <section id="pricing" class="container pricing-preview" aria-labelledby="pricing-heading">
-      <div class="pricing-header">
-        <h2 id="pricing-heading">Plans for every workflow</h2>
-        <p>Start with free daily merges or upgrade for bulk processing, larger files, and priority support. All plans run on the same secure infrastructure.</p>
-        <span class="plan-toggle">Monthly billing · Annual saves 20%</span>
-      </div>
-      <div class="plan-grid">
-        <article class="plan-card">
-          <h3>Starter</h3>
-          <p class="plan-price">$0<span>/month</span></p>
-          <ul>
+      <div class="mt-12 grid gap-6 md:grid-cols-3">
+        <article class="flex flex-col rounded-3xl border border-slate-200 bg-white p-8 shadow-card">
+          <h3 class="text-xl font-semibold text-slate-900">Starter</h3>
+          <p class="mt-4 text-4xl font-bold text-brand">$0<span class="text-base font-semibold text-slate-500">/month</span></p>
+          <ul class="mt-6 space-y-3 text-sm text-slate-600">
             <li>Merge up to 10 PDF files</li>
             <li>10 MB per file limit</li>
             <li>Instant cleanup after downloads</li>
             <li>Community roadmap access</li>
           </ul>
-          <a class="btn-secondary" href="/pdf/merge.html">Keep using free tools</a>
-          <p class="plan-meta">Perfect for students and freelancers getting started.</p>
+          <a class="mt-8 inline-flex items-center justify-center rounded-lg border border-slate-200 px-5 py-3 font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="/pdf/merge.html">Keep using free tools</a>
+          <p class="mt-6 text-sm text-slate-500">Perfect for students and freelancers getting started.</p>
         </article>
-        <article class="plan-card highlight">
-          <h3>Pro</h3>
-          <p class="plan-price">$12<span>/month</span></p>
-          <ul>
+        <article class="flex flex-col rounded-3xl border border-blue-200 bg-white p-8 shadow-card">
+          <h3 class="text-xl font-semibold text-slate-900">Pro</h3>
+          <p class="mt-4 text-4xl font-bold text-brand">$12<span class="text-base font-semibold text-slate-500">/month</span></p>
+          <ul class="mt-6 space-y-3 text-sm text-slate-600">
             <li>Up to 50 PDF files per merge</li>
             <li>100 MB per file uploads</li>
             <li>Batch processing &amp; queueing</li>
             <li>Email support within 4 hours</li>
           </ul>
-          <a class="btn-primary" href="/pricing.html#plans">Upgrade to Pro</a>
-          <p class="plan-meta">Recommended for agencies and busy operations teams.</p>
+          <a class="mt-8 inline-flex items-center justify-center rounded-lg bg-brand px-5 py-3 font-semibold text-white transition hover:bg-brandDark" href="/pricing.html#plans">Upgrade to Pro</a>
+          <p class="mt-6 text-sm text-slate-500">Recommended for agencies and busy operations teams.</p>
         </article>
-        <article class="plan-card">
-          <h3>Teams</h3>
-          <p class="plan-price">$29<span>/month</span></p>
-          <ul>
+        <article class="flex flex-col rounded-3xl border border-slate-200 bg-white p-8 shadow-card">
+          <h3 class="text-xl font-semibold text-slate-900">Teams</h3>
+          <p class="mt-4 text-4xl font-bold text-brand">$29<span class="text-base font-semibold text-slate-500">/month</span></p>
+          <ul class="mt-6 space-y-3 text-sm text-slate-600">
             <li>Unlimited merges &amp; uploads</li>
             <li>Shared cloud workspace</li>
             <li>Custom retention policies</li>
             <li>SLA-backed priority support</li>
           </ul>
-          <a class="btn-secondary" href="mailto:hello@caniedit.in?subject=Teams%20Plan">Talk to sales</a>
-          <p class="plan-meta">Ideal for compliance-focused teams that need white-labeling.</p>
+          <a class="mt-8 inline-flex items-center justify-center rounded-lg border border-slate-200 px-5 py-3 font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="mailto:hello@caniedit.in?subject=Teams%20Plan">Talk to sales</a>
+          <p class="mt-6 text-sm text-slate-500">Ideal for compliance-focused teams that need white-labeling.</p>
         </article>
       </div>
     </section>
 
-    <section id="faq" class="container seo-section" aria-labelledby="faq-heading">
-      <h2 id="faq-heading">Frequently asked questions</h2>
-      <div>
-      <h3 style="margin-bottom: 0; margin-top: 0;">Is the PDF merger free?</h3>
-      <p style="margin-top: 0; margin-bottom: 0;">Yes. Merge unlimited PDFs without signups, hidden trials, or watermarks.</p>
-      </div>
-      <div>
-      <h3 style="margin-bottom: 0; margin-top: 0;">Are my documents secure?</h3>
-      <p style="margin-top: 0; margin-bottom: 0;">Uploads are encrypted in transit and automatically deleted after processing, so your documents remain private.</p>
-      </div>
-      <div>
-      <h3 style="margin-bottom: 0; margin-top: 0;">Will more tools be added?</h3>
-      <p style="margin-top: 0; margin-bottom: 24px;">Absolutely. Compression, splitting, image automation, and AI helpers are on the roadmap. Join our newsletter to get notified.</p>
-      </div>
-    </section>
-
-    <section id="privacy" class="container privacy-note" aria-labelledby="privacy-heading">
-      <h2 id="privacy-heading">Privacy-first by design</h2>
-      <p>Temporary uploads live in isolated storage, wiped within minutes by our automated cleanup service. No training, no sharing, no third-party tracking.</p>
-      <p>Need a custom retention window? Contact us for an enterprise-ready deployment that fits your compliance checklist.</p>
-    </section>
-
-    <section id="contact" class="container contact-cta" aria-labelledby="contact-heading">
-      <div class="contact-card">
-        <h2 id="contact-heading">Let’s launch your custom toolkit</h2>
-        <p>We’re adding 100+ tools across PDF, image, and AI workflows. Tell us what you need for your team and we’ll prioritize it on the roadmap.</p>
-        <div class="hero-actions">
-          <a class="btn-primary" href="mailto:hello@caniedit.in">Email the founders</a>
-          <a class="secondary-link" href="https://cal.com" target="_blank" rel="noopener">Book a discovery call</a>
+    <section id="faq" class="bg-white">
+      <div class="mx-auto max-w-6xl px-4 py-16" aria-labelledby="faq-heading">
+        <h2 id="faq-heading" class="text-3xl font-semibold text-slate-900">Frequently asked questions</h2>
+        <div class="mt-8 space-y-6">
+          <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <h3 class="text-lg font-semibold text-slate-900">Is the PDF merger free?</h3>
+            <p class="mt-2 text-sm text-slate-600">Yes. Merge unlimited PDFs without signups, hidden trials, or watermarks.</p>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <h3 class="text-lg font-semibold text-slate-900">Are my documents secure?</h3>
+            <p class="mt-2 text-sm text-slate-600">Uploads are encrypted in transit and automatically deleted after processing, so your documents remain private.</p>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <h3 class="text-lg font-semibold text-slate-900">Will more tools be added?</h3>
+            <p class="mt-2 text-sm text-slate-600">Absolutely. Compression, splitting, image automation, and AI helpers are on the roadmap. Join our newsletter to get notified.</p>
+          </div>
         </div>
       </div>
-      <div class="ad-slot ad-slot--sidebar" aria-label="Contact ad placeholder">
-        <strong>AdSense 300×600</strong>
-        <span>Place onboarding or product education campaigns here.</span>
+    </section>
+
+    <section id="privacy" class="mx-auto max-w-6xl px-4 py-16" aria-labelledby="privacy-heading">
+      <h2 id="privacy-heading" class="text-3xl font-semibold text-slate-900">Privacy-first by design</h2>
+      <p class="mt-4 text-lg text-slate-600">Temporary uploads live in isolated storage, wiped within minutes by our automated cleanup service. No training, no sharing, no third-party tracking.</p>
+      <p class="mt-3 text-lg text-slate-600">Need a custom retention window? Contact us for an enterprise-ready deployment that fits your compliance checklist.</p>
+    </section>
+
+    <section id="contact" class="bg-white">
+      <div class="mx-auto grid max-w-6xl gap-8 px-4 py-16 lg:grid-cols-[2fr,1fr]" aria-labelledby="contact-heading">
+        <div class="rounded-3xl border border-slate-200 bg-white p-8 shadow-card">
+          <h2 id="contact-heading" class="text-3xl font-semibold text-slate-900">Let’s launch your custom toolkit</h2>
+          <p class="mt-4 text-lg text-slate-600">We’re adding 100+ tools across PDF, image, and AI workflows. Tell us what you need for your team and we’ll prioritize it on the roadmap.</p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a class="inline-flex items-center rounded-lg bg-brand px-5 py-3 font-semibold text-white shadow-sm transition hover:bg-brandDark" href="mailto:hello@caniedit.in">Email the founders</a>
+            <a class="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-5 py-3 font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="https://cal.com" target="_blank" rel="noopener">Book a discovery call</a>
+          </div>
+        </div>
+        <div class="ad-slot ad-slot--sidebar flex flex-col gap-2 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center shadow-sm">
+          <strong class="text-base font-semibold text-slate-900">AdSense 300×600</strong>
+          <span class="text-sm text-slate-600">Place onboarding or product education campaigns here.</span>
+        </div>
       </div>
     </section>
 
-    <section id="submit-tool" class="container cta-card" aria-labelledby="submit-tool-heading">
-      <h2 id="submit-tool-heading">Launch your tool with CanIEdit</h2>
-      <p>Have a PDF, image, or document workflow you want to share with the community? Partner with us and we’ll add it to the 100+ tool library.</p>
-      <a class="btn-primary" href="mailto:hello@caniedit.in">Partner with our team</a>
+    <section id="submit-tool" class="mx-auto max-w-6xl px-4 py-16" aria-labelledby="submit-tool-heading">
+      <div class="rounded-3xl border border-blue-200 bg-blue-50 p-10 text-center shadow-card">
+        <h2 id="submit-tool-heading" class="text-3xl font-semibold text-slate-900">Launch your tool with CanIEdit</h2>
+        <p class="mt-4 text-lg text-slate-600">Have a PDF, image, or document workflow you want to share with the community? Partner with us and we’ll add it to the 100+ tool library.</p>
+        <a class="mt-6 inline-flex items-center justify-center rounded-lg bg-brand px-6 py-3 font-semibold text-white transition hover:bg-brandDark" href="mailto:hello@caniedit.in">Partner with our team</a>
+      </div>
     </section>
   </main>
 
   <noscript>
-    <p style="text-align:center; padding: 16px;">Enable JavaScript to load the CanIEdit navigation and footer.</p>
+    <p class="px-4 py-4 text-center text-sm text-slate-600">Enable JavaScript to load the CanIEdit navigation and footer.</p>
   </noscript>
 
   <div id="footer"></div>
@@ -281,7 +305,7 @@
         }
 
         if (!items.length) {
-          results.innerHTML = `<p class="search-empty">No tools match “${sanitize(query)}” yet. Request one from the team.</p>`;
+          results.innerHTML = `<p class="text-sm text-slate-600">No tools match “${sanitize(query)}” yet. Request one from the team.</p>`;
           results.hidden = false;
           return;
         }
@@ -294,12 +318,12 @@
             description = sanitize(tool.description);
           }
 
-          const status = tool.comingSoon ? `<span>${description ? `${description} · ` : ""}Coming soon</span>` : (description ? `<span>${description}</span>` : "");
+          const status = tool.comingSoon ? `<span class="text-xs font-medium text-slate-500">${description ? `${description} · ` : ""}Coming soon</span>` : (description ? `<span class="text-xs text-slate-500">${description}</span>` : "");
 
-          return `<li><a href="${tool.href}"><strong>${title}</strong>${status}</a></li>`;
+          return `<li class="flex flex-col gap-1 rounded-xl p-3 transition hover:bg-blue-50"><a class="font-semibold text-brand hover:text-brandDark" href="${tool.href}">${title}</a>${status}</li>`;
         }).join("");
 
-        results.innerHTML = `<ul>${markup}</ul>`;
+        results.innerHTML = `<ul class="space-y-2">${markup}</ul>`;
         results.hidden = false;
       };
 

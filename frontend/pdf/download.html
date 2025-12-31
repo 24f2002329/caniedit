@@ -6,67 +6,86 @@
   <meta name="description" content="Your merged PDF is ready. Download it now or run another merge with CanIEdit." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="/assets/images/CanIEdit_(64x64px).png" type="image/png" sizes="64x64" />
-  <link rel="stylesheet" href="../assets/styles.css" />
+  <link rel="prefetch" href="../partials/header.html" as="fetch" crossorigin="anonymous" />
+  <link rel="prefetch" href="../partials/footer.html" as="fetch" crossorigin="anonymous" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: "#2563eb",
+            brandDark: "#1d4ed8",
+            brandAccent: "#14b8a6"
+          },
+          boxShadow: {
+            card: "0 20px 45px rgba(15, 23, 42, 0.08)"
+          },
+          fontFamily: {
+            sans: ["Inter", "Segoe UI", "system-ui", "-apple-system", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
 </head>
-<body>
+<body class="flex min-h-screen flex-col bg-slate-50 font-sans text-slate-900">
   <div id="header"></div>
 
-  <main class="page tool-page download-page">
-    <section class="container download-hero" aria-labelledby="download-heading">
-      <div class="download-card">
-        <h1 id="download-heading">Your merged PDF is ready</h1>
-        <p id="downloadStatus">We are preparing your secure download link. This page will refresh the link if it expires.</p>
-        <div class="hero-actions">
-          <a id="downloadButton" class="btn-primary" href="#">Download again</a>
-          <a class="secondary-link" href="/pdf/merge.html">Merge another PDF</a>
+  <main class="flex-1">
+    <section class="bg-white">
+      <div class="mx-auto max-w-6xl px-4 py-16" aria-labelledby="download-heading">
+        <div class="grid gap-10 lg:grid-cols-[1.3fr,0.7fr]">
+          <div class="flex flex-col gap-8 rounded-3xl border border-slate-200 bg-white p-8 shadow-card">
+            <div class="space-y-4">
+              <h1 id="download-heading" class="text-3xl font-bold text-slate-900 sm:text-4xl">Your merged PDF is ready</h1>
+              <p id="downloadStatus" class="rounded-3xl border border-slate-200 bg-slate-50 px-5 py-4 text-sm font-semibold text-slate-600">We are preparing your secure download link. This page will refresh the link if it expires.</p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+              <a id="downloadButton" class="inline-flex items-center justify-center rounded-lg bg-brand px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-brandDark" href="#">Download again</a>
+              <a class="inline-flex items-center justify-center rounded-lg border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="/pdf/merge.html">Merge another PDF</a>
+            </div>
+            <div class="grid gap-3 sm:grid-cols-2" role="group" aria-label="Save or share your merged PDF">
+              <button id="googleDriveButton" type="button" class="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:border-brand hover:text-brand">Add to Google Drive</button>
+              <button id="dropboxButton" type="button" class="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:border-brand hover:text-brand">Add to Dropbox</button>
+              <button id="copyLinkButton" type="button" class="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:border-brand hover:text-brand">Copy download link</button>
+              <button id="deleteFileButton" type="button" class="inline-flex items-center justify-center rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-600 transition hover:border-rose-300 hover:bg-rose-100">Delete now</button>
+            </div>
+            <p class="text-sm font-medium text-slate-600">Need larger files or bulk merges? <a class="text-brand hover:text-brandDark" href="/pricing.html">Upgrade for higher limits.</a></p>
+          </div>
+          <div class="flex flex-col gap-2 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center shadow-sm" aria-label="Download hero ad placeholder">
+            <strong class="text-base font-semibold text-slate-900">AdSense 970×250</strong>
+            <span class="text-sm text-slate-600">Promote upgrades, partner offers, or onboarding flows here.</span>
+          </div>
         </div>
-        <div class="download-share-actions" role="group" aria-label="Save or share your merged PDF">
-          <button id="googleDriveButton" type="button" class="btn-ghost">
-            <span>Add to Google Drive</span>
-          </button>
-          <button id="dropboxButton" type="button" class="btn-ghost">
-            <span>Add to Dropbox</span>
-          </button>
-          <button id="copyLinkButton" type="button" class="btn-ghost">
-            <span>Copy download link</span>
-          </button>
-          <button id="deleteFileButton" type="button" class="btn-danger">
-            <span>Delete now</span>
-          </button>
-        </div>
-        <p class="plan-meta">Need larger files or bulk merges? <a href="/pricing.html">Upgrade for higher limits.</a></p>
-      </div>
-      <div class="ad-slot ad-slot--banner" aria-label="Download hero ad placeholder">
-        <strong>AdSense 970×250</strong>
-        <span>Promote upgrades, partner offers, or onboarding flows here.</span>
-      </div>
-    </section>
 
-    <section class="container download-layout" aria-label="More options">
-      <aside class="download-sidebar">
-        <div class="ad-slot ad-slot--sidebar" aria-label="Download sidebar ad placeholder">
-          <strong>AdSense 300×600</strong>
-          <span>Drive conversions with contextual ads or tutorials.</span>
+        <div class="mt-16 grid gap-10 lg:grid-cols-[0.65fr,1.35fr]" aria-label="More options">
+          <aside class="space-y-6">
+            <div class="flex flex-col gap-2 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center shadow-sm" aria-label="Download sidebar ad placeholder">
+              <strong class="text-base font-semibold text-slate-900">AdSense 300×600</strong>
+              <span class="text-sm text-slate-600">Drive conversions with contextual ads or tutorials.</span>
+            </div>
+            <div class="flex flex-col gap-2 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center shadow-sm" aria-label="Secondary ad placeholder">
+              <strong class="text-base font-semibold text-slate-900">AdSense 300×250</strong>
+              <span class="text-sm text-slate-600">Highlight newsletters, premium add-ons, or affiliate offers.</span>
+            </div>
+          </aside>
+          <div class="rounded-3xl border border-slate-200 bg-white p-8 shadow-card">
+            <h2 class="text-2xl font-semibold text-slate-900">Next steps</h2>
+            <ul class="mt-5 space-y-3 text-sm text-slate-600">
+              <li class="flex items-start gap-2"><span class="mt-1 h-2 w-2 rounded-full bg-brand"></span>Files are automatically deleted from our servers within minutes.</li>
+              <li class="flex items-start gap-2"><span class="mt-1 h-2 w-2 rounded-full bg-brand"></span>Save to your cloud drive or send directly to clients once downloaded.</li>
+              <li class="flex items-start gap-2"><span class="mt-1 h-2 w-2 rounded-full bg-brand"></span>Run another merge to reorder pages or prepare signature packets.</li>
+            </ul>
+            <a class="mt-6 inline-flex items-center justify-center rounded-lg border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="/pricing.html#plans">Compare plans for higher limits</a>
+          </div>
         </div>
-        <div class="ad-slot" aria-label="Secondary ad placeholder">
-          <strong>AdSense 300×250</strong>
-          <span>Highlight newsletters, premium add-ons, or affiliate offers.</span>
-        </div>
-      </aside>
-      <div class="download-content">
-        <h2>Next steps</h2>
-        <ul class="download-tips">
-          <li>Files are automatically deleted from our servers within minutes.</li>
-          <li>Save to your cloud drive or send directly to clients once downloaded.</li>
-          <li>Run another merge to reorder pages or prepare signature packets.</li>
-        </ul>
-        <a class="btn-secondary" href="/pricing.html#plans">Compare plans for higher limits</a>
       </div>
     </section>
   </main>
 
   <noscript>
-    <p style="text-align:center; padding: 16px;">Enable JavaScript to keep your download link fresh.</p>
+    <p class="px-4 py-4 text-center text-sm text-slate-600">Enable JavaScript to keep your download link fresh.</p>
   </noscript>
 
   <div id="footer"></div>
@@ -84,9 +103,14 @@
       const API_BASE = "https://api.caniedit.in";
       const safePattern = /^[\w.-]+$/;
 
+      const BUTTON_DISABLED_CLASSES = ["pointer-events-none", "opacity-60", "grayscale"];
+      const SECONDARY_DISABLED_CLASSES = ["opacity-60", "cursor-not-allowed"];
+
       if (!file || !safePattern.test(file)) {
         status.textContent = "The download link is missing. Merge another PDF to get started.";
-        downloadButton.style.display = "none";
+        downloadButton.classList.add(...BUTTON_DISABLED_CLASSES);
+        downloadButton.setAttribute("aria-disabled", "true");
+        downloadButton.removeAttribute("href");
         return;
       }
 
@@ -98,13 +122,13 @@
       let fileDeleted = false;
 
       const disableDownloadActions = () => {
-        downloadButton.classList.add("is-disabled");
+        downloadButton.classList.add(...BUTTON_DISABLED_CLASSES);
         downloadButton.setAttribute("aria-disabled", "true");
         downloadButton.removeAttribute("href");
         [googleDriveButton, dropboxButton, copyLinkButton, deleteFileButton].forEach((btn) => {
           if (!btn) return;
           btn.disabled = true;
-          btn.classList.add("is-disabled");
+          btn.classList.add(...SECONDARY_DISABLED_CLASSES);
         });
       };
 
@@ -151,11 +175,15 @@
           status.textContent = "We could not start the download automatically. Click the button again to retry.";
           isDownloading = false;
           downloadButton.removeAttribute("aria-busy");
+          downloadButton.classList.remove(...BUTTON_DISABLED_CLASSES);
+          downloadButton.href = downloadUrl;
           return;
         }
 
         isDownloading = false;
         downloadButton.removeAttribute("aria-busy");
+        downloadButton.classList.remove(...BUTTON_DISABLED_CLASSES);
+        downloadButton.href = downloadUrl;
       };
 
       status.textContent = "Preparing your secure download link…";
@@ -237,7 +265,7 @@
             status.textContent = "We couldn't delete the file right now. Try again in a moment.";
             deleteFileButton.disabled = false;
             deleteFileButton.removeAttribute("aria-busy");
-            deleteFileButton.classList.remove("is-disabled");
+            deleteFileButton.classList.remove(...SECONDARY_DISABLED_CLASSES);
             return;
           }
 
