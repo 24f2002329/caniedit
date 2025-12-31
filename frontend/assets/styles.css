@@ -261,6 +261,8 @@ main.page {
 }
 
 .brand {
+    display: inline-flex;
+    align-items: center;
     font-size: 1.35rem;
     font-weight: 800;
     color: var(--brand-text);
@@ -268,8 +270,9 @@ main.page {
     text-decoration: none;
 }
 
-.brand span {
-    color: var(--brand-primary);
+.brand img {
+    width: 160px;
+    height: auto;
 }
 
 .header-actions {
