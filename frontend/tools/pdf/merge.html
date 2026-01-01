@@ -352,8 +352,22 @@
           body: formData
         });
 
-        const isJson = response.headers.get("content-type")?.includes("application/json");
-        const data = isJson ? await response.json() : {};
+        const contentType = response.headers.get("content-type") || "";
+        let data = {};
+        if (contentType.includes("application/json")) {
+          try {
+            data = await response.json();
+          } catch (parseError) {
+            data = {};
+          }
+        } else {
+          try {
+            const text = await response.text();
+            data = text ? { detail: text } : {};
+          } catch (textError) {
+            data = {};
+          }
+        }
 
         if (!response.ok) {
           const detail = typeof data.detail === "string" ? data.detail : "Unable to merge files right now.";
@@ -396,8 +410,9 @@
           setStep("upload");
         }
       } catch (error) {
-        setStatus("Network error. Check your connection and retry.", "error");
-        hideUpsells();
+        setStatus("We couldn't process that file. If it's password protected, unlock it first and try again. Try our PDF Unlock tool.", "error");
+        unlockUpsell.classList.remove("hidden");
+        planUpsell.classList.add("hidden");
         setStep("upload");
       } finally {
         submitButton.disabled = false;
