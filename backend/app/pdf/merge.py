@@ -56,11 +56,14 @@ async def merge_pdfs(files: list[UploadFile] = File(...)):
         # 🔐 Handle encrypted PDFs
         if reader.is_encrypted:
             try:
-                reader.decrypt("")  # try empty password
+                decrypted = reader.decrypt("")  # try empty password
             except Exception:
+                decrypted = 0
+
+            if not decrypted:
                 raise HTTPException(
                     status_code=400,
-                    detail="One of the PDFs is password protected and cannot be merged."
+                    detail="One of the PDFs is password protected. Please unlock it first and try again."
                 )
 
         for page in reader.pages:

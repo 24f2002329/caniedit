@@ -70,6 +70,7 @@
               <button type="submit" class="inline-flex items-center justify-center rounded-lg bg-brand px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-brandDark">Merge PDFs</button>
               <p id="status" class="hidden rounded-3xl border px-5 py-4 text-sm font-semibold transition" role="status" aria-live="polite"></p>
               <a id="planUpsell" class="hidden items-center justify-center rounded-lg border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="/pricing.html">Check plans for bigger files</a>
+              <a id="unlockUpsell" class="hidden items-center justify-center rounded-lg border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="/tools/pdf/unlock.html">Unlock your PDF first</a>
             </div>
           </form>
 
@@ -127,6 +128,7 @@
     const submitButton = form.querySelector("button[type='submit']");
     const filesInput = document.getElementById("pdfFiles");
     const planUpsell = document.getElementById("planUpsell");
+    const unlockUpsell = document.getElementById("unlockUpsell");
     const steps = ["upload", "processing", "done"];
     const selectedFilesSection = document.getElementById("selectedFilesSection");
     const selectedFilesList = document.getElementById("selectedFilesList");
@@ -144,6 +146,13 @@
       "bg-slate-50",
       "text-slate-600"
     ];
+
+    const hideUpsells = () => {
+      planUpsell.classList.add("hidden");
+      unlockUpsell.classList.add("hidden");
+    };
+
+    const isPasswordError = (text) => typeof text === "string" && /password|protected|encrypted/i.test(text);
 
     status.classList.add(
       "mt-4",
@@ -226,6 +235,12 @@
       filesInput.files = dataTransfer.files;
     };
 
+    function shortenFilename(name, max = 30) {
+      if (name.length <= max) return name;
+      const ext = name.split('.').pop();
+      return name.slice(0, max - ext.length - 4) + '...' + ext;
+    }
+
     const renderSelectedFiles = () => {
       selectedFilesList.innerHTML = "";
 
@@ -245,7 +260,7 @@
 
         const name = document.createElement("span");
         name.className = "block truncate text-sm font-semibold text-slate-900";
-        name.textContent = file.name;
+        name.textContent = shortenFilename(file.name);
 
         const size = document.createElement("span");
         size.className = "block text-xs font-medium text-slate-500";
@@ -295,6 +310,7 @@
       syncInputFiles();
       renderSelectedFiles();
       setStatus("", "");
+      hideUpsells();
     });
 
     selectedFilesList.addEventListener("click", (event) => {
@@ -321,7 +337,7 @@
       }
 
       setStatus("Merging PDFs…");
-      planUpsell.classList.add("hidden");
+      hideUpsells();
       submitButton.disabled = true;
       setStep("processing");
 
@@ -340,11 +356,17 @@
         const data = isJson ? await response.json() : {};
 
         if (!response.ok) {
+          const detail = typeof data.detail === "string" ? data.detail : "Unable to merge files right now.";
+
           if (response.status === 413) {
             setStatus("One of your files is over 10 MB. Remove large files and try again.", "error");
             planUpsell.classList.remove("hidden");
+            unlockUpsell.classList.add("hidden");
+          } else if (response.status === 400 && isPasswordError(detail)) {
+            setStatus("This PDF is password protected. Unlock it first, then merge again.", "error");
+            unlockUpsell.classList.remove("hidden");
+            planUpsell.classList.add("hidden");
           } else {
-            const detail = data.detail || "Unable to merge files right now.";
             setStatus(detail, "error");
           }
           setStep("upload");
@@ -357,6 +379,7 @@
             selectedFiles = [];
             syncInputFiles();
             renderSelectedFiles();
+            hideUpsells();
             const fileId = data.file;
             setTimeout(() => {
               const redirect = window.CanIEdit && typeof window.CanIEdit.redirectToDownload === "function" ? window.CanIEdit.redirectToDownload : null;
@@ -374,6 +397,7 @@
         }
       } catch (error) {
         setStatus("Network error. Check your connection and retry.", "error");
+        hideUpsells();
         setStep("upload");
       } finally {
         submitButton.disabled = false;
