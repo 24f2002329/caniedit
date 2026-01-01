@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>File Security at CanIEdit | Secure PDF & Image Tools</title>
+  <meta name="description" content="See how CanIEdit protects your uploads with short-lived storage, encryption in transit, and automatic deletion after processing." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/assets/images/CanIEdit_(64x64px).png" type="image/png" sizes="64x64" />
+  <link rel="prefetch" href="/partials/header.html" as="fetch" crossorigin="anonymous" />
+  <link rel="prefetch" href="/partials/footer.html" as="fetch" crossorigin="anonymous" />
+  <link rel="stylesheet" href="/assets/css/output.css" />
+</head>
+<body class="flex min-h-screen flex-col bg-slate-50 font-sans text-slate-900">
+  <div id="header"></div>
+
+  <main class="flex-1">
+    <section class="bg-white">
+      <div class="mx-auto max-w-5xl px-4 py-16 space-y-4">
+        <p class="text-xs font-semibold uppercase tracking-[0.18em] text-blue-600">Security</p>
+        <h1 class="text-3xl font-bold leading-tight text-slate-900 sm:text-4xl">How CanIEdit protects your files</h1>
+        <p class="text-lg leading-8 text-slate-600">Our PDF, image, and document tools are built to keep uploads private. Files are encrypted in transit, processed in isolated storage, and removed automatically after tasks complete.</p>
+        <div class="flex flex-wrap gap-3 text-sm">
+          <a class="inline-flex items-center rounded-lg bg-brand px-5 py-3 font-semibold text-white shadow-sm transition hover:bg-brandDark" href="/merge-pdf">Try the PDF Merger</a>
+          <a class="inline-flex items-center rounded-lg border border-slate-200 px-5 py-3 font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="/privacy-policy">Read the privacy policy</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-5xl px-4 py-12 space-y-10">
+      <article class="grid gap-6 rounded-3xl border border-slate-200 bg-slate-50 p-6 lg:grid-cols-[1fr,0.9fr]">
+        <div class="space-y-3">
+          <h2 class="text-2xl font-semibold text-slate-900">Short-lived, isolated storage</h2>
+          <p class="text-sm leading-7 text-slate-700">Uploads stay in isolated buckets dedicated to each task. They are never repurposed for training or shared with advertisers.</p>
+          <ul class="space-y-2 text-sm leading-6 text-slate-700">
+            <li><span class="font-semibold text-slate-900">Temporary by design:</span> Files are auto-deleted within minutes of processing.</li>
+            <li><span class="font-semibold text-slate-900">Regional flexibility:</span> Paid plans can request region pinning for compliance.</li>
+            <li><span class="font-semibold text-slate-900">Scoped access:</span> Only job workers can read the upload during processing.</li>
+          </ul>
+        </div>
+        <div class="rounded-2xl border border-white/80 bg-white p-5 shadow-card">
+          <p class="text-sm font-semibold uppercase tracking-[0.18em] text-blue-600">Automatic cleanup</p>
+          <p class="mt-2 text-sm leading-7 text-slate-700">Processing completion triggers cleanup jobs that wipe temporary assets. If a job fails, watchdogs still remove the files on a timer.</p>
+        </div>
+      </article>
+
+      <article class="grid gap-6 rounded-3xl border border-slate-200 bg-white p-6 lg:grid-cols-[0.85fr,1.15fr]">
+        <div class="space-y-3">
+          <h2 class="text-2xl font-semibold text-slate-900">Encryption in transit</h2>
+          <p class="text-sm leading-7 text-slate-700">Every upload and download uses HTTPS to prevent interception while files move between your browser and our processing workers.</p>
+          <p class="text-sm leading-7 text-slate-700">For sensitive work, use a trusted network and close the tab after downloading the merged file.</p>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-slate-700"><span class="font-semibold text-slate-900">No watermarking traps</span> - your documents stay clean and ready to send.</div>
+          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-slate-700"><span class="font-semibold text-slate-900">No hidden copies</span> - we do not retain backups of processed files.</div>
+          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-slate-700"><span class="font-semibold text-slate-900">Minimal logging</span> - runtime logs capture errors, not contents.</div>
+          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-slate-700"><span class="font-semibold text-slate-900">Support for compliance</span> - contact us for custom retention rules on paid plans.</div>
+        </div>
+      </article>
+
+      <article class="space-y-4 rounded-3xl border border-slate-200 bg-slate-50 p-6">
+        <h2 class="text-2xl font-semibold text-slate-900">Tips for safe processing</h2>
+        <ul class="space-y-2 text-sm leading-6 text-slate-700">
+          <li><span class="font-semibold text-slate-900">Redact sensitive data first</span> if a file includes secrets not required for merging.</li>
+          <li><span class="font-semibold text-slate-900">Use smaller batches</span> to avoid large-file retries and keep processing windows short.</li>
+          <li><span class="font-semibold text-slate-900">Download immediately</span> after merging, then close the tab on shared devices.</li>
+          <li><span class="font-semibold text-slate-900">Check our policy</span> for retention and subprocessors in the <a class="font-semibold text-brand transition hover:text-brandDark" href="/privacy-policy">privacy policy</a>.</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+
+  <noscript>
+    <p class="px-4 py-4 text-center text-sm text-slate-600">Enable JavaScript to load the CanIEdit navigation and footer.</p>
+  </noscript>
+
+  <div id="footer"></div>
+
+  <script src="/assets/include.js"></script>
+</body>
+</html>
