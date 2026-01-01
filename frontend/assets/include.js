@@ -265,5 +265,32 @@ async function loadPartial(id, file) {
   }
 }
 
-loadPartial("header", "../partials/header.html");
-loadPartial("footer", "../partials/footer.html");
+function resolvePartialBase() {
+  const script = document.currentScript || document.querySelector('script[src*="include.js"]');
+  if (!script) {
+    return "../partials/";
+  }
+
+  const explicitRoot = script.getAttribute("data-partials-root");
+  if (explicitRoot) {
+    return explicitRoot.endsWith("/") ? explicitRoot : `${explicitRoot}/`;
+  }
+
+  try {
+    const scriptUrl = new URL(script.getAttribute("src"), window.location.href);
+    const withPartials = scriptUrl.href.replace(/assets\/(?:js\/)?include\.js(?:[?#].*)?$/, "partials/");
+    if (withPartials !== scriptUrl.href) {
+      return withPartials.endsWith("/") ? withPartials : `${withPartials}/`;
+    }
+
+    const fallback = scriptUrl.href.replace(/[^/]*$/, "partials/");
+    return fallback.endsWith("/") ? fallback : `${fallback}/`;
+  } catch (error) {
+    return "../partials/";
+  }
+}
+
+const partialBase = resolvePartialBase();
+
+loadPartial("header", `${partialBase}header.html`);
+loadPartial("footer", `${partialBase}footer.html`);

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Contact CanIEdit – Support and Sales</title>
+  <meta name="description" content="Talk to the CanIEdit team for support, sales, partnerships, or roadmap requests." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/assets/images/CanIEdit_(64x64px).png" type="image/png" sizes="64x64" />
+  <link rel="prefetch" href="./partials/header.html" as="fetch" crossorigin="anonymous" />
+  <link rel="prefetch" href="./partials/footer.html" as="fetch" crossorigin="anonymous" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: "#2563eb",
+            brandDark: "#1d4ed8",
+            brandAccent: "#14b8a6"
+          },
+          boxShadow: {
+            card: "0 20px 45px rgba(15, 23, 42, 0.08)"
+          },
+          fontFamily: {
+            sans: ["Inter", "Segoe UI", "system-ui", "-apple-system", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="flex min-h-screen flex-col bg-slate-50 font-sans text-slate-900">
+  <div id="header"></div>
+
+  <main class="flex-1">
+    <section class="bg-gradient-to-br from-blue-50 via-white to-slate-50">
+      <div class="mx-auto max-w-4xl px-4 py-16">
+        <p class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">Contact</p>
+        <h1 class="mt-3 text-3xl font-bold leading-tight text-slate-900 sm:text-4xl">Reach the CanIEdit team</h1>
+        <p class="mt-3 text-lg text-slate-600">Share your question and we will respond quickly. Tell us about your files, limits, or the workflow you want to automate.</p>
+        <p class="mt-2 text-sm text-slate-600">Support hours: Mon–Fri, 9am–6pm IST. Paid plans receive faster responses and optional SLAs.</p>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-4xl px-4 py-12" aria-labelledby="contact-form-heading">
+      <div class="rounded-3xl border border-slate-200 bg-white p-8 shadow-card">
+        <div class="space-y-2">
+          <h2 id="contact-form-heading" class="text-2xl font-semibold text-slate-900">Send a message</h2>
+          <p class="text-sm text-slate-600">We typically reply within one business day.</p>
+        </div>
+        <form class="mt-6 space-y-5" action="mailto:hello@caniedit.in" method="POST" enctype="text/plain">
+          <div class="grid gap-4 md:grid-cols-2">
+            <label class="space-y-2 text-sm font-semibold text-slate-800" for="contact-name">
+              Name
+              <input id="contact-name" name="name" required class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20" type="text" placeholder="Your name" />
+            </label>
+            <label class="space-y-2 text-sm font-semibold text-slate-800" for="contact-email">
+              Email
+              <input id="contact-email" name="email" required class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20" type="email" placeholder="you@example.com" />
+            </label>
+          </div>
+          <label class="space-y-2 text-sm font-semibold text-slate-800" for="contact-topic">
+            Topic
+            <select id="contact-topic" name="topic" class="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20">
+              <option>Product support</option>
+              <option>Billing or plan question</option>
+              <option>Enterprise or SLA</option>
+              <option>Partnership or integration</option>
+              <option>Feature or tool request</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label class="space-y-2 text-sm font-semibold text-slate-800" for="contact-message">
+            Message
+            <textarea id="contact-message" name="message" required rows="5" class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20" placeholder="Share details, file limits, or the workflow you want to solve"></textarea>
+          </label>
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <label class="inline-flex items-center gap-2 text-sm text-slate-700" for="contact-consent">
+              <input id="contact-consent" name="consent" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-brand focus:ring-brand/30" />
+              I agree to be contacted about this request.
+            </label>
+            <button class="inline-flex items-center justify-center rounded-lg bg-brand px-5 py-3 text-sm font-semibold text-white transition hover:bg-brandDark" type="submit">Send message</button>
+          </div>
+        </form>
+        <p class="mt-6 text-sm text-slate-600">Prefer email? Write to <a class="font-semibold text-brand hover:text-brandDark" href="mailto:hello@caniedit.in">hello@caniedit.in</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <noscript>
+    <p class="px-4 py-4 text-center text-sm text-slate-600">Enable JavaScript to load the CanIEdit navigation and footer.</p>
+  </noscript>
+
+  <div id="footer"></div>
+
+  <script src="./assets/include.js"></script>
+</body>
+</html>

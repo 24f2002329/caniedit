@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>About CanIEdit – Privacy-First File Tools</title>
+  <meta name="description" content="Learn how CanIEdit builds fast, privacy-first PDF, image, and document tools for teams and creators." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/assets/images/CanIEdit_(64x64px).png" type="image/png" sizes="64x64" />
+  <link rel="prefetch" href="./partials/header.html" as="fetch" crossorigin="anonymous" />
+  <link rel="prefetch" href="./partials/footer.html" as="fetch" crossorigin="anonymous" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: "#2563eb",
+            brandDark: "#1d4ed8",
+            brandAccent: "#14b8a6"
+          },
+          boxShadow: {
+            card: "0 20px 45px rgba(15, 23, 42, 0.08)"
+          },
+          fontFamily: {
+            sans: ["Inter", "Segoe UI", "system-ui", "-apple-system", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="flex min-h-screen flex-col bg-slate-50 font-sans text-slate-900">
+  <div id="header"></div>
+
+  <main class="flex-1">
+    <section class="bg-gradient-to-br from-blue-50 via-white to-slate-50">
+      <div class="mx-auto grid max-w-6xl gap-10 px-4 py-16 lg:grid-cols-[2fr,1fr]">
+        <div class="space-y-6">
+          <p class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">About CanIEdit</p>
+          <h1 class="text-3xl font-bold leading-tight text-slate-900 sm:text-4xl">Privacy-first file workflows for teams that ship fast</h1>
+          <p class="text-lg text-slate-600">We are building 100+ PDF, image, and document tools that run quickly, clean up after themselves, and fit into lean content operations. No watermarks, no surprise paywalls, just reliable utilities.</p>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
+              <h3 class="text-lg font-semibold text-slate-900">Why we started</h3>
+              <p class="mt-2 text-sm text-slate-600">Creators and ops teams lose hours to heavy desktop apps and cluttered websites. We ship focused tools that open fast and delete data soon after processing.</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
+              <h3 class="text-lg font-semibold text-slate-900">How we build</h3>
+              <p class="mt-2 text-sm text-slate-600">Serverless FastAPI services, isolated storage, and automated cleanup run behind every tool so you can trust the output and the privacy posture.</p>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col gap-3 rounded-3xl border border-dashed border-slate-300 bg-white p-8 text-center shadow-card">
+          <strong class="text-lg font-semibold text-slate-900">AdSense 728×90</strong>
+          <span class="text-sm text-slate-600">Use this slot for announcements, changelogs, or partner promos.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-6xl px-4 py-14" aria-labelledby="about-values">
+      <div class="grid gap-10 lg:grid-cols-[1.1fr,1fr]">
+        <div class="space-y-4">
+          <h2 id="about-values" class="text-2xl font-semibold text-slate-900">What we obsess over</h2>
+          <ul class="space-y-3 text-sm leading-6 text-slate-700">
+            <li><span class="font-semibold text-slate-900">Speed by default.</span> The UI stays minimal and the backend parallelizes jobs so you can finish edits in seconds.</li>
+            <li><span class="font-semibold text-slate-900">Privacy as a requirement.</span> Temporary uploads live in isolated buckets and are wiped minutes after processing.</li>
+            <li><span class="font-semibold text-slate-900">Clear roadmaps.</span> Every tool is labeled Live or Coming soon so teams know what to expect.</li>
+            <li><span class="font-semibold text-slate-900">Human support.</span> Real responses for roadmap requests, integration help, and SLA questions.</li>
+          </ul>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
+            <p class="text-3xl font-bold text-brand">100+</p>
+            <p class="mt-2 text-sm text-slate-600">Tools planned across PDF, image, and document workflows.</p>
+          </article>
+          <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
+            <p class="text-3xl font-bold text-brand">Minutes</p>
+            <p class="mt-2 text-sm text-slate-600">Average time your files stay in isolated storage before cleanup.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white" aria-labelledby="about-how">
+      <div class="mx-auto max-w-6xl px-4 py-14">
+        <div class="space-y-3">
+          <h2 id="about-how" class="text-2xl font-semibold text-slate-900">How CanIEdit works</h2>
+          <p class="text-sm text-slate-600">A simple pipeline so you always know what happens to your files.</p>
+        </div>
+        <div class="mt-8 grid gap-6 md:grid-cols-3">
+          <article class="rounded-2xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
+            <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">1. Upload</p>
+            <h3 class="mt-2 text-lg font-semibold text-slate-900">Drag and drop</h3>
+            <p class="mt-2 text-sm text-slate-600">Files go to a short-lived, isolated bucket with encryption in transit.</p>
+          </article>
+          <article class="rounded-2xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
+            <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">2. Process</p>
+            <h3 class="mt-2 text-lg font-semibold text-slate-900">FastAPI workers</h3>
+            <p class="mt-2 text-sm text-slate-600">CPU-optimized tasks handle merges, conversions, and cleanups in parallel queues.</p>
+          </article>
+          <article class="rounded-2xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
+            <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">3. Clean</p>
+            <h3 class="mt-2 text-lg font-semibold text-slate-900">Auto-delete</h3>
+            <p class="mt-2 text-sm text-slate-600">Completed jobs trigger cleanup routines that remove temporary files within minutes.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-6xl px-4 py-14" aria-labelledby="about-audience">
+      <div class="grid gap-10 md:grid-cols-2">
+        <div class="space-y-4">
+          <h2 id="about-audience" class="text-2xl font-semibold text-slate-900">Built for modern teams</h2>
+          <p class="text-sm text-slate-600">From solo creators to compliance-driven enterprises, CanIEdit adapts to your workflow.</p>
+          <ul class="space-y-3 text-sm leading-6 text-slate-700">
+            <li><span class="font-semibold text-slate-900">Creators and marketers:</span> Batch assets, resize for every channel, and keep quality intact.</li>
+            <li><span class="font-semibold text-slate-900">Operations and legal:</span> Standardize PDFs, track versions, and apply retention policies on paid plans.</li>
+            <li><span class="font-semibold text-slate-900">Engineering teams:</span> Lightweight endpoints and predictable processing for integrations.</li>
+          </ul>
+        </div>
+        <div class="rounded-3xl border border-blue-100 bg-blue-50 p-8 shadow-card">
+          <h3 class="text-xl font-semibold text-slate-900">Want a custom workflow?</h3>
+          <p class="mt-3 text-sm leading-6 text-slate-700">Tell us the format, the output you need, and the privacy rules you follow. We will prioritize it on the roadmap or scope a private deployment.</p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a class="inline-flex items-center rounded-lg bg-brand px-5 py-3 font-semibold text-white transition hover:bg-brandDark" href="mailto:hello@caniedit.in?subject=Custom%20workflow">Email the founders</a>
+            <a class="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-5 py-3 font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="https://cal.com" target="_blank" rel="noopener">Book a call</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <noscript>
+    <p class="px-4 py-4 text-center text-sm text-slate-600">Enable JavaScript to load the CanIEdit navigation and footer.</p>
+  </noscript>
+
+  <div id="footer"></div>
+
+  <script src="./assets/include.js"></script>
+</body>
+</html>

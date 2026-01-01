@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Image Tools – CanIEdit</title>
+  <meta name="description" content="Optimize, resize, convert, and clean images with the CanIEdit image toolkit." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/assets/images/CanIEdit_(64x64px).png" type="image/png" sizes="64x64" />
+  <link rel="prefetch" href="../../partials/header.html" as="fetch" crossorigin="anonymous" />
+  <link rel="prefetch" href="../../partials/footer.html" as="fetch" crossorigin="anonymous" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: "#2563eb",
+            brandDark: "#1d4ed8",
+            brandAccent: "#14b8a6"
+          },
+          boxShadow: {
+            card: "0 20px 45px rgba(15, 23, 42, 0.08)"
+          },
+          fontFamily: {
+            sans: ["Inter", "Segoe UI", "system-ui", "-apple-system", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="flex min-h-screen flex-col bg-slate-50 font-sans text-slate-900">
+  <div id="header"></div>
+
+  <main class="flex-1">
+    <section class="bg-white">
+      <div class="mx-auto max-w-6xl px-4 py-16" aria-labelledby="image-tools-heading">
+        <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">Image studio</p>
+        <div class="mt-3 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <header class="space-y-3">
+            <h1 id="image-tools-heading" class="text-3xl font-semibold text-slate-900 sm:text-4xl">Image tools for marketing-ready assets</h1>
+            <p class="max-w-3xl text-lg text-slate-600">Compress, convert, and clean images with presets tuned for web performance and brand consistency. Everything here is on the roadmap—tell us what to prioritize first.</p>
+          </header>
+          <span class="inline-flex items-center gap-2 rounded-full bg-slate-200 px-3 py-1 text-sm font-semibold text-slate-600"><span class="h-2 w-2 rounded-full bg-slate-500"></span>Coming soon</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-6xl px-4 pb-16 pt-6">
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <article class="flex flex-col gap-3 rounded-3xl bg-gradient-to-br from-brandAccent/12 via-white to-brand/10 p-6 shadow-card ring-1 ring-brandAccent/25">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-brandAccent/20 text-brand">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-5 w-5">
+                  <rect x="4" y="5" width="16" height="12" rx="2" />
+                  <circle cx="9" cy="11" r="2" />
+                  <path d="M11 13l2-2 3 3" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+              <h2 class="text-xl font-semibold text-slate-900">Compress Images</h2>
+            </div>
+            <span class="rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-600">Coming soon</span>
+          </div>
+          <p class="text-sm leading-6 text-slate-600">Shrink PNG, JPG, and WEBP files while keeping colors and sharpness intact.</p>
+          <a class="inline-flex w-fit items-center font-semibold text-slate-800 transition hover:text-brand" href="./compress.html">View details</a>
+        </article>
+
+        <article class="flex flex-col gap-3 rounded-3xl bg-gradient-to-br from-white via-brandAccent/10 to-brand/12 p-6 shadow-card ring-1 ring-brandAccent/25">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-brandAccent/20 text-brand">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-5 w-5">
+                  <rect x="4" y="6" width="16" height="12" rx="2" />
+                  <path d="M8 14l2.5-3 2.5 3 2-2.5 3 4.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+              <h2 class="text-xl font-semibold text-slate-900">PNG to WEBP</h2>
+            </div>
+            <span class="rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-600">Coming soon</span>
+          </div>
+          <p class="text-sm leading-6 text-slate-600">Convert PNG assets to WEBP for smaller, faster-loading pages.</p>
+          <a class="inline-flex w-fit items-center font-semibold text-slate-800 transition hover:text-brand" href="./png-to-webp.html">View details</a>
+        </article>
+
+        <article class="flex flex-col gap-3 rounded-3xl bg-gradient-to-br from-white via-brandAccent/10 to-brand/12 p-6 shadow-card ring-1 ring-brandAccent/25">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-brandAccent/20 text-brand">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-5 w-5">
+                  <circle cx="9" cy="10" r="3" />
+                  <path d="M6 18c1.2-1.4 2.7-2 4.5-2S13.8 16.6 15 18" stroke-linecap="round" />
+                  <path d="M14 10l3.5-3.5M14 13.5L18 10" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+              <h2 class="text-xl font-semibold text-slate-900">Background Remover</h2>
+            </div>
+            <span class="rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-600">Coming soon</span>
+          </div>
+          <p class="text-sm leading-6 text-slate-600">Cut out backgrounds for product shots, thumbnails, and social creatives.</p>
+          <a class="inline-flex w-fit items-center font-semibold text-slate-800 transition hover:text-brand" href="./background-remover.html">View details</a>
+        </article>
+
+        <article class="flex flex-col gap-3 rounded-3xl bg-gradient-to-br from-white via-brandAccent/10 to-brand/12 p-6 shadow-card ring-1 ring-brandAccent/25">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-brandAccent/20 text-brand">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-5 w-5">
+                  <rect x="5" y="5" width="14" height="14" rx="2" />
+                  <path d="M8 9h8M8 12h8M8 15h5" stroke-linecap="round" />
+                </svg>
+              </span>
+              <h2 class="text-xl font-semibold text-slate-900">Social Resizer</h2>
+            </div>
+            <span class="rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-600">Coming soon</span>
+          </div>
+          <p class="text-sm leading-6 text-slate-600">Apply platform-specific dimensions with smart focal point cropping.</p>
+          <a class="inline-flex w-fit items-center font-semibold text-slate-800 transition hover:text-brand" href="./social-resizer.html">View details</a>
+        </article>
+
+        <article class="flex flex-col gap-3 rounded-3xl bg-gradient-to-br from-white via-brandAccent/10 to-brand/12 p-6 shadow-card ring-1 ring-brandAccent/25">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-brandAccent/20 text-brand">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-5 w-5">
+                  <path d="M12 5v14" stroke-linecap="round" />
+                  <path d="M7 9c0-2 1.5-3 5-3s5 1 5 3-1.5 3-5 3-5 1-5 3 1.5 3 5 3 5-1 5-3" />
+                </svg>
+              </span>
+              <h2 class="text-xl font-semibold text-slate-900">Image Enhancer</h2>
+            </div>
+            <span class="rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-600">Coming soon</span>
+          </div>
+          <p class="text-sm leading-6 text-slate-600">Fix lighting, contrast, and clarity automatically with batch support.</p>
+          <a class="inline-flex w-fit items-center font-semibold text-slate-800 transition hover:text-brand" href="./enhancer.html">View details</a>
+        </article>
+
+        <article class="flex flex-col gap-3 rounded-3xl bg-gradient-to-br from-white via-brandAccent/10 to-brand/12 p-6 shadow-card ring-1 ring-brandAccent/25">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-brandAccent/20 text-brand">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-5 w-5">
+                  <path d="M7 7h10v10H7z" />
+                  <path d="M10 10h4M10 14h2" stroke-linecap="round" />
+                </svg>
+              </span>
+              <h2 class="text-xl font-semibold text-slate-900">Bulk Rename</h2>
+            </div>
+            <span class="rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-600">Coming soon</span>
+          </div>
+          <p class="text-sm leading-6 text-slate-600">Apply naming patterns, counters, and metadata to large sets of files.</p>
+          <a class="inline-flex w-fit items-center font-semibold text-slate-800 transition hover:text-brand" href="./bulk-rename.html">View details</a>
+        </article>
+
+        <article class="flex flex-col gap-3 rounded-3xl bg-gradient-to-br from-white via-brandAccent/10 to-brand/12 p-6 shadow-card ring-1 ring-brandAccent/25">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-brandAccent/20 text-brand">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-5 w-5">
+                  <path d="M7 5h10v14H7z" />
+                  <path d="M10 9h4M10 12h3M10 15h4" stroke-linecap="round" />
+                </svg>
+              </span>
+              <h2 class="text-xl font-semibold text-slate-900">HEIC to JPG</h2>
+            </div>
+            <span class="rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-600">Coming soon</span>
+          </div>
+          <p class="text-sm leading-6 text-slate-600">Convert iPhone HEIC photos into widely compatible JPGs in bulk.</p>
+          <a class="inline-flex w-fit items-center font-semibold text-slate-800 transition hover:text-brand" href="./heic-to-jpg.html">View details</a>
+        </article>
+
+        <article class="flex flex-col gap-3 rounded-3xl bg-gradient-to-br from-white via-brandAccent/10 to-brand/12 p-6 shadow-card ring-1 ring-brandAccent/25">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-brandAccent/20 text-brand">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-5 w-5">
+                  <rect x="5" y="5" width="14" height="14" rx="2" />
+                  <path d="M8 12h8M12 8v8" stroke-linecap="round" />
+                </svg>
+              </span>
+              <h2 class="text-xl font-semibold text-slate-900">SVG Optimizer</h2>
+            </div>
+            <span class="rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-600">Coming soon</span>
+          </div>
+          <p class="text-sm leading-6 text-slate-600">Clean SVG markup, remove bloat, and keep your icons pixel-perfect.</p>
+          <a class="inline-flex w-fit items-center font-semibold text-slate-800 transition hover:text-brand" href="./svg-optimizer.html">View details</a>
+        </article>
+
+        <article class="flex flex-col gap-3 rounded-3xl bg-gradient-to-br from-white via-brandAccent/10 to-brand/12 p-6 shadow-card ring-1 ring-brandAccent/25">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-brandAccent/20 text-brand">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-5 w-5">
+                  <rect x="5" y="5" width="14" height="14" rx="2" />
+                  <path d="M9 9h6M9 12h6M9 15h4" stroke-linecap="round" />
+                </svg>
+              </span>
+              <h2 class="text-xl font-semibold text-slate-900">Remove Metadata</h2>
+            </div>
+            <span class="rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-600">Coming soon</span>
+          </div>
+          <p class="text-sm leading-6 text-slate-600">Strip EXIF, GPS, and camera details before publishing or sharing.</p>
+          <a class="inline-flex w-fit items-center font-semibold text-slate-800 transition hover:text-brand" href="./remove-metadata.html">View details</a>
+        </article>
+
+        <article class="flex flex-col gap-3 rounded-3xl bg-gradient-to-br from-white via-brandAccent/10 to-brand/12 p-6 shadow-card ring-1 ring-brandAccent/25">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-brandAccent/20 text-brand">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-5 w-5">
+                  <path d="M12 5l6 4v6l-6 4-6-4V9z" />
+                  <path d="M12 5v14" stroke-linecap="round" />
+                </svg>
+              </span>
+              <h2 class="text-xl font-semibold text-slate-900">Icon Generator</h2>
+            </div>
+            <span class="rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-600">Coming soon</span>
+          </div>
+          <p class="text-sm leading-6 text-slate-600">Generate favicons and app icons with automatic padding and sizes.</p>
+          <a class="inline-flex w-fit items-center font-semibold text-slate-800 transition hover:text-brand" href="./icon-generator.html">View details</a>
+        </article>
+      </div>
+
+      <div class="mt-12 rounded-3xl border border-slate-200 bg-white p-6 shadow-card">
+        <h2 class="text-xl font-semibold text-slate-900">Need a different image helper?</h2>
+        <p class="mt-3 text-sm leading-6 text-slate-600">Tell us which formats, batch sizes, or automation hooks matter most. We prioritize based on creator feedback.</p>
+        <div class="mt-4 flex flex-wrap gap-3 text-sm">
+          <a class="inline-flex items-center rounded-lg bg-brand px-5 py-3 font-semibold text-white transition hover:bg-brandDark" href="mailto:hello@caniedit.in">Email the team</a>
+          <a class="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-5 py-3 font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="/pricing.html">See pricing</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="../../assets/include.js"></script>
+</body>
+</html>

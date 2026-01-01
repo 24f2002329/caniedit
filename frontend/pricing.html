@@ -29,23 +29,31 @@
     };
   </script>
 </head>
-<body class="flex min-h-screen flex-col bg-slate-50 font-sans text-slate-900">
-  <div id="header"></div>
+<body class="flex min-h-screen flex-col overflow-hidden bg-slate-50 font-sans text-slate-900">
+  <div id="header" class="relative z-[60]"></div>
 
   <main class="flex-1">
+    <div class="pointer-events-none fixed inset-0 z-40 bg-white/70 backdrop-blur-sm"></div>
+    <div class="pointer-events-none fixed inset-x-0 top-36 z-50 flex items-start justify-center px-4">
+      <div class="rounded-2xl border border-slate-200 bg-white/90 px-5 py-3 text-center shadow-card shadow-lg">
+        <p class="text-base font-semibold text-slate-900">Pricing preview</p>
+        <p class="text-sm text-slate-600">Tools are still being built. Plans, limits, and billing will activate when the suite is live.</p>
+      </div>
+    </div>
+
     <section class="bg-white">
       <div class="mx-auto grid max-w-6xl gap-10 px-4 py-16 lg:grid-cols-[2fr,1fr]" aria-labelledby="pricing-page-heading">
         <div class="space-y-6">
-          <h1 id="pricing-page-heading" class="text-3xl font-bold leading-snug text-slate-900 sm:text-4xl">Upgrade when you need bigger, faster, smarter tools</h1>
-          <p class="text-lg text-slate-600">From everyday merges to compliance-ready deployments, choose a plan that scales with your file volume. Switch or cancel anytime — your documents stay private.</p>
+          <h1 id="pricing-page-heading" class="text-3xl font-bold leading-snug text-slate-900 sm:text-4xl">Upgrade when edits become mission-critical</h1>
+          <p class="text-lg text-slate-600">From quick touch-ups to regulated document packages, pick a plan that grows with your workload across PDF, image, and document tools. Switch or cancel anytime — your content stays private.</p>
           <div class="flex flex-wrap gap-3">
             <a class="inline-flex items-center rounded-lg bg-brand px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-brandDark" href="#plans">See plans</a>
-            <a class="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-6 py-3 font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="/pdf/merge.html">Try a free merge</a>
+            <a class="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-6 py-3 font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="/tools/index.html">Explore all tools</a>
           </div>
           <ul class="space-y-3 text-sm text-slate-600">
-            <li class="flex items-start gap-2"><span class="mt-1 h-2 w-2 rounded-full bg-brand"></span><span>Annual subscribers lock in 20% savings.</span></li>
-            <li class="flex items-start gap-2"><span class="mt-1 h-2 w-2 rounded-full bg-brand"></span><span>Priority support for Pro and Teams tiers.</span></li>
-            <li class="flex items-start gap-2"><span class="mt-1 h-2 w-2 rounded-full bg-brand"></span><span>Custom retention and bulk processing available on Teams.</span></li>
+            <li class="flex items-start gap-2"><span class="mt-1 h-2 w-2 rounded-full bg-brand"></span><span>Annual billing saves 20% on every paid plan.</span></li>
+            <li class="flex items-start gap-2"><span class="mt-1 h-2 w-2 rounded-full bg-brand"></span><span>Priority responses start on Creator and above.</span></li>
+            <li class="flex items-start gap-2"><span class="mt-1 h-2 w-2 rounded-full bg-brand"></span><span>Business plans unlock retention controls and regional storage.</span></li>
           </ul>
         </div>
         <div class="ad-slot ad-slot--banner flex flex-col gap-2 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center shadow-sm">
@@ -55,50 +63,366 @@
       </div>
     </section>
 
+    <section class="bg-white" aria-labelledby="plan-comparison-detailed">
+      <div class="mx-auto max-w-6xl px-4 py-16">
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 id="plan-comparison-detailed" class="text-3xl font-semibold text-slate-900">Plan comparison at a glance</h2>
+            <p class="mt-2 text-sm text-slate-600">See what is live today and what is arriving soon across PDF, image, and document tools.</p>
+          </div>
+          <div class="inline-flex items-center gap-3 text-xs font-semibold text-slate-600">
+            <span class="inline-flex items-center gap-1 text-emerald-600"><span aria-hidden="true">✓</span><span class="sr-only">Included</span> Included</span>
+            <span class="inline-flex items-center gap-1 text-slate-400"><span aria-hidden="true">✕</span><span class="sr-only">Not included</span> Not included</span>
+            <span class="inline-flex items-center gap-2 rounded-full bg-amber-50 px-3 py-1 text-amber-700">Upcoming tools</span>
+          </div>
+        </div>
+
+        <div class="mt-8 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-card">
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-left text-sm text-slate-700" aria-label="Detailed plan comparison">
+              <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+                <tr>
+                  <th class="px-4 py-3 font-semibold">What you get</th>
+                  <th class="px-4 py-3 font-semibold">Starter</th>
+                  <th class="px-4 py-3 font-semibold">Creator</th>
+                  <th class="px-4 py-3 font-semibold">Studio</th>
+                  <th class="px-4 py-3 font-semibold">Business</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">PDF Merge</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 100/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Compress PDF</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 100/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Split &amp; Reorder</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 100/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Protect PDF</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 100/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">PDF → Word</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 100/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Word → PDF</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 100/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">PDF Watermark</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 100/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Organize Pages</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 100/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Unlock PDF</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 100/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">PDF OCR</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 50/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Compress images</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 100/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">PNG → WEBP</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 100/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Background remover</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 100/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Social resizer</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 100/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Image enhancer</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 100/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Bulk rename</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 100/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">HEIC → JPG</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 100/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">SVG optimizer</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 100/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Remove metadata</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 100/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Icon generator</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 100/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">DOCX → PDF</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 50/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Excel cleanup</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 50/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">PowerPoint shrink</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 50/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Template manager</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 50/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Invoice standardizer</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 50/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Contract redlines</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 50/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Form filler</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 50/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Letterhead builder</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 50/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Resume formatter</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 50/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Bulk eSign prep</th>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 10/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> 50/day</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span> Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Max file size per upload</th>
+                  <td class="px-4 py-3">10 MB</td>
+                  <td class="px-4 py-3">100 MB</td>
+                  <td class="px-4 py-3">2 GB</td>
+                  <td class="px-4 py-3">5 GB</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Team access</th>
+                  <td class="px-4 py-3"><span class="text-slate-400" aria-hidden="true">✕</span><span class="sr-only">Not included</span></td>
+                  <td class="px-4 py-3">1–5 members</td>
+                  <td class="px-4 py-3">1–50 members</td>
+                  <td class="px-4 py-3">100+ members</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Batch automations</th>
+                  <td class="px-4 py-3"><span class="text-slate-400" aria-hidden="true">✕</span><span class="sr-only">Not included</span></td>
+                  <td class="px-4 py-3"><span class="text-slate-400" aria-hidden="true">✕</span><span class="sr-only">Not included</span></td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span></td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Webhooks &amp; integrations</th>
+                  <td class="px-4 py-3"><span class="text-slate-400" aria-hidden="true">✕</span><span class="sr-only">Not included</span></td>
+                  <td class="px-4 py-3"><span class="text-slate-400" aria-hidden="true">✕</span><span class="sr-only">Not included</span></td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span></td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">API access</th>
+                  <td class="px-4 py-3"><span class="text-slate-400" aria-hidden="true">✕</span><span class="sr-only">Not included</span></td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span></td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span></td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">API limits &amp; keys</th>
+                  <td class="px-4 py-3">Not available</td>
+                  <td class="px-4 py-3">API key issued; fair-use throttling</td>
+                  <td class="px-4 py-3">Higher limits with IP allowlists</td>
+                  <td class="px-4 py-3">Custom limits, private endpoints</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">No ads</th>
+                  <td class="px-4 py-3"><span class="text-slate-400" aria-hidden="true">✕</span><span class="sr-only">Not included</span></td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span></td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span></td>
+                  <td class="px-4 py-3"><span class="text-emerald-600" aria-hidden="true">✓</span><span class="sr-only">Included</span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="whitespace-nowrap px-4 py-3 font-semibold text-slate-900">Support</th>
+                  <td class="px-4 py-3">Community</td>
+                  <td class="px-4 py-3">Next business day</td>
+                  <td class="px-4 py-3">4-hour SLA</td>
+                  <td class="px-4 py-3">Dedicated manager</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="plans" class="bg-slate-50">
       <div class="mx-auto max-w-6xl px-4 py-16" aria-labelledby="plan-comparison">
         <div class="text-center">
           <h2 id="plan-comparison" class="text-3xl font-semibold text-slate-900">Choose your CanIEdit plan</h2>
-          <p class="mt-3 text-lg text-slate-600">Every plan includes secure uploads, instant cleanup, and access to the growing suite of PDF, image, and AI tools.</p>
+          <p class="mt-3 text-lg text-slate-600">Every plan includes secure uploads, automatic cleanup, and access to the expanding suite of PDF, image, and document tools.</p>
         </div>
-        <div class="mt-12 grid gap-6 md:grid-cols-3">
+        <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           <article class="flex flex-col rounded-3xl border border-slate-200 bg-white p-8 shadow-card" data-plan="starter">
             <h3 class="text-xl font-semibold text-slate-900">Starter</h3>
-            <p class="mt-4 text-4xl font-bold text-brand">$0<span class="text-base font-semibold text-slate-500">/month</span></p>
+            <p class="mt-4 text-4xl font-bold text-brand">₹0<span class="text-base font-semibold text-slate-500">/month</span></p>
             <ul class="mt-6 space-y-3 text-sm text-slate-600">
-              <li>10 merges per day</li>
+              <li>10 edits per day across all tools</li>
               <li>10 MB per file</li>
               <li>Standard processing queue</li>
-              <li>Community support</li>
+              <li>Community forum support</li>
             </ul>
-            <a class="mt-8 inline-flex items-center justify-center rounded-lg border border-slate-200 px-5 py-3 font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="/pdf/merge.html">Use free tools</a>
-            <p class="mt-6 text-sm text-slate-500">Great for individuals with occasional PDF tasks.</p>
+            <a class="mt-8 inline-flex items-center justify-center rounded-lg border border-slate-200 px-5 py-3 font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="mailto:hello@caniedit.in?subject=Notify%20me%20about%20CanIEdit%20Starter">Notify me at launch</a>
+            <p class="mt-6 text-sm text-slate-500">Ideal for occasional fixes and quick conversions.</p>
           </article>
-          <article class="flex flex-col rounded-3xl border border-blue-200 bg-white p-8 shadow-card" data-plan="pro">
-            <h3 class="text-xl font-semibold text-slate-900">Pro</h3>
-            <p class="mt-4 text-4xl font-bold text-brand">$12<span class="text-base font-semibold text-slate-500">/month</span></p>
+          <article class="flex flex-col rounded-3xl border border-blue-200 bg-white p-8 shadow-card" data-plan="creator">
+            <h3 class="text-xl font-semibold text-slate-900">Creator</h3>
+            <p class="mt-4 text-4xl font-bold text-brand">₹200<span class="text-base font-semibold text-slate-500">/month</span></p>
             <ul class="mt-6 space-y-3 text-sm text-slate-600">
-              <li>Unlimited daily merges</li>
+              <li>Team access for 1-5 members</li>
+              <li>100 edits per day with background queue</li>
               <li>100 MB per file</li>
-              <li>Batch automation queue</li>
-              <li>Email support in four hours</li>
-              <li>Early access to beta tools</li>
+              <li>Unlimited saved presets and templates</li>
+              <li>Next business day email support</li>
+              <li>30-day export history</li>
             </ul>
-            <a class="mt-8 inline-flex items-center justify-center rounded-lg bg-brand px-5 py-3 font-semibold text-white transition hover:bg-brandDark" href="mailto:hello@caniedit.in?subject=Upgrade%20to%20CanIEdit%20Pro">Start Pro trial</a>
-            <p class="mt-6 text-sm text-slate-500">Built for agencies and power users who need speed.</p>
+            <a class="mt-8 inline-flex items-center justify-center rounded-lg bg-brand px-5 py-3 font-semibold text-white transition hover:bg-brandDark" href="mailto:hello@caniedit.in?subject=Notify%20me%20about%20CanIEdit%20Creator">Notify me at launch</a>
+            <p class="mt-6 text-sm text-slate-500">₹9,999/year when billed annually. Great for solo makers and small teams shipping content daily.</p>
           </article>
-          <article class="flex flex-col rounded-3xl border border-slate-200 bg-white p-8 shadow-card" data-plan="teams">
-            <h3 class="text-xl font-semibold text-slate-900">Teams</h3>
-            <p class="mt-4 text-4xl font-bold text-brand">$29<span class="text-base font-semibold text-slate-500">/month</span></p>
+          <article class="flex flex-col rounded-3xl border border-slate-200 bg-white p-8 shadow-card" data-plan="studio">
+            <h3 class="text-xl font-semibold text-slate-900">Studio</h3>
+            <p class="mt-4 text-4xl font-bold text-brand">₹999<span class="text-base font-semibold text-slate-500">/month</span></p>
             <ul class="mt-6 space-y-3 text-sm text-slate-600">
-              <li>Unlimited users &amp; merges</li>
-              <li>1 GB per file with S3 offload</li>
-              <li>Custom retention windows</li>
-              <li>SLA-backed priority support</li>
-              <li>Dedicated onboarding engineer</li>
+              <li>Team access for 1-50 members</li>
+              <li>Unlimited daily tasks &amp; batch automations</li>
+              <li>2 GB per file with resumable uploads</li>
+              <li>Automation recipes &amp; webhook triggers</li>
+              <li>Shared asset library with roles</li>
+              <li>4-hour response SLA</li>
             </ul>
-            <a class="mt-8 inline-flex items-center justify-center rounded-lg border border-slate-200 px-5 py-3 font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="mailto:hello@caniedit.in?subject=CanIEdit%20Teams">Book a demo</a>
-            <p class="mt-6 text-sm text-slate-500">Best for compliance-driven teams and resellers.</p>
+            <a class="mt-8 inline-flex items-center justify-center rounded-lg border border-slate-200 px-5 py-3 font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="mailto:hello@caniedit.in?subject=Notify%20me%20about%20CanIEdit%20Studio">Notify me at launch</a>
+            <p class="mt-6 text-sm text-slate-500">Perfect for creative studios and marketing squads scaling production.</p>
+          </article>
+          <article class="flex flex-col rounded-3xl border border-slate-200 bg-white p-8 shadow-card" data-plan="business">
+            <h3 class="text-xl font-semibold text-slate-900">Business</h3>
+            <p class="mt-4 text-4xl font-bold text-brand">₹5,000<span class="text-base font-semibold text-slate-500">/month</span></p>
+            <ul class="mt-6 space-y-3 text-sm text-slate-600">
+              <li>Team access for 100+ members</li>
+              <li>Unlimited seats with advanced roles</li>
+              <li>5 GB per file and regional storage</li>
+              <li>SSO, SCIM, and audit-ready logs</li>
+              <li>Custom retention and private endpoints</li>
+              <li>Dedicated success manager</li>
+            </ul>
+            <a class="mt-8 inline-flex items-center justify-center rounded-lg border border-slate-200 px-5 py-3 font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="mailto:hello@caniedit.in?subject=Notify%20me%20about%20CanIEdit%20Business">Notify me at launch</a>
+            <p class="mt-6 text-sm text-slate-500">Designed for enterprises with compliance or procurement requirements.</p>
           </article>
         </div>
       </div>
@@ -109,15 +433,15 @@
         <div class="grid gap-6 md:grid-cols-3">
           <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-card">
             <h3 id="value-heading" class="text-xl font-semibold text-slate-900">Why upgrade?</h3>
-            <p class="mt-3 text-sm leading-6 text-slate-600">Higher limits unlock advanced automation, bulk processing, and priority support. Teams can white-label tools, enforce retention rules, and request custom endpoints.</p>
+            <p class="mt-3 text-sm leading-6 text-slate-600">Higher limits unlock automated cleanups, brand-safe presets, and faster rendering queues. Teams can standardize workflows across every file format they touch.</p>
           </article>
           <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-card">
             <h3 class="text-xl font-semibold text-slate-900">Built for security</h3>
-            <p class="mt-3 text-sm leading-6 text-slate-600">All uploads are encrypted in transit and wiped within minutes. Paid plans add audit logs, custom regions, and hourly cleanup cadence.</p>
+            <p class="mt-3 text-sm leading-6 text-slate-600">Uploads are encrypted in transit and scrubbed shortly after processing. Paid tiers add audit logs, regional storage controls, and configurable retention windows.</p>
           </article>
           <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-card">
             <h3 class="text-xl font-semibold text-slate-900">Flexible billing</h3>
-            <p class="mt-3 text-sm leading-6 text-slate-600">Monthly or annual billing, consolidated invoices, and procurement-friendly options. Cancel anytime and keep access through the period.</p>
+            <p class="mt-3 text-sm leading-6 text-slate-600">Monthly or annual billing, consolidated invoices, and procurement workflows built for finance teams. Cancel anytime and keep access through the period.</p>
           </article>
         </div>
         <div class="mt-10 flex flex-col items-center gap-2 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center shadow-sm">
@@ -145,7 +469,7 @@
               <span class="ml-4 text-sm text-slate-500 group-open:hidden">+</span>
               <span class="ml-4 hidden text-sm text-slate-500 group-open:inline">−</span>
             </summary>
-            <p class="mt-3 text-sm text-slate-600">Teams plan customers can request custom SLAs, private deployments, and VPC networking. Contact us to scope the project.</p>
+            <p class="mt-3 text-sm text-slate-600">Business customers can request custom SLAs, VPC deployments, and on-premise processing. Contact us to scope the project.</p>
           </details>
           <details class="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <summary class="flex cursor-pointer list-none items-center justify-between text-lg font-semibold text-slate-900">
@@ -153,7 +477,7 @@
               <span class="ml-4 text-sm text-slate-500 group-open:hidden">+</span>
               <span class="ml-4 hidden text-sm text-slate-500 group-open:inline">−</span>
             </summary>
-            <p class="mt-3 text-sm text-slate-600">Pro includes a 7-day trial. Teams pilots include guided onboarding and bulk credit import.</p>
+            <p class="mt-3 text-sm text-slate-600">Creator and Studio include a 7-day trial. Business pilots ship with guided onboarding and bulk credit import.</p>
           </details>
           <details class="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <summary class="flex cursor-pointer list-none items-center justify-between text-lg font-semibold text-slate-900">
@@ -161,7 +485,7 @@
               <span class="ml-4 text-sm text-slate-500 group-open:hidden">+</span>
               <span class="ml-4 hidden text-sm text-slate-500 group-open:inline">−</span>
             </summary>
-            <p class="mt-3 text-sm text-slate-600">Temporary files live in isolated buckets and are cleaned within minutes. Teams can request longer retention windows.</p>
+            <p class="mt-3 text-sm text-slate-600">Temporary files live in isolated buckets and are cleaned within minutes. Studio and Business plans can request longer retention windows.</p>
           </details>
         </div>
       </div>

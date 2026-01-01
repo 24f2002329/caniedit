@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Download Your Files | CanIEdit</title>
+  <meta name="description" content="Your processed files are ready. Grab them safely or jump back into your workflow." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/assets/images/CanIEdit_(64x64px).png" type="image/png" sizes="64x64" />
+  <link rel="prefetch" href="../../partials/header.html" as="fetch" crossorigin="anonymous" />
+  <link rel="prefetch" href="../../partials/footer.html" as="fetch" crossorigin="anonymous" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: "#2563eb",
+            brandDark: "#1d4ed8",
+            brandAccent: "#14b8a6"
+          },
+          boxShadow: {
+            card: "0 20px 45px rgba(15, 23, 42, 0.08)"
+          },
+          fontFamily: {
+            sans: ["Inter", "Segoe UI", "system-ui", "-apple-system", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="flex min-h-screen flex-col bg-slate-50 font-sans text-slate-900">
+  <div id="header"></div>
+
+  <main class="flex-1">
+    <section class="bg-white">
+      <div class="mx-auto max-w-6xl px-4 py-16" aria-labelledby="download-heading">
+        <div class="grid gap-10 lg:grid-cols-[1.3fr,0.7fr]">
+          <div class="flex flex-col gap-8 rounded-3xl border border-slate-200 bg-white p-8 shadow-card">
+            <div class="space-y-4">
+              <h1 id="downloadHeading" class="text-3xl font-bold text-slate-900 sm:text-4xl">Preparing your download</h1>
+              <p id="downloadStatus" class="rounded-3xl border border-slate-200 bg-slate-50 px-5 py-4 text-sm font-semibold text-slate-600">Hold tight while we prepare your secure download link. This page refreshes the link if it expires.</p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+              <a id="downloadButton" class="inline-flex items-center justify-center rounded-lg bg-brand px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-brandDark" href="#">Download again</a>
+              <a id="primaryAction" class="inline-flex items-center justify-center rounded-lg border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="/tools/index.html">Browse all tools</a>
+            </div>
+            <div class="grid gap-3 sm:grid-cols-2" role="group" aria-label="Save or share your processed file">
+              <button id="googleDriveButton" type="button" class="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:border-brand hover:text-brand">Add to Google Drive</button>
+              <button id="dropboxButton" type="button" class="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:border-brand hover:text-brand">Add to Dropbox</button>
+              <button id="copyLinkButton" type="button" class="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:border-brand hover:text-brand">Copy download link</button>
+              <button id="deleteFileButton" type="button" class="inline-flex items-center justify-center rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-600 transition hover:border-rose-300 hover:bg-rose-100">Delete now</button>
+            </div>
+            <p id="upsellNote" class="text-sm font-medium text-slate-600">Need more capacity? <a class="text-brand hover:text-brandDark" href="/pricing.html">Compare plans.</a></p>
+          </div>
+          <div class="flex flex-col gap-2 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center shadow-sm" aria-label="Download hero ad placeholder">
+            <strong class="text-base font-semibold text-slate-900">AdSense 970×250</strong>
+            <span class="text-sm text-slate-600">Promote upgrades, partner offers, or onboarding flows here.</span>
+          </div>
+        </div>
+
+        <div class="mt-16 grid gap-10 lg:grid-cols-[0.65fr,1.35fr]" aria-label="More options">
+          <aside class="space-y-6">
+            <div class="flex flex-col gap-2 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center shadow-sm" aria-label="Download sidebar ad placeholder">
+              <strong class="text-base font-semibold text-slate-900">AdSense 300×600</strong>
+              <span class="text-sm text-slate-600">Drive conversions with contextual ads or tutorials.</span>
+            </div>
+            <div class="flex flex-col gap-2 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center shadow-sm" aria-label="Secondary ad placeholder">
+              <strong class="text-base font-semibold text-slate-900">AdSense 300×250</strong>
+              <span class="text-sm text-slate-600">Highlight newsletters, premium add-ons, or affiliate offers.</span>
+            </div>
+          </aside>
+          <div class="rounded-3xl border border-slate-200 bg-white p-8 shadow-card">
+            <h2 class="text-2xl font-semibold text-slate-900">Next steps</h2>
+            <ul id="nextStepsList" class="mt-5 space-y-3 text-sm text-slate-600">
+              <li class="flex items-start gap-2"><span class="mt-1 h-2 w-2 rounded-full bg-brand"></span>Files are automatically deleted from our servers within minutes.</li>
+              <li class="flex items-start gap-2"><span class="mt-1 h-2 w-2 rounded-full bg-brand"></span>Save to your preferred cloud drive or share directly with collaborators.</li>
+              <li class="flex items-start gap-2"><span class="mt-1 h-2 w-2 rounded-full bg-brand"></span>Return to the tool to rerun the workflow with different settings.</li>
+            </ul>
+            <a id="secondaryAction" class="mt-6 inline-flex items-center justify-center rounded-lg border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="/pricing.html#plans">Compare plans for higher limits</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <noscript>
+    <p class="px-4 py-4 text-center text-sm text-slate-600">Enable JavaScript to keep your download link fresh.</p>
+  </noscript>
+
+  <div id="footer"></div>
+
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const toolKey = params.get("tool") || "";
+      const file = params.get("file");
+      const API_BASE = "https://api.caniedit.in";
+
+      const BASE_CONFIG = {
+        pageTitle: "Download Your Files | CanIEdit",
+        heroTitle: "Your files are ready",
+        heroStatus: "We are preparing your secure download link. This page will refresh the link if it expires.",
+        missingFileMessage: "The download link is missing. Return to your tool to get started.",
+        downloadStartMessage: "Starting your download…",
+        downloadStartedMessage: "Download started. Check your downloads folder.",
+        downloadRetryMessage: "We could not start the download automatically. Click the button again to retry.",
+        copySuccessMessage: "Secure download link copied to clipboard.",
+        copyFallbackMessage: (downloadUrl) => "Unable to copy automatically. Highlight and copy this link: " + downloadUrl,
+        deleteStartMessage: "Requesting immediate deletion…",
+        deleteSuccessMessage: "File deleted from the server. Refresh to start a new job.",
+        deleteErrorMessage: "We couldn't delete the file right now. Try again in a moment.",
+        primaryCta: { label: "Browse all tools", href: "/tools/index.html" },
+        secondaryCta: { label: "Compare plans for higher limits", href: "/pricing.html#plans" },
+        upsellHtml: 'Need more capacity? <a class="text-brand hover:text-brandDark" href="/pricing.html">Compare plans.</a>',
+        nextSteps: [
+          "Files are automatically deleted from our servers within minutes.",
+          "Save to your preferred cloud drive or share directly with collaborators.",
+          "Return to the tool to rerun the workflow with different settings."
+        ],
+        buildDownloadUrl: (fileId) => `${API_BASE}/temp_outputs/${fileId}`,
+        buildDeleteUrl: (fileId) => `${API_BASE}/api/files/${encodeURIComponent(fileId)}`,
+        buildFilename: (fileId) => fileId
+      };
+
+        const TOOL_CONFIG = {
+          merge: {
+            pageTitle: "Download Your Merged PDF | CanIEdit",
+            heroTitle: "Your merged PDF is ready",
+            heroStatus: "We are preparing your secure download link. This page will refresh the link if it expires.",
+            downloadStartMessage: "Starting your download…",
+            primaryCta: { label: "Merge another PDF", href: "/tools/pdf/merge.html" },
+            secondaryCta: { label: "Compare plans for higher limits", href: "/pricing.html#plans" },
+            upsellHtml: 'Need larger files or bulk merges? <a class="text-brand hover:text-brandDark" href="/pricing.html">Upgrade for higher limits.</a>',
+            nextSteps: [
+              "Files are automatically deleted from our servers within minutes.",
+              "Save to your cloud drive or send directly to clients once downloaded.",
+              "Run another merge to reorder pages or prepare signature packets."
+            ],
+            buildDeleteUrl: (fileId) => `${API_BASE}/api/pdf/merge/${encodeURIComponent(fileId)}`,
+            buildFilename: (fileId) => fileId && fileId.toLowerCase().endsWith(".pdf") ? fileId : `${fileId}.pdf`
+          },
+          compress: {
+            pageTitle: "Download Your Compressed PDF | CanIEdit",
+            heroTitle: "Your compressed PDF is ready",
+            heroStatus: "We trimmed the file size without hurting quality.",
+            downloadStartMessage: "Starting your compressed download…",
+            primaryCta: { label: "Compress another PDF", href: "/tools/pdf/compress.html" },
+            upsellHtml: 'Need higher compression limits? <a class="text-brand hover:text-brandDark" href="/pricing.html">Explore paid plans.</a>',
+            nextSteps: [
+              "Files are automatically deleted from our servers within minutes.",
+              "Share the smaller PDF over email or chat without hitting size caps.",
+              "Run another compression to tweak quality or create alternate sizes."
+            ],
+            buildDeleteUrl: (fileId) => `${API_BASE}/api/pdf/compress/${encodeURIComponent(fileId)}`,
+            buildFilename: (fileId) => fileId && fileId.toLowerCase().endsWith(".pdf") ? fileId : `${fileId}.pdf`
+          },
+          split: {
+            pageTitle: "Download Your Split PDFs | CanIEdit",
+            heroTitle: "Your split PDFs are ready",
+            heroStatus: "We arranged the packets exactly how you specified.",
+            primaryCta: { label: "Split another PDF", href: "/tools/pdf/split.html" },
+            nextSteps: [
+              "Files are automatically deleted from our servers within minutes.",
+              "Deliver sign-ready packets to stakeholders immediately.",
+              "Return to the splitter if you need to reorder or remove pages again."
+            ],
+            buildDeleteUrl: (fileId) => `${API_BASE}/api/pdf/split/${encodeURIComponent(fileId)}`,
+            buildFilename: (fileId) => fileId && fileId.toLowerCase().endsWith(".zip") ? fileId : `${fileId}.zip`
+          },
+          protect: {
+            pageTitle: "Download Your Protected PDF | CanIEdit",
+            heroTitle: "Your locked PDF is ready",
+            heroStatus: "Passwords and restrictions have been applied successfully.",
+            primaryCta: { label: "Protect another PDF", href: "/tools/pdf/protect.html" },
+            upsellHtml: 'Need enterprise retention? <a class="text-brand hover:text-brandDark" href="/pricing.html">Talk to our team.</a>',
+            nextSteps: [
+              "Share the locked PDF with confidence.",
+              "Store the password securely before distributing the file.",
+              "Protect another document with a new passphrase."
+            ],
+            buildDeleteUrl: (fileId) => `${API_BASE}/api/pdf/protect/${encodeURIComponent(fileId)}`,
+            buildFilename: (fileId) => fileId && fileId.toLowerCase().endsWith(".pdf") ? fileId : `${fileId}.pdf`
+          },
+          "pdf-to-word": {
+            pageTitle: "Download Your Word Document | CanIEdit",
+            heroTitle: "Your DOCX is ready",
+            heroStatus: "We converted your PDF to an editable Word file.",
+            primaryCta: { label: "Convert another PDF", href: "/tools/pdf/pdf-to-word.html" },
+            secondaryCta: { label: "Upgrade for faster conversions", href: "/pricing.html#plans" },
+            nextSteps: [
+              "Open the DOCX to make edits or comments.",
+              "Share the document with collaborators for review.",
+              "Run another conversion if you need a different language or template."
+            ],
+            buildDeleteUrl: (fileId) => `${API_BASE}/api/pdf/pdf-to-word/${encodeURIComponent(fileId)}`,
+            buildFilename: (fileId) => fileId && fileId.toLowerCase().endsWith(".docx") ? fileId : `${fileId}.docx`
+          },
+          "word-to-pdf": {
+            pageTitle: "Download Your PDF | CanIEdit",
+            heroTitle: "Your polished PDF is ready",
+            heroStatus: "Your document now renders with consistent fonts and spacing.",
+            primaryCta: { label: "Convert another DOCX", href: "/tools/pdf/word-to-pdf.html" },
+            nextSteps: [
+              "Share the PDF with clients or upload it to your CMS.",
+              "Keep the DOCX handy for future revisions.",
+              "Convert another document when you need a signed-ready export."
+            ],
+            buildDeleteUrl: (fileId) => `${API_BASE}/api/pdf/word-to-pdf/${encodeURIComponent(fileId)}`,
+            buildFilename: (fileId) => fileId && fileId.toLowerCase().endsWith(".pdf") ? fileId : `${fileId}.pdf`
+          },
+          watermark: {
+            pageTitle: "Download Your Watermarked PDF | CanIEdit",
+            heroTitle: "Your watermarked PDF is ready",
+            heroStatus: "We applied the watermark across every page.",
+            primaryCta: { label: "Add another watermark", href: "/tools/pdf/watermark.html" },
+            nextSteps: [
+              "Review the placement before sharing externally.",
+              "Export alternate versions for different audiences.",
+              "Return to the tool to adjust opacity or layout."
+            ],
+            buildDeleteUrl: (fileId) => `${API_BASE}/api/pdf/watermark/${encodeURIComponent(fileId)}`,
+            buildFilename: (fileId) => fileId && fileId.toLowerCase().endsWith(".pdf") ? fileId : `${fileId}.pdf`
+          },
+          unlock: {
+            pageTitle: "Download Your Unlocked PDF | CanIEdit",
+            heroTitle: "Your restrictions-free PDF is ready",
+            heroStatus: "We removed the owner-level restrictions from your document.",
+            primaryCta: { label: "Unlock another PDF", href: "/tools/pdf/unlock.html" },
+            nextSteps: [
+              "Share or merge the unlocked PDF with other files.",
+              "Protect the file again if you need fresh restrictions.",
+              "Keep the original secure copy in your archive."
+            ],
+            buildDeleteUrl: (fileId) => `${API_BASE}/api/pdf/unlock/${encodeURIComponent(fileId)}`,
+            buildFilename: (fileId) => fileId && fileId.toLowerCase().endsWith(".pdf") ? fileId : `${fileId}.pdf`
+          },
+          "organize-pages": {
+            pageTitle: "Download Your Reordered PDF | CanIEdit",
+            heroTitle: "Your organized PDF is ready",
+            heroStatus: "All pages have been rearranged or rotated as requested.",
+            primaryCta: { label: "Organize another PDF", href: "/tools/pdf/organize-pages.html" },
+            nextSteps: [
+              "Review the page order before sending to signers.",
+              "Share the updated packet with clients or teammates.",
+              "Run another organize session if you need alternate versions."
+            ],
+            buildDeleteUrl: (fileId) => `${API_BASE}/api/pdf/organize-pages/${encodeURIComponent(fileId)}`,
+            buildFilename: (fileId) => fileId && fileId.toLowerCase().endsWith(".pdf") ? fileId : `${fileId}.pdf`
+          },
+          ocr: {
+            pageTitle: "Download Your Searchable PDF | CanIEdit",
+            heroTitle: "Your OCR-processed PDF is ready",
+            heroStatus: "Text layers have been added for quick search and highlight.",
+            primaryCta: { label: "OCR another PDF", href: "/tools/pdf/ocr.html" },
+            secondaryCta: { label: "Upgrade for faster OCR", href: "/pricing.html#plans" },
+            nextSteps: [
+              "Verify that the text copies correctly in your viewer.",
+              "Send the searchable file to your knowledge base or CRM.",
+              "Queue another scan to digitize more archives."
+            ],
+            buildDeleteUrl: (fileId) => `${API_BASE}/api/pdf/ocr/${encodeURIComponent(fileId)}`,
+            buildFilename: (fileId) => fileId && fileId.toLowerCase().endsWith(".pdf") ? fileId : `${fileId}.pdf`
+          }
+        };
+
+      const configOverrides = TOOL_CONFIG[toolKey] || {};
+      const config = { ...BASE_CONFIG, ...configOverrides };
+
+      const headingEl = document.getElementById("downloadHeading");
+      const statusEl = document.getElementById("downloadStatus");
+      const downloadButton = document.getElementById("downloadButton");
+      const primaryAction = document.getElementById("primaryAction");
+      const secondaryAction = document.getElementById("secondaryAction");
+      const upsellNote = document.getElementById("upsellNote");
+      const nextStepsList = document.getElementById("nextStepsList");
+      const googleDriveButton = document.getElementById("googleDriveButton");
+      const dropboxButton = document.getElementById("dropboxButton");
+      const copyLinkButton = document.getElementById("copyLinkButton");
+      const deleteFileButton = document.getElementById("deleteFileButton");
+      const safePattern = /^[\w.-]+$/;
+
+      const BUTTON_DISABLED_CLASSES = ["pointer-events-none", "opacity-60", "grayscale"];
+      const SECONDARY_DISABLED_CLASSES = ["opacity-60", "cursor-not-allowed"];
+
+      document.title = config.pageTitle;
+      headingEl.textContent = config.heroTitle;
+      statusEl.textContent = config.heroStatus;
+
+      if (config.primaryCta && primaryAction) {
+        primaryAction.textContent = config.primaryCta.label;
+        primaryAction.href = config.primaryCta.href;
+      } else if (primaryAction) {
+        primaryAction.classList.add("hidden");
+      }
+
+      if (config.secondaryCta && secondaryAction) {
+        secondaryAction.textContent = config.secondaryCta.label;
+        secondaryAction.href = config.secondaryCta.href;
+      } else if (secondaryAction) {
+        secondaryAction.classList.add("hidden");
+      }
+
+      if (upsellNote) {
+        upsellNote.innerHTML = config.upsellHtml;
+      }
+
+      if (nextStepsList && Array.isArray(config.nextSteps)) {
+        nextStepsList.innerHTML = "";
+        config.nextSteps.forEach((step) => {
+          const li = document.createElement("li");
+          li.className = "flex items-start gap-2";
+          const bullet = document.createElement("span");
+          bullet.className = "mt-1 h-2 w-2 rounded-full bg-brand";
+          const text = document.createElement("span");
+          text.textContent = step;
+          li.appendChild(bullet);
+          li.appendChild(text);
+          nextStepsList.appendChild(li);
+        });
+      }
+
+      if (!file || !safePattern.test(file)) {
+        statusEl.textContent = config.missingFileMessage;
+        downloadButton.classList.add(...BUTTON_DISABLED_CLASSES);
+        downloadButton.setAttribute("aria-disabled", "true");
+        downloadButton.removeAttribute("href");
+        [googleDriveButton, dropboxButton, copyLinkButton, deleteFileButton].forEach((btn) => {
+          if (!btn) return;
+          btn.disabled = true;
+          btn.classList.add(...SECONDARY_DISABLED_CLASSES);
+        });
+        return;
+      }
+
+      const downloadUrl = config.buildDownloadUrl(file);
+      downloadButton.href = downloadUrl;
+
+      let isDownloading = false;
+      let lastObjectUrl = null;
+      let fileDeleted = false;
+
+      const disableDownloadActions = () => {
+        downloadButton.classList.add(...BUTTON_DISABLED_CLASSES);
+        downloadButton.setAttribute("aria-disabled", "true");
+        downloadButton.removeAttribute("href");
+        [googleDriveButton, dropboxButton, copyLinkButton, deleteFileButton].forEach((btn) => {
+          if (!btn) return;
+          btn.disabled = true;
+          btn.classList.add(...SECONDARY_DISABLED_CLASSES);
+        });
+      };
+
+      const triggerDownload = async () => {
+        if (isDownloading || fileDeleted) {
+          return;
+        }
+        isDownloading = true;
+        downloadButton.setAttribute("aria-busy", "true");
+        statusEl.textContent = config.downloadStartMessage;
+
+        try {
+          const response = await fetch(downloadUrl, { mode: "cors" });
+          if (!response.ok) {
+            throw new Error(`Download failed with status ${response.status}`);
+          }
+
+          const blob = await response.blob();
+          if (lastObjectUrl) {
+            URL.revokeObjectURL(lastObjectUrl);
+          }
+
+          const objectUrl = URL.createObjectURL(blob);
+          lastObjectUrl = objectUrl;
+
+          const anchor = document.createElement("a");
+          anchor.href = objectUrl;
+          anchor.download = config.buildFilename(file);
+          anchor.style.display = "none";
+          document.body.appendChild(anchor);
+          anchor.click();
+          anchor.remove();
+
+          statusEl.textContent = config.downloadStartedMessage;
+
+          setTimeout(() => {
+            URL.revokeObjectURL(objectUrl);
+            if (lastObjectUrl === objectUrl) {
+              lastObjectUrl = null;
+            }
+          }, 3000);
+        } catch (error) {
+          console.error(error);
+          statusEl.textContent = config.downloadRetryMessage;
+          isDownloading = false;
+          downloadButton.removeAttribute("aria-busy");
+          downloadButton.classList.remove(...BUTTON_DISABLED_CLASSES);
+          downloadButton.href = downloadUrl;
+          return;
+        }
+
+        isDownloading = false;
+        downloadButton.removeAttribute("aria-busy");
+        downloadButton.classList.remove(...BUTTON_DISABLED_CLASSES);
+        downloadButton.href = downloadUrl;
+      };
+
+      triggerDownload();
+
+      downloadButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        triggerDownload();
+      });
+
+      if (googleDriveButton) {
+        googleDriveButton.addEventListener("click", () => {
+          if (fileDeleted) return;
+          window.open("https://drive.google.com/drive/my-drive", "_blank", "noopener");
+          statusEl.textContent = "Opened Google Drive in a new tab. Upload the downloaded file to your Drive.";
+        });
+      }
+
+      if (dropboxButton) {
+        dropboxButton.addEventListener("click", () => {
+          if (fileDeleted) return;
+          window.open("https://www.dropbox.com/home", "_blank", "noopener");
+          statusEl.textContent = "Opened Dropbox in a new tab. Upload the downloaded file to your Dropbox.";
+        });
+      }
+
+      if (copyLinkButton) {
+        copyLinkButton.addEventListener("click", async () => {
+          if (fileDeleted) return;
+          try {
+            await navigator.clipboard.writeText(downloadUrl);
+            statusEl.textContent = config.copySuccessMessage;
+          } catch (error) {
+            console.error(error);
+            const tempInput = document.createElement("input");
+            tempInput.value = downloadUrl;
+            tempInput.style.position = "absolute";
+            tempInput.style.left = "-9999px";
+            document.body.appendChild(tempInput);
+            tempInput.select();
+
+            let fallbackSucceeded = false;
+            try {
+              fallbackSucceeded = typeof document.execCommand === "function" && document.execCommand("copy");
+            } catch (execError) {
+              console.error(execError);
+            }
+            document.body.removeChild(tempInput);
+
+            if (fallbackSucceeded) {
+              statusEl.textContent = config.copySuccessMessage;
+              return;
+            }
+
+            statusEl.textContent = config.copyFallbackMessage(downloadUrl);
+          }
+        });
+      }
+
+      if (deleteFileButton) {
+        deleteFileButton.addEventListener("click", async () => {
+          if (fileDeleted) return;
+          deleteFileButton.disabled = true;
+          deleteFileButton.setAttribute("aria-busy", "true");
+          statusEl.textContent = config.deleteStartMessage;
+
+          try {
+            const response = await fetch(config.buildDeleteUrl(file), { method: "DELETE" });
+            if (!response.ok) {
+              throw new Error(`Unable to delete file (${response.status})`);
+            }
+
+            fileDeleted = true;
+            statusEl.textContent = config.deleteSuccessMessage;
+            disableDownloadActions();
+          } catch (error) {
+            console.error(error);
+            statusEl.textContent = config.deleteErrorMessage;
+            deleteFileButton.disabled = false;
+            deleteFileButton.removeAttribute("aria-busy");
+            deleteFileButton.classList.remove(...SECONDARY_DISABLED_CLASSES);
+            return;
+          }
+
+          deleteFileButton.removeAttribute("aria-busy");
+        });
+      }
+
+      window.addEventListener("beforeunload", () => {
+        if (lastObjectUrl) {
+          URL.revokeObjectURL(lastObjectUrl);
+        }
+      });
+    })();
+  </script>
+
+  <script src="../../assets/include.js"></script>
+</body>
+</html>

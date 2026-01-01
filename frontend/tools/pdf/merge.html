@@ -6,10 +6,10 @@
   <meta name="description" content="Merge multiple PDF files into one online for free. No signup required." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="keywords" content="merge pdf, combine pdf files, pdf merger, online pdf tools" />
-  <link rel="canonical" href="https://www.caniedit.in/pdf/merge" />
+  <link rel="canonical" href="https://www.caniedit.in/tools/pdf/merge.html" />
   <link rel="icon" href="/assets/images/CanIEdit_(64x64px).png" type="image/png" sizes="64x64" />
-  <link rel="prefetch" href="../partials/header.html" as="fetch" crossorigin="anonymous" />
-  <link rel="prefetch" href="../partials/footer.html" as="fetch" crossorigin="anonymous" />
+  <link rel="prefetch" href="../../partials/header.html" as="fetch" crossorigin="anonymous" />
+  <link rel="prefetch" href="../../partials/footer.html" as="fetch" crossorigin="anonymous" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -99,19 +99,19 @@
               <h3 class="text-lg font-semibold text-slate-900">More PDF power</h3>
               <ul class="mt-4 space-y-3 text-sm">
                 <li>
-                  <a class="flex flex-col rounded-2xl border border-transparent bg-slate-50 px-4 py-3 font-semibold text-slate-800 transition hover:border-brand hover:bg-white hover:text-brand" data-tool-link data-tool-title="Merge PDF" data-tool-description="Live now — combine files instantly." href="/pdf/merge.html">
+                  <a class="flex flex-col rounded-2xl border border-transparent bg-slate-50 px-4 py-3 font-semibold text-slate-800 transition hover:border-brand hover:bg-white hover:text-brand" data-tool-link data-tool-title="Merge PDF" data-tool-description="Live now — combine files instantly." href="/tools/pdf/merge.html">
                     Merge PDF
                     <span class="text-xs font-normal text-slate-500">Live now — combine files instantly.</span>
                   </a>
                 </li>
                 <li>
-                  <a class="flex flex-col rounded-2xl border border-dashed border-purple-200 bg-purple-50 px-4 py-3 font-semibold text-purple-700 transition hover:border-purple-300" data-tool-link data-tool-title="Compress PDF" data-tool-description="Slim files for email uploads." data-tool-soon="true" href="/#pdf-tools">
+                  <a class="flex flex-col rounded-2xl border border-dashed border-purple-200 bg-purple-50 px-4 py-3 font-semibold text-purple-700 transition hover:border-purple-300" data-tool-link data-tool-title="Compress PDF" data-tool-description="Slim files for email uploads." data-tool-soon="true" href="/tools/pdf/compress.html">
                     Compress PDF
                     <span class="text-xs font-normal text-slate-500">Slim files for email uploads. (Coming soon)</span>
                   </a>
                 </li>
                 <li>
-                  <a class="flex flex-col rounded-2xl border border-dashed border-purple-200 bg-purple-50 px-4 py-3 font-semibold text-purple-700 transition hover:border-purple-300" data-tool-link data-tool-title="Split PDF" data-tool-description="Create sign-ready packets in minutes." data-tool-soon="true" href="/#pdf-tools">
+                  <a class="flex flex-col rounded-2xl border border-dashed border-purple-200 bg-purple-50 px-4 py-3 font-semibold text-purple-700 transition hover:border-purple-300" data-tool-link data-tool-title="Split PDF" data-tool-description="Create sign-ready packets in minutes." data-tool-soon="true" href="/tools/pdf/split.html">
                     Split PDF
                     <span class="text-xs font-normal text-slate-500">Create sign-ready packets in minutes. (Coming soon)</span>
                   </a>
@@ -135,6 +135,7 @@
 
   <div id="footer"></div>
 
+  <script src="../../assets/tool-download.js"></script>
   <script>
     const form = document.getElementById("mergeForm");
     const status = document.getElementById("status");
@@ -365,16 +366,23 @@
           return;
         }
 
-        if (data.success) {
-          setStatus("PDF merged successfully! Redirecting to download page…", "success");
-          setStep("done");
-          selectedFiles = [];
-          syncInputFiles();
-          renderSelectedFiles();
-          const encoded = encodeURIComponent(data.file);
-          setTimeout(() => {
-            window.location.href = `/pdf/download.html?file=${encoded}`;
-          }, 600);
+          if (data.success) {
+            setStatus("PDF merged successfully! Redirecting to download page…", "success");
+            setStep("done");
+            selectedFiles = [];
+            syncInputFiles();
+            renderSelectedFiles();
+            const fileId = data.file;
+            setTimeout(() => {
+              const redirect = window.CanIEdit && typeof window.CanIEdit.redirectToDownload === "function" ? window.CanIEdit.redirectToDownload : null;
+              if (redirect) {
+                redirect("merge", fileId);
+                return;
+              }
+
+              const fallback = encodeURIComponent(fileId);
+              window.location.href = `/tools/shared/download.html?tool=merge&file=${fallback}`;
+            }, 600);
         } else {
           setStatus("Something went wrong. Please try again.", "error");
           setStep("upload");
@@ -388,6 +396,6 @@
     });
   </script>
 
-  <script src="../assets/include.js"></script>
+  <script src="../../assets/include.js"></script>
 </body>
 </html>
