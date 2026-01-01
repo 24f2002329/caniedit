@@ -1,0 +1,18 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "Frontend for CanIEdit (HTML + Tailwind + SEO pages)",
+  "main": "tailwind.config.js",
+  "scripts": {
+    "build:css": "tailwindcss -c tailwind.config.js -i ./src/input.css -o ./assets/css/output.css --minify",
+    "watch:css": "tailwindcss -c tailwind.config.js -i ./src/input.css -o ./assets/css/output.css --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "tailwindcss": "^3.4.14"
+  }
+}
