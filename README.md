@@ -1,2 +1,2 @@
 # caniedit
-CanIEdit — fast online tools to edit, convert &amp; manage files
+## CanIEdit — fast online tools to edit, convert &amp; manage files
