@@ -25,7 +25,6 @@
           <p class="text-lg text-slate-600 sm:text-xl">CanIEdit gives you enterprise-grade PDF, image, and document utilities in a single dashboard. No logins, no watermarks, just quick edits that respect your time.</p>
           <div class="flex flex-wrap gap-3">
             <a class="inline-flex items-center rounded-lg bg-brand px-5 py-3 font-semibold text-white shadow-sm transition hover:bg-brandDark" href="/tools/index.html">Open tool library</a>
-            <a class="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-5 py-3 font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="/#submit-tool">Request a tool</a>
           </div>
           <form id="toolSearch" class="space-y-3 rounded-3xl border border-slate-200 bg-white p-6 shadow-card" role="search" aria-label="Search CanIEdit tools">
             <label class="sr-only" for="toolSearchInput">Search tool library</label>
@@ -42,11 +41,37 @@
             <span class="inline-flex items-center rounded-full bg-amber-100 px-3 py-1 font-medium text-amber-700">Secure deletion</span>
           </div>
         </div>
-        <!-- Sponsor slot; swap to ad tag if needed -->
-        <div class="flex w-full max-w-sm flex-col gap-3 rounded-3xl border border-dashed border-slate-300 bg-white p-8 text-center shadow-card">
-          <strong class="text-lg font-semibold text-slate-900">Sponsor this slot</strong>
-          <span class="text-sm text-slate-600">Homepage hero · ₹1,999/month · Early sponsor pricing available.</span>
-          <a class="inline-flex items-center justify-center rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="/sponsor-pricing.html">See sponsor pricing</a>
+        <!-- Sponsor slot / user card -->
+        <div class="flex w-full max-w-sm flex-col gap-3 lg:max-w-md lg:self-stretch lg:h-full">
+          <div data-auth-home="guest" class="flex h-full min-h-[22rem] flex-col gap-3 rounded-3xl border border-dashed border-slate-300 bg-white p-8 text-center shadow-card lg:justify-between lg:min-h-[26rem]">
+            <strong class="text-lg font-semibold text-slate-900">Sponsor this slot</strong>
+            <span class="text-sm text-slate-600">Homepage hero · ₹1,999/month · Early sponsor pricing available.</span>
+            <a class="inline-flex items-center justify-center rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="/sponsor-pricing.html">See sponsor pricing</a>
+          </div>
+          <div data-auth-home="user" class="hidden h-full min-h-[22rem] flex-col gap-4 rounded-3xl border border-blue-200 bg-white p-8 text-left shadow-card lg:justify-between lg:min-h-[26rem]">
+            <div class="flex items-center gap-3">
+              <span data-auth-home-initial class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-sm font-bold uppercase text-white">U</span>
+              <div class="flex flex-col leading-tight">
+                <span class="text-xs font-semibold uppercase tracking-wide text-slate-500">Signed in</span>
+                <span data-auth-home-email class="text-base font-semibold text-slate-900">you@example.com</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div class="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Recent edits</p>
+                <p class="text-lg font-bold text-slate-900" aria-label="Recent edits count">N/a</p>
+              </div>
+              <div class="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Storage used</p>
+                <p class="text-lg font-bold text-slate-900" aria-label="Storage used">N/a</p>
+              </div>
+            </div>
+            <p class="text-sm text-slate-600">Jump back into your dashboard to merge, convert, or secure files.</p>
+            <div class="flex flex-wrap gap-3">
+              <a class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700" href="/dashboard.html">Open dashboard</a>
+              <button data-auth-logout class="text-sm font-semibold text-blue-600 transition hover:text-blue-700" type="button">Log out</button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -360,11 +385,34 @@
             <li>Works on any modern browser with full drag-and-drop support for busy teams.</li>
           </ul>
         </div>
-        <!-- Sponsor slot; swap to ad tag if needed -->
-        <div class="ad-slot ad-slot--banner flex flex-col gap-3 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center shadow-sm">
-          <strong class="text-base font-semibold text-slate-900">Sponsor this slot</strong>
-          <span class="text-sm text-slate-600">About page feature · ₹1,999/month · Early sponsor pricing available.</span>
-          <a class="inline-flex items-center justify-center rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="/sponsor-pricing.html">See sponsor pricing</a>
+        <!-- Sponsor slot / user card -->
+        <div class="flex flex-col gap-3 md:self-stretch">
+          <div data-auth-home="guest" class="ad-slot ad-slot--banner flex h-full min-h-[18rem] flex-col gap-3 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center shadow-sm md:justify-between md:min-h-[22rem]">
+            <strong class="text-base font-semibold text-slate-900">Sponsor this slot</strong>
+            <span class="text-sm text-slate-600">About page feature · ₹1,999/month · Early sponsor pricing available.</span>
+            <a class="inline-flex items-center justify-center rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="/sponsor-pricing.html">See sponsor pricing</a>
+          </div>
+          <div data-auth-home="user" class="hidden h-full min-h-[18rem] flex flex-col gap-3 rounded-3xl border border-blue-200 bg-white p-6 text-left shadow-card md:justify-between md:min-h-[22rem]">
+            <div class="flex items-center gap-2">
+              <span data-auth-home-initial class="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-xs font-bold uppercase text-white">U</span>
+              <div class="flex flex-col leading-tight">
+                <span class="text-xs font-semibold uppercase tracking-wide text-slate-500">Signed in</span>
+                <span data-auth-home-email class="text-sm font-semibold text-slate-900">you@example.com</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-sm text-slate-700">
+              <div class="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2">
+                <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Recent edits</p>
+                <p class="text-base font-bold text-slate-900" aria-label="Recent edits count">12</p>
+              </div>
+              <div class="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2">
+                <p class="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Storage used</p>
+                <p class="text-base font-bold text-slate-900" aria-label="Storage used">1.2 GB</p>
+              </div>
+            </div>
+            <p class="text-sm text-slate-600">Access your saved files and continue workflows from your dashboard.</p>
+            <a class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700" href="/dashboard.html">Go to dashboard</a>
+          </div>
         </div>
       </div>
     </section>

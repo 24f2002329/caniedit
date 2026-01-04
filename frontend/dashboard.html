@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard – CanIEdit</title>
+  <meta name="description" content="Your CanIEdit dashboard. Access tools, see your profile, and manage sessions." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/assets/images/favicon-48.png" sizes="48x48" type="image/png">
+  <link rel="icon" href="/assets/images/favicon-96.png" sizes="96x96" type="image/png">
+  <link rel="icon" href="/assets/images/favicon.ico">
+  <link rel="prefetch" href="./partials/header.html" as="fetch" crossorigin="anonymous" />
+  <link rel="prefetch" href="./partials/footer.html" as="fetch" crossorigin="anonymous" />
+  <link rel="stylesheet" href="/assets/css/output.css" />
+</head>
+<body class="flex min-h-screen flex-col bg-slate-50 text-slate-900">
+  <div id="header"></div>
+
+  <main class="flex-1">
+    <section class="bg-gradient-to-br from-blue-50 via-white to-slate-50">
+      <div class="mx-auto max-w-6xl px-4 py-14 lg:py-18">
+        <div class="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
+          <div class="space-y-4">
+            <p class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">Dashboard</p>
+            <h1 class="text-3xl font-bold leading-tight text-slate-900 sm:text-4xl">Welcome back, <span id="dash-name" class="text-blue-700">...</span></h1>
+            <p class="text-base text-slate-600">Pick a tool to continue where you left off. Your sessions stay synced across devices.</p>
+            <div class="flex flex-wrap gap-3">
+              <a class="inline-flex items-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700" href="/tools/index.html">Browse all tools</a>
+              <a class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-800 transition hover:border-blue-200 hover:text-blue-700" href="/tools/pdf/merge.html">Go to PDF merger</a>
+            </div>
+          </div>
+          <div class="w-full max-w-md rounded-3xl border border-blue-100 bg-white p-6 shadow-[0_25px_80px_-50px_rgba(59,130,246,0.6)]">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <span id="dash-initial" class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600 text-lg font-bold uppercase text-white">U</span>
+                <div>
+                  <p class="text-sm font-semibold text-slate-900" id="dash-email">you@example.com</p>
+                  <p class="text-xs text-slate-500">Signed in</p>
+                </div>
+              </div>
+              <button id="dash-logout" class="text-sm font-semibold text-blue-600 transition hover:text-blue-700" type="button">Log out</button>
+            </div>
+            <dl class="mt-6 grid grid-cols-2 gap-4 text-sm text-slate-700">
+              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <dt class="text-xs uppercase tracking-wide text-slate-500">Status</dt>
+                <dd class="mt-1 font-semibold text-emerald-600">Active</dd>
+              </div>
+              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <dt class="text-xs uppercase tracking-wide text-slate-500">Tools ready</dt>
+                <dd class="mt-1 font-semibold text-slate-900">PDF, Image, Docs</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-6xl px-4 py-12">
+      <div class="grid gap-6 md:grid-cols-3">
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">PDF</p>
+          <h3 class="mt-2 text-lg font-semibold text-slate-900">Merge and optimize</h3>
+          <p class="mt-2 text-sm text-slate-600">Combine PDFs, compress, and clean pages without leaving your browser.</p>
+          <a class="mt-3 inline-flex text-sm font-semibold text-blue-600 hover:text-blue-700" href="/tools/pdf/index.html">Open PDF tools →</a>
+        </article>
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Image</p>
+          <h3 class="mt-2 text-lg font-semibold text-slate-900">Resize and convert</h3>
+          <p class="mt-2 text-sm text-slate-600">Batch convert, compress, and prep assets for every channel.</p>
+          <a class="mt-3 inline-flex text-sm font-semibold text-blue-600 hover:text-blue-700" href="/tools/image/index.html">Open image tools →</a>
+        </article>
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Docs</p>
+          <h3 class="mt-2 text-lg font-semibold text-slate-900">Convert and standardize</h3>
+          <p class="mt-2 text-sm text-slate-600">Handle DOCX, slides, and sheets with reliable conversions.</p>
+          <a class="mt-3 inline-flex text-sm font-semibold text-blue-600 hover:text-blue-700" href="/tools/docs/index.html">Open doc tools →</a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="./assets/include.js"></script>
+  <script>
+    const API_BASE = (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL) || "http://localhost:8000/api";
+    const tokenKey = "caniedit:access_token";
+
+    const nameEl = document.getElementById("dash-name");
+    const emailEl = document.getElementById("dash-email");
+    const initialEl = document.getElementById("dash-initial");
+    const logoutBtn = document.getElementById("dash-logout");
+
+    function readToken() {
+      try {
+        return window.localStorage.getItem(tokenKey);
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function clearToken() {
+      try {
+        window.localStorage.removeItem(tokenKey);
+      } catch (error) {
+        /* ignore */
+      }
+    }
+
+    async function fetchProfile(token) {
+      if (!token) return null;
+      try {
+        const response = await fetch(`${API_BASE}/auth/me`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!response.ok) return null;
+        return await response.json();
+      } catch (error) {
+        return null;
+      }
+    }
+
+    async function requireAuth() {
+      const token = readToken();
+      if (!token) {
+        window.location.href = "/login.html";
+        return null;
+      }
+      const user = await fetchProfile(token);
+      if (!user) {
+        clearToken();
+        window.location.href = "/login.html";
+        return null;
+      }
+      return user;
+    }
+
+    function hydrateUserCard(user) {
+      if (!user) return;
+      emailEl.textContent = user.email;
+      const displayName = user.full_name || user.email || "there";
+      nameEl.textContent = displayName.split(" ")[0];
+      initialEl.textContent = (displayName.trim()[0] || "?").toUpperCase();
+    }
+
+    logoutBtn?.addEventListener("click", () => {
+      clearToken();
+      window.location.href = "/login.html";
+    });
+
+    requireAuth().then(hydrateUserCard);
+  </script>
+</body>
+</html>
