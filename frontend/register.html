@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create your CanIEdit account</title>
+  <meta name="description" content="Create a CanIEdit account to sync preferences and access all PDF and image tools." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/assets/images/favicon-48.png" sizes="48x48" type="image/png">
+  <link rel="icon" href="/assets/images/favicon-96.png" sizes="96x96" type="image/png">
+  <link rel="icon" href="/assets/images/favicon.ico">
+  <link rel="prefetch" href="./partials/header.html" as="fetch" crossorigin="anonymous" />
+  <link rel="prefetch" href="./partials/footer.html" as="fetch" crossorigin="anonymous" />
+  <link rel="stylesheet" href="/assets/css/output.css" />
+</head>
+<body class="flex min-h-screen flex-col bg-slate-950 text-slate-100">
+  <div id="header"></div>
+
+  <main class="flex-1 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900">
+    <section class="mx-auto max-w-5xl px-4 py-16 lg:py-20">
+      <div class="space-y-8 rounded-3xl border border-slate-800 bg-slate-900/70 p-8 shadow-[0_30px_80px_-40px_rgba(15,23,42,0.95)]">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div class="space-y-2">
+            <p class="inline-flex items-center rounded-full bg-sky-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-sky-300 ring-1 ring-sky-400/30">Create account</p>
+            <h1 class="text-3xl font-bold leading-tight text-white sm:text-4xl">Join CanIEdit</h1>
+            <p class="text-base text-slate-200">One login for all PDF, image, and document tools.</p>
+          </div>
+          <a class="text-sm font-semibold text-slate-300 underline-offset-4 hover:text-white hover:underline" href="/login.html">Already have an account? Log in</a>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-4">
+            <p class="text-sm font-semibold text-white">Fast access</p>
+            <p class="mt-1 text-xs text-slate-300">Reuse one token across all file tools.</p>
+          </div>
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-4">
+            <p class="text-sm font-semibold text-white">Privacy-first</p>
+            <p class="mt-1 text-xs text-slate-300">Short-lived tokens and hashed passwords.</p>
+          </div>
+        </div>
+
+        <form id="register-form" class="space-y-4" novalidate>
+          <label class="block space-y-2">
+            <span class="text-sm font-semibold text-slate-200">Full name</span>
+            <input class="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-sky-400 focus:outline-none focus:ring-1 focus:ring-sky-400" type="text" name="full_name" autocomplete="name" placeholder="Optional" />
+          </label>
+          <label class="block space-y-2">
+            <span class="text-sm font-semibold text-slate-200">Work email</span>
+            <input class="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-sky-400 focus:outline-none focus:ring-1 focus:ring-sky-400" type="email" name="email" autocomplete="email" required />
+          </label>
+          <label class="block space-y-2">
+            <span class="text-sm font-semibold text-slate-200">Password</span>
+            <input class="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-sky-400 focus:outline-none focus:ring-1 focus:ring-sky-400" type="password" name="password" autocomplete="new-password" minlength="8" required />
+            <span class="block text-xs text-slate-400">At least 8 characters. We never store plain text passwords.</span>
+          </label>
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <p class="text-xs text-slate-400">Emails are only used for account access.</p>
+            <button class="inline-flex items-center justify-center rounded-xl bg-sky-500 px-4 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-sky-400" type="submit">Create account</button>
+          </div>
+          <p id="register-status" class="min-h-[1.25rem] text-sm text-slate-300" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <noscript>
+    <p class="px-4 py-4 text-center text-sm text-slate-200">Enable JavaScript to load navigation and submit the form.</p>
+  </noscript>
+
+  <div id="footer"></div>
+
+  <script src="./assets/include.js"></script>
+  <script>
+    const API_BASE = (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL) || "http://localhost:8000/api";
+    const registerForm = document.getElementById("register-form");
+    const registerStatus = document.getElementById("register-status");
+
+    function setStatus(el, type, message) {
+      if (!el) return;
+      const palette = type === "error" ? "text-rose-300" : type === "success" ? "text-emerald-300" : "text-slate-300";
+      el.textContent = message;
+      el.className = `min-h-[1.25rem] text-sm ${palette}`;
+    }
+
+    async function postJSON(path, body) {
+      const response = await fetch(`${API_BASE}${path}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const isJson = response.headers.get("content-type")?.includes("application/json");
+      const data = isJson ? await response.json() : {};
+      if (!response.ok) {
+        const detail = data?.detail || "Request failed";
+        throw new Error(typeof detail === "string" ? detail : JSON.stringify(detail));
+      }
+      return data;
+    }
+
+    registerForm?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      setStatus(registerStatus, "neutral", "Creating your account...");
+      const formData = new FormData(registerForm);
+      const payload = {
+        full_name: (formData.get("full_name") || "").toString().trim() || null,
+        email: (formData.get("email") || "").toString(),
+        password: (formData.get("password") || "").toString(),
+      };
+      try {
+        await postJSON("/auth/register", payload);
+        setStatus(registerStatus, "success", "Account created. Redirecting to login...");
+        setTimeout(() => {
+          window.location.href = "/login.html";
+        }, 900);
+      } catch (error) {
+        setStatus(registerStatus, "error", error.message || "Unable to sign up");
+      }
+    });
+  </script>
+</body>
+</html>

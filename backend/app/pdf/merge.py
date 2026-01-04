@@ -1,9 +1,15 @@
-from fastapi import APIRouter, UploadFile, File, HTTPException
-from pypdf import PdfReader, PdfWriter
-import uuid
 import os
 import re
+import uuid
 from typing import Final
+
+from fastapi import APIRouter, Depends, File, HTTPException, Request, UploadFile
+from pypdf import PdfReader, PdfWriter
+from sqlalchemy.orm import Session
+
+from app.auth.router import get_optional_user
+from app.db import get_db
+from app.utils.usage import increment_usage
 
 MAX_FILE_SIZE_MB: Final = 10
 
@@ -17,7 +23,15 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
 @router.post("/merge")
-async def merge_pdfs(files: list[UploadFile] = File(...)):
+async def merge_pdfs(
+    request: Request,
+    files: list[UploadFile] = File(...),
+    current_user=Depends(get_optional_user),
+    db: Session = Depends(get_db),
+):
+    # Enforce per-scope daily usage before processing.
+    increment_usage(db, request, current_user)
+
     writer = PdfWriter()
     max_bytes = MAX_FILE_SIZE_MB * 1024 * 1024
 
