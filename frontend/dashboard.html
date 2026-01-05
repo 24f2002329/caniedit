@@ -106,10 +106,23 @@
       }
     }
 
+    async function fetchProfileFromCookie() {
+      try {
+        const response = await fetch(`${API_BASE}/auth/me`, {
+          credentials: "include",
+        });
+        if (!response.ok) return null;
+        return await response.json();
+      } catch (error) {
+        return null;
+      }
+    }
+
     async function fetchProfile(token) {
       if (!token) return null;
       try {
         const response = await fetch(`${API_BASE}/auth/me`, {
+          credentials: "include",
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!response.ok) return null;
@@ -120,18 +133,22 @@
     }
 
     async function requireAuth() {
+      const cookieUser = await fetchProfileFromCookie();
+      if (cookieUser) {
+        return cookieUser;
+      }
+
       const token = readToken();
-      if (!token) {
-        window.location.href = "/login.html";
-        return null;
-      }
-      const user = await fetchProfile(token);
-      if (!user) {
+      if (token) {
+        const user = await fetchProfile(token);
+        if (user) {
+          return user;
+        }
         clearToken();
-        window.location.href = "/login.html";
-        return null;
       }
-      return user;
+
+      window.location.replace("/login.html");
+      return null;
     }
 
     function hydrateUserCard(user) {
