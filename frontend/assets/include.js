@@ -420,7 +420,7 @@ async function hydrateHeaderAuth() {
   if (userFromCookie) {
     applyHeaderAuthState(userFromCookie);
     applyHomeAuthState(userFromCookie);
-    return;
+    return userFromCookie;
   }
 
   // Legacy fallback: if a token exists, attempt once, then clear it.
@@ -430,13 +430,14 @@ async function hydrateHeaderAuth() {
     if (user) {
       applyHeaderAuthState(user);
       applyHomeAuthState(user);
-      return;
+      return user;
     }
     clearAuthToken();
   }
 
   applyHeaderAuthState(null);
   applyHomeAuthState(null);
+  return null;
 }
 
 // --- Auth modal ---
@@ -446,6 +447,10 @@ const DEFAULT_LIMIT_PROMPT = "Create a free account to get 2x more merges and sa
 
 let authModalBound = false;
 let authModalApi = null;
+const NAME_MODAL_ID = "profile-name-modal";
+let nameModalBound = false;
+let nameModalApi = null;
+let namePromptShown = false;
 
 function buildAuthModal() {
   if (document.getElementById(AUTH_MODAL_ID)) return;
@@ -466,10 +471,6 @@ function buildAuthModal() {
             <p class="text-sm text-slate-400">No password required. We’ll send a one-time code. Signing in doubles your daily limits and saves history.</p>
           </div>
           <div class="space-y-4">
-            <label class="block space-y-2">
-              <span class="text-sm font-semibold text-slate-200">Name (optional)</span>
-              <input id="auth-name" class="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-400" type="text" name="full_name" placeholder="Jane Doe" />
-            </label>
             <label class="block space-y-2">
               <span class="text-sm font-semibold text-slate-200">Email</span>
               <input id="auth-email" class="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-400" type="email" name="email" autocomplete="email" required />
@@ -505,11 +506,11 @@ function setAuthStatus(type, message) {
   el.className = `min-h-[1.25rem] text-sm ${palette}`;
 }
 
-async function postJSON(path, body, token) {
+async function postJSON(path, body, token, method = "POST") {
   const headers = { "Content-Type": "application/json" };
   if (token) headers.Authorization = `Bearer ${token}`;
   const response = await fetch(`${resolveApiBase()}${path}`, {
-    method: "POST",
+    method,
     headers,
     credentials: "include",
     body: JSON.stringify(body),
@@ -533,7 +534,6 @@ function wireAuthModal() {
   const googleBtn = document.getElementById("auth-google");
   const codeInput = document.getElementById("auth-code");
   const emailInput = document.getElementById("auth-email");
-  const nameInput = document.getElementById("auth-name");
 
   const open = (message = DEFAULT_AUTH_PROMPT) => {
     modal?.classList.remove("hidden");
@@ -575,7 +575,6 @@ function wireAuthModal() {
   sendBtn?.addEventListener("click", async () => {
     if (!emailInput) return;
     const email = emailInput.value.trim();
-    const full_name = nameInput?.value.trim() || undefined;
     if (!email) {
       setAuthStatus("error", "Enter your email to get a code.");
       return;
@@ -583,7 +582,7 @@ function wireAuthModal() {
     setAuthStatus("neutral", "Sending code...");
     sendBtn.disabled = true;
     try {
-      const data = await postJSON("/auth/request-otp", { email, full_name });
+      const data = await postJSON("/auth/request-otp", { email });
       setAuthStatus("success", data.code ? `Code sent (dev): ${data.code}` : "Code sent. Check your email.");
       codeInput.disabled = false;
       verifyBtn.disabled = false;
@@ -599,7 +598,6 @@ function wireAuthModal() {
     if (!emailInput || !codeInput) return;
     const email = emailInput.value.trim();
     const code = codeInput.value.trim();
-    const full_name = nameInput?.value.trim() || undefined;
     if (!email || !code) {
       setAuthStatus("error", "Enter your email and code.");
       return;
@@ -607,9 +605,10 @@ function wireAuthModal() {
     setAuthStatus("neutral", "Verifying...");
     verifyBtn.disabled = true;
     try {
-      const data = await postJSON("/auth/verify-otp", { email, code, full_name });
+      const data = await postJSON("/auth/verify-otp", { email, code });
       setAuthStatus("success", "Signed in. You can keep editing.");
-      hydrateHeaderAuth();
+      const profilePromise = hydrateHeaderAuth();
+      profilePromise.then(ensureProfileNamePrompt);
       close();
       document.dispatchEvent(new CustomEvent("auth:signed-in"));
     } catch (error) {
@@ -633,6 +632,128 @@ function wireAuthModal() {
   return authModalApi;
 }
 
+function setNameStatus(type, message) {
+  const el = document.getElementById("profile-name-status");
+  if (!el) return;
+  const palette = type === "error" ? "text-rose-500" : type === "success" ? "text-emerald-600" : "text-slate-500";
+  el.textContent = message;
+  el.className = `min-h-[1.25rem] text-sm ${palette}`;
+}
+
+function buildNameModal() {
+  if (document.getElementById(NAME_MODAL_ID)) return;
+  const modal = document.createElement("div");
+  modal.id = NAME_MODAL_ID;
+  modal.className = "fixed inset-0 z-50 hidden";
+  modal.innerHTML = `
+    <div data-name-overlay class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm"></div>
+    <div class="absolute inset-0 flex items-center justify-center px-4">
+      <div class="relative w-full max-w-md rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_30px_120px_-60px_rgba(15,23,42,0.5)]">
+        <button data-name-close class="absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition hover:text-slate-700" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        <div class="space-y-4 pt-2">
+          <h2 class="text-xl font-semibold text-slate-900">Tell us your name</h2>
+          <p class="text-sm text-slate-600">We use it to personalize your dashboard.</p>
+          <p class="text-xs text-slate-500">Signed in as <span data-name-email class="font-semibold text-slate-700"></span></p>
+          <label class="block space-y-1.5">
+            <span class="text-sm font-medium text-slate-700">Full name</span>
+            <input id="profile-name-input" class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400" type="text" name="full_name" placeholder="Jane Doe" />
+          </label>
+          <p id="profile-name-status" class="min-h-[1.25rem] text-sm text-slate-500" role="status"></p>
+          <div class="flex items-center justify-end gap-3">
+            <button data-name-skip class="text-sm font-semibold text-slate-500 transition hover:text-slate-700" type="button">Later</button>
+            <button id="profile-name-save" class="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700" type="button">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
+function wireNameModal() {
+  buildNameModal();
+  const modal = document.getElementById(NAME_MODAL_ID);
+  const overlay = modal?.querySelector("[data-name-overlay]");
+  const closeBtn = modal?.querySelector("[data-name-close]");
+  const skipBtn = modal?.querySelector("[data-name-skip]");
+  const emailEl = modal?.querySelector("[data-name-email]");
+  const input = document.getElementById("profile-name-input");
+  const saveBtn = document.getElementById("profile-name-save");
+
+  const open = (user) => {
+    namePromptShown = true;
+    modal?.classList.remove("hidden");
+    document.body.classList.add("overflow-hidden");
+    if (emailEl) {
+      emailEl.textContent = user?.email || "your account";
+    }
+    if (input) {
+      input.value = user?.full_name || "";
+      input.focus();
+    }
+    setNameStatus("neutral", "");
+  };
+
+  const close = () => {
+    modal?.classList.add("hidden");
+    document.body.classList.remove("overflow-hidden");
+  };
+
+  if (!nameModalBound) {
+    nameModalBound = true;
+
+    overlay?.addEventListener("click", close);
+    closeBtn?.addEventListener("click", close);
+    skipBtn?.addEventListener("click", () => {
+      close();
+    });
+
+    saveBtn?.addEventListener("click", async () => {
+      if (!input) return;
+      const fullName = input.value.trim();
+      if (!fullName) {
+        setNameStatus("error", "Enter your name before saving.");
+        input.focus();
+        return;
+      }
+      setNameStatus("neutral", "Saving...");
+      saveBtn.disabled = true;
+      try {
+        await postJSON("/auth/me", { full_name: fullName }, undefined, "PATCH");
+        setNameStatus("success", "Saved!");
+        setTimeout(() => {
+          close();
+          hydrateHeaderAuth();
+        }, 400);
+      } catch (error) {
+        setNameStatus("error", error.message || "Unable to save name.");
+      } finally {
+        saveBtn.disabled = false;
+      }
+    });
+  }
+
+  nameModalApi = { open, close };
+  return nameModalApi;
+}
+
+async function ensureProfileNamePrompt(user) {
+  if (namePromptShown) return;
+  const profile = user || (await fetchCurrentUserFromCookie());
+  if (!profile) {
+    return;
+  }
+  if (profile.full_name && profile.full_name.trim()) {
+    namePromptShown = true;
+    return;
+  }
+  const modal = wireNameModal();
+  if (!modal) return;
+  modal.open(profile);
+}
+
 let logoutHandlerBound = false;
 function bindLogoutHandler() {
   if (logoutHandlerBound) return;
@@ -648,6 +769,7 @@ function bindLogoutHandler() {
     }).finally(() => {
       applyHeaderAuthState(null);
       applyHomeAuthState(null);
+      namePromptShown = false;
       window.location.href = "/";
     });
   });
@@ -656,8 +778,12 @@ function bindLogoutHandler() {
 document.addEventListener("partial:loaded", (event) => {
   if (event?.detail?.id !== "header") return;
   bindLogoutHandler();
-  hydrateHeaderAuth();
+  hydrateHeaderAuth().then(ensureProfileNamePrompt);
   wireAuthModal();
+});
+
+document.addEventListener("auth:signed-in", () => {
+  ensureProfileNamePrompt();
 });
 
 // In case the header is already present (or partials fail to load from cache), attempt hydration once on load.
@@ -665,7 +791,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const hasHeader = document.querySelector("header.site-header");
   if (hasHeader) {
     bindLogoutHandler();
-    hydrateHeaderAuth();
+    hydrateHeaderAuth().then(ensureProfileNamePrompt);
   }
   applyHomeAuthState(readAuthToken() ? { email: "" } : null);
   wireAuthModal();

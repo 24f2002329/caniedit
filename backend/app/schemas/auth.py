@@ -46,3 +46,10 @@ class UserRead(UserBase):
 
     class Config:
         from_attributes = True
+
+
+class UserProfileUpdate(BaseModel):
+    full_name: constr(strip_whitespace=True, min_length=1, max_length=120)  # type: ignore[valid-type]
+
+    class Config:
+        extra = "forbid"
