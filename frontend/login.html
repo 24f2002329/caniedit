@@ -3,9 +3,104 @@
 <head>
   <meta charset="UTF-8" />
   <title>Login | CanIEdit</title>
-  <meta http-equiv="refresh" content="0;url=/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/assets/images/favicon-48.png" sizes="48x48" type="image/png">
+  <link rel="icon" href="/assets/images/favicon-96.png" sizes="96x96" type="image/png">
+  <link rel="icon" href="/assets/images/favicon.ico">
+  <link rel="stylesheet" href="/assets/css/output.css" />
 </head>
-<body>
-  <p>Redirecting to home...</p>
+<body class="flex min-h-screen flex-col bg-slate-50 text-slate-900">
+  <div id="header"></div>
+
+  <main class="flex-1">
+    <section class="bg-gradient-to-br from-blue-50 via-white to-slate-50">
+      <div class="mx-auto max-w-3xl px-4 py-16 text-center sm:py-20">
+        <p class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">Account</p>
+        <h1 class="mt-4 text-3xl font-bold leading-tight text-slate-900 sm:text-4xl">Sign in to CanIEdit</h1>
+        <p class="mt-3 text-base text-slate-600">Use your email to receive a one-time code. You'll be back in your dashboard in seconds.</p>
+        <div class="mt-8 flex flex-col items-center gap-3 text-sm text-slate-500">
+          <p>The secure sign-in dialog will open automatically. If it doesn't, use the button below.</p>
+          <button id="login-open" class="inline-flex items-center rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white shadow-sm transition hover:bg-blue-700" type="button">Open sign-in</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="./assets/include.js"></script>
+  <script>
+    const API_BASE = (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL) || "https://api.caniedit.in/api";
+    const TOKEN_KEY = "caniedit:access_token";
+
+    function readToken() {
+      try {
+        return window.localStorage.getItem(TOKEN_KEY);
+      } catch (error) {
+        return null;
+      }
+    }
+
+    async function fetchWithCookie() {
+      try {
+        const response = await fetch(`${API_BASE}/auth/me`, { credentials: "include" });
+        if (!response.ok) return null;
+        return await response.json();
+      } catch (error) {
+        return null;
+      }
+    }
+
+    async function fetchWithToken(token) {
+      if (!token) return null;
+      try {
+        const response = await fetch(`${API_BASE}/auth/me`, {
+          credentials: "include",
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!response.ok) return null;
+        return await response.json();
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function openAuthModal(message) {
+      if (window.authModal && typeof window.authModal.open === "function") {
+        window.authModal.open(message);
+        return true;
+      }
+      return false;
+    }
+
+    async function initLoginPage() {
+      const existingUser = (await fetchWithCookie()) || (await fetchWithToken(readToken()));
+      if (existingUser) {
+        window.location.replace("/dashboard.html");
+        return;
+      }
+
+      const promptMessage = "Sign in to access your dashboard.";
+      let modalAttempts = 0;
+      const ensureModal = () => {
+        if (openAuthModal(promptMessage) || modalAttempts >= 40) {
+          return;
+        }
+        modalAttempts += 1;
+        setTimeout(ensureModal, 150);
+      };
+
+      ensureModal();
+
+      const button = document.getElementById("login-open");
+      button?.addEventListener("click", () => openAuthModal(promptMessage));
+
+      document.addEventListener("auth:signed-in", () => {
+        window.location.href = "/dashboard.html";
+      });
+    }
+
+    window.addEventListener("DOMContentLoaded", initLoginPage);
+  </script>
 </body>
 </html>
