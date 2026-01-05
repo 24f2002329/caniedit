@@ -620,7 +620,10 @@ function wireAuthModal() {
 
   googleBtn?.addEventListener("click", () => {
     setAuthStatus("neutral", "Redirecting to Google...");
-    window.location.href = `${resolveApiBase()}/auth/google`;
+    const apiBase = resolveApiBase().replace(/\/$/, "");
+    const redirectTarget = `${window.location.origin}/dashboard.html`;
+    const redirectParam = encodeURIComponent(redirectTarget);
+    window.location.href = `${apiBase}/auth/google?redirect=${redirectParam}`;
   });
 
   const promptForLimit = (message) => open(message || DEFAULT_LIMIT_PROMPT);
@@ -745,6 +748,9 @@ async function ensureProfileNamePrompt(user) {
   if (!profile) {
     return;
   }
+  if (!window.location.pathname.endsWith("/dashboard.html")) {
+    return;
+  }
   if (profile.full_name && profile.full_name.trim()) {
     namePromptShown = true;
     return;
@@ -784,6 +790,11 @@ document.addEventListener("partial:loaded", (event) => {
 
 document.addEventListener("auth:signed-in", () => {
   ensureProfileNamePrompt();
+  if (!window.location.pathname.endsWith("/dashboard.html")) {
+    setTimeout(() => {
+      window.location.href = "/dashboard.html";
+    }, 0);
+  }
 });
 
 // In case the header is already present (or partials fail to load from cache), attempt hydration once on load.
