@@ -143,9 +143,7 @@
     const clearFilesButton = document.getElementById("clearFilesButton");
     let selectedFiles = [];
     const API_BASE = (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL)
-      || (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
-        ? "http://localhost:8000/api"
-        : "https://api.caniedit.in/api");
+      || "https://api.caniedit.in/api";
 
     const STATUS_RESET_CLASSES = [
       "border-rose-200",

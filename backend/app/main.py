@@ -15,7 +15,7 @@ from app.utils.cleanup import cleanup_old_files
 def parse_allowed_origins() -> list[str]:
     raw = os.getenv(
         "ALLOWED_ORIGINS",
-        "http://localhost:8000,http://localhost:5173,http://localhost:8080,https://caniedit.in,https://www.caniedit.in,https://api.caniedit.in",
+        "https://caniedit.in,https://api.caniedit.in,https://www.caniedit.in",
     )
     return [origin.strip() for origin in raw.split(",") if origin.strip()]
 
