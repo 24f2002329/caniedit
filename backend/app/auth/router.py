@@ -37,8 +37,8 @@ from app.schemas.auth import (
 )
 
 router = APIRouter(prefix="/auth", tags=["auth"])
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
-optional_oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login", auto_error=False)
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login", auto_error=False)
+optional_oauth2_scheme = oauth2_scheme
 SHOW_OTP_IN_RESPONSE = os.getenv("AUTH_DEBUG_SHOW_OTP", "true").lower() == "true"
 OTP_REQUEST_LIMIT_EMAIL = int(os.getenv("AUTH_OTP_REQUEST_LIMIT_EMAIL", "5"))
 OTP_REQUEST_LIMIT_IP = int(os.getenv("AUTH_OTP_REQUEST_LIMIT_IP", "15"))
@@ -235,7 +235,8 @@ def _create_user_if_missing(db: Session, email: str, full_name: str | None = Non
 
 
 def get_current_user(
-    token: str = Depends(oauth2_scheme),
+    request: Request,
+    token: str | None = Depends(oauth2_scheme),
     db: Session = Depends(get_db),
 ) -> User:
     credentials_error = HTTPException(
@@ -244,8 +245,12 @@ def get_current_user(
         headers={"WWW-Authenticate": "Bearer"},
     )
 
+    token_value = token or request.cookies.get(TOKEN_COOKIE_NAME)
+    if not token_value:
+        raise credentials_error
+
     try:
-        payload = safe_decode_token(token)
+        payload = safe_decode_token(token_value)
     except TokenDecodeError as exc:
         raise credentials_error from exc
 
@@ -261,13 +266,15 @@ def get_current_user(
 
 
 def get_optional_user(
+    request: Request,
     token: str | None = Depends(optional_oauth2_scheme),
     db: Session = Depends(get_db),
 ) -> User | None:
-    if not token:
+    token_value = token or request.cookies.get(TOKEN_COOKIE_NAME)
+    if not token_value:
         return None
     try:
-        payload = safe_decode_token(token)
+        payload = safe_decode_token(token_value)
     except TokenDecodeError:
         return None
     user_id = payload.get("sub")
