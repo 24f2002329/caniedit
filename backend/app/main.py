@@ -7,9 +7,9 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.auth import router as auth_router
-from app.db import init_db
-from app.pdf.merge import router as pdf_merge_router
-from app.utils.cleanup import cleanup_old_files
+from app.db.session import init_db
+from app.tools.pdf.router import router as pdf_merge_router
+from app.utils.storage import cleanup_old_files
 
 
 def parse_allowed_origins() -> list[str]:

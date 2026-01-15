@@ -1,7 +1,7 @@
-from app.db import Base
-from app.models.user import User
-from app.models.otp_code import OtpCode
-from app.models.rate_limit import RateLimit
-from app.models.usage_counter import UsageCounter
+from app.db.base import Base
+from app.db.models.otp import OtpCode
+from app.db.models.rate_limit import RateLimit
+from app.db.models.usage import UsageCounter
+from app.db.models.user import User
 
 __all__ = ["Base", "User", "OtpCode", "RateLimit", "UsageCounter"]

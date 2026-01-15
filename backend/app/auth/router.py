@@ -7,6 +7,7 @@ import requests
 from fastapi import APIRouter, Depends, HTTPException, Request, Response, status
 from fastapi.responses import RedirectResponse
 from fastapi.security import OAuth2PasswordBearer
+from pydantic import BaseModel, EmailStr, constr
 from sqlalchemy.orm import Session
 
 from jose import jwt
@@ -21,21 +22,62 @@ from app.core.security import (
     safe_decode_token,
     verify_password,
 )
-from app.db import get_db
-from app.models.user import User
-from app.models.otp_code import OtpCode
-from app.models.rate_limit import RateLimit
-from app.utils.usage import client_ip, get_usage_counter, usage_key_and_limit
-from app.schemas.auth import (
-    OTPRequest,
-    OTPVerify,
-    Token,
-    UsageRead,
-    UserCreate,
-    UserLogin,
-    UserRead,
-    UserProfileUpdate,
-)
+from app.db.session import get_db
+from app.db.models.user import User
+from app.db.models.otp import OtpCode
+from app.db.models.rate_limit import RateLimit
+from app.usage.tracker import client_ip, get_usage_counter, usage_key_and_limit
+
+
+class UserBase(BaseModel):
+    email: EmailStr
+    full_name: str | None = None
+
+
+class UserCreate(UserBase):
+    password: constr(min_length=8)  # type: ignore[valid-type]
+
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+
+
+class OTPRequest(BaseModel):
+    email: EmailStr
+    full_name: str | None = None
+
+
+class OTPVerify(BaseModel):
+    email: EmailStr
+    code: constr(min_length=4, max_length=8)  # type: ignore[valid-type]
+    full_name: str | None = None
+
+
+class UsageRead(BaseModel):
+    scope: str
+    limit: int
+    used: int
+
+
+class UserRead(UserBase):
+    id: int
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class UserProfileUpdate(BaseModel):
+    full_name: constr(strip_whitespace=True, min_length=1, max_length=120)  # type: ignore[valid-type]
+
+    class Config:
+        extra = "forbid"
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login", auto_error=False)

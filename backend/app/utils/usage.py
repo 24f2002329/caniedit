@@ -5,8 +5,8 @@ from typing import Tuple
 from fastapi import HTTPException, Request, status
 from sqlalchemy.orm import Session
 
-from app.models.usage_counter import UsageCounter
-from app.models.user import User
+from app.db.models.usage import UsageCounter
+from app.db.models.user import User
 
 ANON_DAILY_LIMIT = int(os.getenv("ANON_DAILY_LIMIT", "10"))
 USER_DAILY_LIMIT = int(os.getenv("USER_DAILY_LIMIT", "30"))

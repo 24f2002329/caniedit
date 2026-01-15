@@ -1,0 +1,1 @@
+"""Subscription logic (placeholder)."""
