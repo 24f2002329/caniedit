@@ -357,9 +357,14 @@
       }
 
       try {
+        const accessToken = window.CanIEditAuth && typeof window.CanIEditAuth.getAccessToken === "function"
+          ? await window.CanIEditAuth.getAccessToken()
+          : null;
+        const headers = accessToken ? { Authorization: `Bearer ${accessToken}` } : undefined;
         const response = await fetch(`${API_BASE}/pdf/merge`, {
           method: "POST",
           body: formData,
+          headers,
           credentials: "include"
         });
 

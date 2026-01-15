@@ -1,7 +1,8 @@
-from app.db import Base
-from app.models.user import User
-from app.models.otp_code import OtpCode
-from app.models.rate_limit import RateLimit
-from app.models.usage_counter import UsageCounter
+from app.db.base import Base
+from app.db.models.file import FileRecord
+from app.db.models.plan import Plan
+from app.db.models.subscription import Subscription
+from app.db.models.usage import Usage
+from app.db.models.user import User
 
-__all__ = ["Base", "User", "OtpCode", "RateLimit", "UsageCounter"]
+__all__ = ["Base", "FileRecord", "Plan", "Subscription", "Usage", "User"]

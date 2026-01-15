@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+python-multipart
+pypdf
+cryptography
+SQLAlchemy
+python-jose[cryptography]
+email-validator
+python-dotenv
+psycopg[binary]
