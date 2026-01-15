@@ -1,3 +1,5 @@
-from app.db.models.usage import UsageCounter
+"""Deprecated shim for legacy UsageCounter."""
 
-__all__ = ["UsageCounter"]
+from app.db.models.usage import Usage
+
+__all__ = ["Usage"]

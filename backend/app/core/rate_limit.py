@@ -1,4 +1,4 @@
 """Rate limiting helpers (placeholder).
 
-The current OTP rate-limit logic lives inside app.auth.router.
+Legacy OTP limits were removed in favor of Supabase Auth.
 """

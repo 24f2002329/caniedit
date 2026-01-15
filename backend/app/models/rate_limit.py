@@ -1,3 +1,3 @@
-from app.db.models.rate_limit import RateLimit
+"""Deprecated rate limit shim."""
 
-__all__ = ["RateLimit"]
+__all__ = []

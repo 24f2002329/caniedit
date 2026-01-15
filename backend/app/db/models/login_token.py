@@ -1,4 +1,6 @@
-"""Placeholder for login token model.
+"""Deprecated login token model.
 
-Define the LoginToken table here when introducing magic-link or device tokens.
+Auth is managed by Supabase.
 """
+
+__all__ = []

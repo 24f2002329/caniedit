@@ -1,3 +1,6 @@
-from app.core.security import get_password_hash, verify_password
+"""Deprecated hashing helpers.
 
-__all__ = ["get_password_hash", "verify_password"]
+Password hashing is no longer used. Supabase Auth handles credentials.
+"""
+
+__all__ = []

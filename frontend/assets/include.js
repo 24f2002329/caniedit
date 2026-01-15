@@ -298,54 +298,96 @@ loadPartial("header", `${partialBase}header.html?ver=${PARTIAL_VERSION}`);
 loadPartial("footer", `${partialBase}footer.html?ver=${PARTIAL_VERSION}`);
 
 // --- Auth-aware header helpers ---
-const AUTH_TOKEN_KEY = "caniedit:access_token"; // legacy; kept for backward compatibility
+const SUPABASE_SCRIPT_SRC = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+const APP_CONFIG_SRC = "/assets/config.js";
+const SUPABASE_URL = () => (window.APP_CONFIG && window.APP_CONFIG.SUPABASE_URL) || "";
+const SUPABASE_ANON_KEY = () => (window.APP_CONFIG && window.APP_CONFIG.SUPABASE_ANON_KEY) || "";
+let supabaseClient = null;
+let supabaseScriptPromise = null;
+let appConfigPromise = null;
 
-function readAuthToken() {
-  try {
-    return window.localStorage.getItem(AUTH_TOKEN_KEY);
-  } catch (error) {
-    return null;
-  }
+function loadAppConfig() {
+  if (window.APP_CONFIG) return Promise.resolve();
+  if (appConfigPromise) return appConfigPromise;
+  appConfigPromise = new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = APP_CONFIG_SRC;
+    script.async = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("Unable to load app config"));
+    document.head.appendChild(script);
+  });
+  return appConfigPromise;
 }
 
-function clearAuthToken() {
-  try {
-    window.localStorage.removeItem(AUTH_TOKEN_KEY);
-  } catch (error) {
-    /* ignore */
+function loadSupabaseScript() {
+  if (window.supabase && typeof window.supabase.createClient === "function") {
+    return Promise.resolve();
   }
+  if (supabaseScriptPromise) return supabaseScriptPromise;
+  supabaseScriptPromise = new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = SUPABASE_SCRIPT_SRC;
+    script.async = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("Unable to load Supabase client"));
+    document.head.appendChild(script);
+  });
+  return supabaseScriptPromise;
+}
+
+async function getSupabaseClient() {
+  let url = SUPABASE_URL();
+  let anonKey = SUPABASE_ANON_KEY();
+  if (!url || !anonKey) {
+    try {
+      await loadAppConfig();
+      url = SUPABASE_URL();
+      anonKey = SUPABASE_ANON_KEY();
+    } catch (error) {
+      return null;
+    }
+  }
+  if (!url || !anonKey) {
+    return null;
+  }
+  if (!supabaseClient) {
+    await loadSupabaseScript();
+    if (!window.supabase || typeof window.supabase.createClient !== "function") {
+      return null;
+    }
+    supabaseClient = window.supabase.createClient(url, anonKey, {
+      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
+    });
+  }
+  return supabaseClient;
+}
+
+async function getSupabaseAccessToken() {
+  const client = await getSupabaseClient();
+  if (!client) return null;
+  const { data } = await client.auth.getSession();
+  return data?.session?.access_token || null;
+}
+
+function normalizeSupabaseUser(user) {
+  if (!user) return null;
+  const metadata = user.user_metadata || {};
+  return {
+    email: user.email || "",
+    full_name: metadata.full_name || metadata.name || "",
+  };
+}
+
+async function fetchCurrentSupabaseUser() {
+  const client = await getSupabaseClient();
+  if (!client) return null;
+  const { data } = await client.auth.getUser();
+  return normalizeSupabaseUser(data?.user);
 }
 
 function resolveApiBase() {
   return (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL) || "https://api.caniedit.in/api";
-}
-
-async function fetchCurrentUserFromCookie() {
-  try {
-    const response = await fetch(`${resolveApiBase()}/auth/me`, {
-      method: "GET",
-      credentials: "include",
-    });
-    if (!response.ok) return null;
-    return await response.json();
-  } catch (error) {
-    return null;
-  }
-}
-
-async function fetchCurrentUser(token) {
-  const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
-  try {
-    const response = await fetch(`${resolveApiBase()}/auth/me`, {
-      method: "GET",
-      headers,
-      credentials: token ? "include" : "include",
-    });
-    if (!response.ok) return null;
-    return await response.json();
-  } catch (error) {
-    return null;
-  }
 }
 
 function applyHomeAuthState(user, options = {}) {
@@ -416,23 +458,11 @@ async function hydrateHeaderAuth() {
   applyHeaderAuthState(null, { pending: true });
   applyHomeAuthState(null, { pending: true });
 
-  const userFromCookie = await fetchCurrentUserFromCookie();
-  if (userFromCookie) {
-    applyHeaderAuthState(userFromCookie);
-    applyHomeAuthState(userFromCookie);
-    return userFromCookie;
-  }
-
-  // Legacy fallback: if a token exists, attempt once, then clear it.
-  const token = readAuthToken();
-  if (token) {
-    const user = await fetchCurrentUser(token);
-    if (user) {
-      applyHeaderAuthState(user);
-      applyHomeAuthState(user);
-      return user;
-    }
-    clearAuthToken();
+  const user = await fetchCurrentSupabaseUser();
+  if (user) {
+    applyHeaderAuthState(user);
+    applyHomeAuthState(user);
+    return user;
   }
 
   applyHeaderAuthState(null);
@@ -508,7 +538,8 @@ function setAuthStatus(type, message) {
 
 async function postJSON(path, body, token, method = "POST") {
   const headers = { "Content-Type": "application/json" };
-  if (token) headers.Authorization = `Bearer ${token}`;
+  const supabaseToken = token || (await getSupabaseAccessToken());
+  if (supabaseToken) headers.Authorization = `Bearer ${supabaseToken}`;
   const response = await fetch(`${resolveApiBase()}${path}`, {
     method,
     headers,
@@ -582,8 +613,16 @@ function wireAuthModal() {
     setAuthStatus("neutral", "Sending code...");
     sendBtn.disabled = true;
     try {
-      const data = await postJSON("/auth/request-otp", { email });
-      setAuthStatus("success", data.code ? `Code sent (dev): ${data.code}` : "Code sent. Check your email.");
+      const client = await getSupabaseClient();
+      if (!client) {
+        throw new Error("Supabase is not configured yet.");
+      }
+      const { error } = await client.auth.signInWithOtp({
+        email,
+        options: { emailRedirectTo: `${window.location.origin}/dashboard.html` },
+      });
+      if (error) throw error;
+      setAuthStatus("success", "Code sent. Check your email.");
       codeInput.disabled = false;
       verifyBtn.disabled = false;
       codeInput.focus();
@@ -605,7 +644,16 @@ function wireAuthModal() {
     setAuthStatus("neutral", "Verifying...");
     verifyBtn.disabled = true;
     try {
-      const data = await postJSON("/auth/verify-otp", { email, code });
+      const client = await getSupabaseClient();
+      if (!client) {
+        throw new Error("Supabase is not configured yet.");
+      }
+      const { error } = await client.auth.verifyOtp({
+        email,
+        token: code,
+        type: "email",
+      });
+      if (error) throw error;
       setAuthStatus("success", "Signed in. You can keep editing.");
       const profilePromise = hydrateHeaderAuth();
       profilePromise.then(ensureProfileNamePrompt);
@@ -620,10 +668,20 @@ function wireAuthModal() {
 
   googleBtn?.addEventListener("click", () => {
     setAuthStatus("neutral", "Redirecting to Google...");
-    const apiBase = resolveApiBase().replace(/\/$/, "");
-    const redirectTarget = `${window.location.origin}/dashboard.html`;
-    const redirectParam = encodeURIComponent(redirectTarget);
-    window.location.href = `${apiBase}/auth/google?redirect=${redirectParam}`;
+    (async () => {
+      const client = await getSupabaseClient();
+      if (!client) {
+        setAuthStatus("error", "Supabase is not configured yet.");
+        return;
+      }
+      const { error } = await client.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: `${window.location.origin}/dashboard.html` },
+      });
+      if (error) {
+        setAuthStatus("error", error.message || "Unable to start Google sign-in.");
+      }
+    })();
   });
 
   const promptForLimit = (message) => open(message || DEFAULT_LIMIT_PROMPT);
@@ -724,7 +782,14 @@ function wireNameModal() {
       setNameStatus("neutral", "Saving...");
       saveBtn.disabled = true;
       try {
-        await postJSON("/auth/me", { full_name: fullName }, undefined, "PATCH");
+        const client = await getSupabaseClient();
+        if (!client) {
+          throw new Error("Supabase is not configured yet.");
+        }
+        const { error } = await client.auth.updateUser({
+          data: { full_name: fullName },
+        });
+        if (error) throw error;
         setNameStatus("success", "Saved!");
         setTimeout(() => {
           close();
@@ -744,7 +809,7 @@ function wireNameModal() {
 
 async function ensureProfileNamePrompt(user) {
   if (namePromptShown) return;
-  const profile = user || (await fetchCurrentUserFromCookie());
+  const profile = user || (await fetchCurrentSupabaseUser());
   if (!profile) {
     return;
   }
@@ -768,16 +833,16 @@ function bindLogoutHandler() {
     const target = event.target.closest("[data-auth-logout]");
     if (!target) return;
     event.preventDefault();
-    clearAuthToken();
-    fetch(`${resolveApiBase()}/auth/logout`, {
-      method: "POST",
-      credentials: "include",
-    }).finally(() => {
+    (async () => {
+      const client = await getSupabaseClient();
+      if (client) {
+        await client.auth.signOut();
+      }
       applyHeaderAuthState(null);
       applyHomeAuthState(null);
       namePromptShown = false;
       window.location.href = "/";
-    });
+    })();
   });
 }
 
@@ -804,6 +869,20 @@ window.addEventListener("DOMContentLoaded", () => {
     bindLogoutHandler();
     hydrateHeaderAuth().then(ensureProfileNamePrompt);
   }
-  applyHomeAuthState(readAuthToken() ? { email: "" } : null);
+  applyHomeAuthState(null);
   wireAuthModal();
+  (async () => {
+    const client = await getSupabaseClient();
+    if (!client || window.__supabaseListenerBound) return;
+    window.__supabaseListenerBound = true;
+    client.auth.onAuthStateChange(() => {
+      hydrateHeaderAuth().then(ensureProfileNamePrompt);
+    });
+  })();
 });
+
+window.CanIEditAuth = {
+  getAccessToken: getSupabaseAccessToken,
+  getUser: fetchCurrentSupabaseUser,
+  getClient: getSupabaseClient,
+};

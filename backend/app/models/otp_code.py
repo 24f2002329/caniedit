@@ -1,3 +1,3 @@
-from app.db.models.otp import OtpCode
+"""Deprecated OTP code shim."""
 
-__all__ = ["OtpCode"]
+__all__ = []

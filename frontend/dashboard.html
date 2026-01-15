@@ -82,70 +82,21 @@
 
   <script src="./assets/include.js"></script>
   <script>
-    const API_BASE = (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL) || "https://api.caniedit.in/api";
-    const tokenKey = "caniedit:access_token";
-
     const nameEl = document.getElementById("dash-name");
     const emailEl = document.getElementById("dash-email");
     const initialEl = document.getElementById("dash-initial");
     const logoutBtn = document.getElementById("dash-logout");
 
-    function readToken() {
-      try {
-        return window.localStorage.getItem(tokenKey);
-      } catch (error) {
+    async function fetchProfile() {
+      if (!window.CanIEditAuth || typeof window.CanIEditAuth.getUser !== "function") {
         return null;
       }
-    }
-
-    function clearToken() {
-      try {
-        window.localStorage.removeItem(tokenKey);
-      } catch (error) {
-        /* ignore */
-      }
-    }
-
-    async function fetchProfileFromCookie() {
-      try {
-        const response = await fetch(`${API_BASE}/auth/me`, {
-          credentials: "include",
-        });
-        if (!response.ok) return null;
-        return await response.json();
-      } catch (error) {
-        return null;
-      }
-    }
-
-    async function fetchProfile(token) {
-      if (!token) return null;
-      try {
-        const response = await fetch(`${API_BASE}/auth/me`, {
-          credentials: "include",
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (!response.ok) return null;
-        return await response.json();
-      } catch (error) {
-        return null;
-      }
+      return await window.CanIEditAuth.getUser();
     }
 
     async function requireAuth() {
-      const cookieUser = await fetchProfileFromCookie();
-      if (cookieUser) {
-        return cookieUser;
-      }
-
-      const token = readToken();
-      if (token) {
-        const user = await fetchProfile(token);
-        if (user) {
-          return user;
-        }
-        clearToken();
-      }
+      const user = await fetchProfile();
+      if (user) return user;
 
       window.location.replace("/login.html");
       return null;
@@ -159,8 +110,13 @@
       initialEl.textContent = (displayName.trim()[0] || "?").toUpperCase();
     }
 
-    logoutBtn?.addEventListener("click", () => {
-      clearToken();
+    logoutBtn?.addEventListener("click", async () => {
+      if (window.CanIEditAuth && typeof window.CanIEditAuth.getClient === "function") {
+        const client = await window.CanIEditAuth.getClient();
+        if (client) {
+          await client.auth.signOut();
+        }
+      }
       window.location.href = "/login.html";
     });
 

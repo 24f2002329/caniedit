@@ -30,39 +30,11 @@
 
   <script src="./assets/include.js"></script>
   <script>
-    const API_BASE = (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL) || "https://api.caniedit.in/api";
-    const TOKEN_KEY = "caniedit:access_token";
-
-    function readToken() {
-      try {
-        return window.localStorage.getItem(TOKEN_KEY);
-      } catch (error) {
+    async function getCurrentUser() {
+      if (!window.CanIEditAuth || typeof window.CanIEditAuth.getUser !== "function") {
         return null;
       }
-    }
-
-    async function fetchWithCookie() {
-      try {
-        const response = await fetch(`${API_BASE}/auth/me`, { credentials: "include" });
-        if (!response.ok) return null;
-        return await response.json();
-      } catch (error) {
-        return null;
-      }
-    }
-
-    async function fetchWithToken(token) {
-      if (!token) return null;
-      try {
-        const response = await fetch(`${API_BASE}/auth/me`, {
-          credentials: "include",
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (!response.ok) return null;
-        return await response.json();
-      } catch (error) {
-        return null;
-      }
+      return await window.CanIEditAuth.getUser();
     }
 
     function openAuthModal(message) {
@@ -74,7 +46,7 @@
     }
 
     async function initLoginPage() {
-      const existingUser = (await fetchWithCookie()) || (await fetchWithToken(readToken()));
+      const existingUser = await getCurrentUser();
       if (existingUser) {
         window.location.replace("/dashboard.html");
         return;

@@ -1,5 +1,8 @@
 """Email OTP helpers (re-exported from router for now)."""
 
-from app.auth.router import request_otp, verify_otp
+"""Deprecated OTP module.
 
-__all__ = ["request_otp", "verify_otp"]
+OTP authentication is handled by Supabase Auth on the frontend.
+"""
+
+__all__ = []

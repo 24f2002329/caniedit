@@ -1,4 +1,4 @@
-"""OAuth helpers (placeholder).
+"""Deprecated OAuth helpers.
 
-Keep Google OAuth helpers in app.auth.router for now.
+OAuth is handled by Supabase Auth on the frontend.
 """

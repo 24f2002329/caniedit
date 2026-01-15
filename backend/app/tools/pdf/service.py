@@ -3,10 +3,11 @@ import re
 import uuid
 from typing import Final
 
-from fastapi import HTTPException, Request, UploadFile, status
+from fastapi import HTTPException, UploadFile, status
 from pypdf import PdfReader, PdfWriter
 from sqlalchemy.orm import Session
 
+from app.db.models.file import FileRecord
 from app.usage.tracker import increment_usage
 
 MAX_FILE_SIZE_MB: Final = 10
@@ -18,13 +19,12 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
 async def merge_pdfs(
-	request: Request,
 	files: list[UploadFile],
 	current_user,
 	db: Session,
 ) -> dict:
-	# Enforce per-scope daily usage before processing.
-	increment_usage(db, request, current_user)
+	# Enforce per-plan daily usage before processing.
+	increment_usage(db, current_user, tool="pdf_merge")
 
 	writer = PdfWriter()
 	max_bytes = MAX_FILE_SIZE_MB * 1024 * 1024
@@ -91,15 +91,32 @@ async def merge_pdfs(
 	with open(output_path, "wb") as handle:
 		writer.write(handle)
 
+	file_record = FileRecord(
+		user_id=current_user.id,
+		tool="pdf_merge",
+		filename=output_name,
+		storage_path=output_path,
+	)
+	db.add(file_record)
+	db.commit()
+
 	return {
 		"success": True,
 		"file": output_name,
 	}
 
 
-def delete_merged_pdf(filename: str) -> dict:
+def delete_merged_pdf(filename: str, current_user, db: Session) -> dict:
 	if not re.fullmatch(r"[\w.-]+", filename):
 		raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid filename")
+
+	file_record = (
+		db.query(FileRecord)
+		.filter(FileRecord.filename == filename, FileRecord.user_id == current_user.id)
+		.first()
+	)
+	if not file_record:
+		raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="File not found")
 
 	file_path = os.path.join(OUTPUT_DIR, filename)
 	if not os.path.isfile(file_path):
@@ -109,5 +126,8 @@ def delete_merged_pdf(filename: str) -> dict:
 		os.remove(file_path)
 	except OSError as exc:
 		raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Unable to delete file right now") from exc
+
+	db.delete(file_record)
+	db.commit()
 
 	return {"success": True}
