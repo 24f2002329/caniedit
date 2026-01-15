@@ -34,7 +34,8 @@ CREATE INDEX IF NOT EXISTS subscriptions_status_idx ON public.subscriptions(stat
 
 CREATE TABLE IF NOT EXISTS public.usage (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+    user_id UUID REFERENCES public.users(id) ON DELETE CASCADE,
+    anon_key TEXT,
     tool TEXT NOT NULL,
     period_start TIMESTAMPTZ NOT NULL,
     period_end TIMESTAMPTZ NOT NULL,
@@ -43,6 +44,8 @@ CREATE TABLE IF NOT EXISTS public.usage (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+CREATE INDEX IF NOT EXISTS usage_anon_key_idx ON public.usage(anon_key);
 
 CREATE INDEX IF NOT EXISTS usage_user_tool_idx ON public.usage(user_id, tool);
 CREATE INDEX IF NOT EXISTS usage_period_end_idx ON public.usage(period_end);

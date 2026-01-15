@@ -3,7 +3,7 @@ import re
 import uuid
 from typing import Final
 
-from fastapi import HTTPException, UploadFile, status
+from fastapi import HTTPException, Request, UploadFile, status
 from pypdf import PdfReader, PdfWriter
 from sqlalchemy.orm import Session
 
@@ -19,12 +19,13 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
 async def merge_pdfs(
+	request: Request,
 	files: list[UploadFile],
 	current_user,
 	db: Session,
 ) -> dict:
-	# Enforce per-plan daily usage before processing.
-	increment_usage(db, current_user, tool="pdf_merge")
+	# Enforce daily usage before processing.
+	increment_usage(db, request, current_user, tool="pdf_merge")
 
 	writer = PdfWriter()
 	max_bytes = MAX_FILE_SIZE_MB * 1024 * 1024
@@ -91,14 +92,15 @@ async def merge_pdfs(
 	with open(output_path, "wb") as handle:
 		writer.write(handle)
 
-	file_record = FileRecord(
-		user_id=current_user.id,
-		tool="pdf_merge",
-		filename=output_name,
-		storage_path=output_path,
-	)
-	db.add(file_record)
-	db.commit()
+	if current_user:
+		file_record = FileRecord(
+			user_id=current_user.id,
+			tool="pdf_merge",
+			filename=output_name,
+			storage_path=output_path,
+		)
+		db.add(file_record)
+		db.commit()
 
 	return {
 		"success": True,

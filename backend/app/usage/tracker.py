@@ -1,7 +1,7 @@
 import os
 from datetime import datetime, timedelta
 
-from fastapi import HTTPException, status
+from fastapi import HTTPException, Request, status
 from sqlalchemy.orm import Session
 
 from app.db.models.plan import Plan
@@ -11,6 +11,7 @@ from app.db.models.user import User
 from app.subscriptions.plans import DEFAULT_PLAN_SLUG, PLAN_DEFINITIONS
 
 USAGE_WINDOW_SECONDS = int(os.getenv("USAGE_WINDOW_SECONDS", str(60 * 60 * 24)))
+ANON_DAILY_LIMIT = int(os.getenv("ANON_DAILY_LIMIT", "10"))
 
 
 def _default_plan_limit() -> int:
@@ -36,19 +37,21 @@ def _get_active_plan(db: Session, user_id) -> Plan | None:
 
 def _get_usage_record(
     db: Session,
-    user_id,
     tool: str,
     limit: int,
+    user_id=None,
+    anon_key: str | None = None,
     window_seconds: int = USAGE_WINDOW_SECONDS,
 ) -> Usage:
     now = datetime.utcnow()
     window_end = now + timedelta(seconds=window_seconds)
-    record: Usage | None = (
-        db.query(Usage)
-        .filter(Usage.user_id == user_id, Usage.tool == tool, Usage.period_end > now)
-        .order_by(Usage.period_end.desc())
-        .first()
-    )
+    query = db.query(Usage).filter(Usage.tool == tool, Usage.period_end > now)
+    if user_id is not None:
+        query = query.filter(Usage.user_id == user_id)
+    else:
+        query = query.filter(Usage.anon_key == anon_key)
+
+    record: Usage | None = query.order_by(Usage.period_end.desc()).first()
 
     if record:
         if record.limit_value != limit:
@@ -61,6 +64,7 @@ def _get_usage_record(
 
     record = Usage(
         user_id=user_id,
+        anon_key=anon_key,
         tool=tool,
         period_start=now,
         period_end=window_end,
@@ -73,22 +77,51 @@ def _get_usage_record(
     return record
 
 
+def client_ip(request: Request) -> str:
+    forwarded = request.headers.get("x-forwarded-for")
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    real_ip = request.headers.get("x-real-ip")
+    if real_ip:
+        return real_ip.strip()
+    return request.client.host if request.client else "unknown"
+
+
 def increment_usage(
     db: Session,
-    user: User,
+    request: Request,
+    user: User | None,
     tool: str,
     amount: int = 1,
     window_seconds: int = USAGE_WINDOW_SECONDS,
 ) -> Usage:
-    plan = _get_active_plan(db, user.id)
-    limit = plan.daily_merge_limit if plan else _default_plan_limit()
-    record = _get_usage_record(db, user.id, tool=tool, limit=limit, window_seconds=window_seconds)
+    if user:
+        plan = _get_active_plan(db, user.id)
+        limit = plan.daily_merge_limit if plan else _default_plan_limit()
+        record = _get_usage_record(
+            db,
+            tool=tool,
+            limit=limit,
+            user_id=user.id,
+            window_seconds=window_seconds,
+        )
+    else:
+        anon_key = f"anon:{client_ip(request)}"
+        record = _get_usage_record(
+            db,
+            tool=tool,
+            limit=ANON_DAILY_LIMIT,
+            anon_key=anon_key,
+            window_seconds=window_seconds,
+        )
 
     if record.used + amount > record.limit_value:
-        raise HTTPException(
-            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-            detail="Daily limit reached for your plan. Upgrade to increase limits.",
+        detail = (
+            "Daily limit reached. Sign in to get higher limits."
+            if not user
+            else "Daily limit reached for your plan. Upgrade to increase limits."
         )
+        raise HTTPException(status_code=status.HTTP_429_TOO_MANY_REQUESTS, detail=detail)
 
     record.used += amount
     record.touch(datetime.utcnow())
