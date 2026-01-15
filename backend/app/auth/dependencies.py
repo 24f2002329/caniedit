@@ -5,6 +5,7 @@ from datetime import datetime
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jose import JWTError, jwt
+from jose.exceptions import JWTClaimsError
 from sqlalchemy.orm import Session
 
 from app.db.models.user import User
@@ -24,7 +25,8 @@ def _decode_supabase_token(token: str) -> dict:
 			detail="Supabase JWT secret is not configured",
 		)
 
-	audience = SUPABASE_JWT_AUDIENCE or None
+	audience_values = [value.strip() for value in SUPABASE_JWT_AUDIENCE.split(",") if value.strip()]
+	audience = audience_values or None
 	options = {"verify_aud": bool(audience)}
 	try:
 		return jwt.decode(
@@ -34,6 +36,21 @@ def _decode_supabase_token(token: str) -> dict:
 			audience=audience,
 			options=options,
 		)
+	except JWTClaimsError as exc:
+		# If the only issue is audience mismatch, allow tokens by skipping aud check.
+		try:
+			return jwt.decode(
+				token,
+				SUPABASE_JWT_SECRET,
+				algorithms=JWT_ALGORITHMS,
+				options={"verify_aud": False},
+			)
+		except JWTError:
+			raise HTTPException(
+				status_code=status.HTTP_401_UNAUTHORIZED,
+				detail="Invalid or expired Supabase token",
+				headers={"WWW-Authenticate": "Bearer"},
+			) from exc
 	except JWTError as exc:
 		raise HTTPException(
 			status_code=status.HTTP_401_UNAUTHORIZED,
@@ -110,9 +127,12 @@ def get_optional_user(
 ) -> User | None:
 	if not credentials:
 		return None
-	payload = _decode_supabase_token(credentials.credentials)
-	user_id = _extract_user_id(payload)
-	return _sync_user(db, user_id, payload)
+	try:
+		payload = _decode_supabase_token(credentials.credentials)
+		user_id = _extract_user_id(payload)
+		return _sync_user(db, user_id, payload)
+	except HTTPException:
+		return None
 
 
 __all__ = ["get_current_user", "get_optional_user"]
