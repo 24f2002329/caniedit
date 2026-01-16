@@ -112,13 +112,16 @@ def delete_merged_pdf(filename: str, current_user, db: Session) -> dict:
 	if not re.fullmatch(r"[\w.-]+", filename):
 		raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid filename")
 
-	file_record = (
-		db.query(FileRecord)
-		.filter(FileRecord.filename == filename, FileRecord.user_id == current_user.id)
-		.first()
-	)
-	if not file_record:
-		raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="File not found")
+	file_record = db.query(FileRecord).filter(FileRecord.filename == filename).first()
+	if file_record:
+		if not current_user:
+			raise HTTPException(
+				status_code=status.HTTP_401_UNAUTHORIZED,
+				detail="Missing authorization token",
+				headers={"WWW-Authenticate": "Bearer"},
+			)
+		if file_record.user_id != current_user.id:
+			raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to delete this file")
 
 	file_path = os.path.join(OUTPUT_DIR, filename)
 	if not os.path.isfile(file_path):
@@ -129,7 +132,8 @@ def delete_merged_pdf(filename: str, current_user, db: Session) -> dict:
 	except OSError as exc:
 		raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Unable to delete file right now") from exc
 
-	db.delete(file_record)
-	db.commit()
+	if file_record:
+		db.delete(file_record)
+		db.commit()
 
 	return {"success": True}

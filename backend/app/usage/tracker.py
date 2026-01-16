@@ -12,13 +12,20 @@ from app.subscriptions.plans import DEFAULT_PLAN_SLUG, PLAN_DEFINITIONS
 
 USAGE_WINDOW_SECONDS = int(os.getenv("USAGE_WINDOW_SECONDS", str(60 * 60 * 24)))
 ANON_DAILY_LIMIT = int(os.getenv("ANON_DAILY_LIMIT", "10"))
+LOGGED_IN_DAILY_LIMIT = int(os.getenv("LOGGED_IN_DAILY_LIMIT", "20"))
 
 
 def _default_plan_limit() -> int:
     for definition in PLAN_DEFINITIONS:
         if definition.slug == DEFAULT_PLAN_SLUG:
             return definition.daily_merge_limit
-    return 30
+    return LOGGED_IN_DAILY_LIMIT
+
+
+def _daily_window(now: datetime) -> tuple[datetime, datetime]:
+    start = datetime(year=now.year, month=now.month, day=now.day)
+    end = start + timedelta(days=1)
+    return start, end
 
 
 def _get_active_plan(db: Session, user_id) -> Plan | None:
@@ -44,8 +51,12 @@ def _get_usage_record(
     window_seconds: int = USAGE_WINDOW_SECONDS,
 ) -> Usage:
     now = datetime.utcnow()
-    window_end = now + timedelta(seconds=window_seconds)
-    query = db.query(Usage).filter(Usage.tool == tool, Usage.period_end > now)
+    window_start, window_end = _daily_window(now)
+    query = db.query(Usage).filter(
+        Usage.tool == tool,
+        Usage.period_start == window_start,
+        Usage.period_end == window_end,
+    )
     if user_id is not None:
         query = query.filter(Usage.user_id == user_id)
     else:
@@ -66,7 +77,7 @@ def _get_usage_record(
         user_id=user_id,
         anon_key=anon_key,
         tool=tool,
-        period_start=now,
+        period_start=window_start,
         period_end=window_end,
         used=0,
         limit_value=limit,
@@ -97,7 +108,7 @@ def increment_usage(
 ) -> Usage:
     if user:
         plan = _get_active_plan(db, user.id)
-        limit = plan.daily_merge_limit if plan else _default_plan_limit()
+        limit = plan.daily_merge_limit if plan else LOGGED_IN_DAILY_LIMIT
         record = _get_usage_record(
             db,
             tool=tool,

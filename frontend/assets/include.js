@@ -790,6 +790,11 @@ function wireNameModal() {
           data: { full_name: fullName },
         });
         if (error) throw error;
+        try {
+          await postJSON("/users/me", { full_name: fullName }, null, "PATCH");
+        } catch (syncError) {
+          // Ignore backend sync errors; Supabase metadata is still updated.
+        }
         setNameStatus("success", "Saved!");
         setTimeout(() => {
           close();

@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 
 from app.db.models.user import User
 from app.db.session import get_db
+from app.subscriptions.service import ensure_starter_subscription
 
 SUPABASE_JWT_SECRET = os.getenv("SUPABASE_JWT_SECRET", "")
 SUPABASE_JWT_AUDIENCE = os.getenv("SUPABASE_JWT_AUDIENCE", "authenticated")
@@ -81,14 +82,15 @@ def _sync_user(db: Session, user_id: uuid.UUID, payload: dict) -> User:
 	email = payload.get("email")
 	metadata = payload.get("user_metadata") or {}
 	full_name = metadata.get("full_name") or metadata.get("name")
+	now = datetime.utcnow()
 
 	user = db.get(User, user_id)
-	now = datetime.utcnow()
 	if not user:
 		user = User(id=user_id, email=email, full_name=full_name)
 		db.add(user)
 		db.commit()
 		db.refresh(user)
+		ensure_starter_subscription(db, user)
 		return user
 
 	updated = False
@@ -103,6 +105,8 @@ def _sync_user(db: Session, user_id: uuid.UUID, payload: dict) -> User:
 		db.add(user)
 		db.commit()
 		db.refresh(user)
+
+	ensure_starter_subscription(db, user)
 	return user
 
 

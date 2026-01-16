@@ -41,12 +41,12 @@
             </div>
             <dl class="mt-6 grid grid-cols-2 gap-4 text-sm text-slate-700">
               <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <dt class="text-xs uppercase tracking-wide text-slate-500">Status</dt>
-                <dd class="mt-1 font-semibold text-emerald-600">Active</dd>
+                <dt class="text-xs uppercase tracking-wide text-slate-500">Active plan</dt>
+                <dd id="dash-plan" class="mt-1 font-semibold text-emerald-600">Starter</dd>
               </div>
               <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <dt class="text-xs uppercase tracking-wide text-slate-500">Tools ready</dt>
-                <dd class="mt-1 font-semibold text-slate-900">PDF, Image, Docs</dd>
+                <dt class="text-xs uppercase tracking-wide text-slate-500">Usage today</dt>
+                <dd id="dash-usage" class="mt-1 font-semibold text-slate-900">0 tools</dd>
               </div>
             </dl>
           </div>
@@ -54,29 +54,148 @@
       </div>
     </section>
 
-    <section class="mx-auto max-w-6xl px-4 py-12">
-      <div class="grid gap-6 md:grid-cols-3">
+    <section class="mx-auto max-w-6xl px-4 py-12" aria-labelledby="dashboard-overview">
+      <h2 id="dashboard-overview" class="sr-only">Account overview</h2>
+      <div class="grid gap-6 lg:grid-cols-3">
+        <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-card">
+          <h3 class="text-lg font-semibold text-slate-900">Usage today</h3>
+          <p class="mt-1 text-sm text-slate-600">Only tools you used today are listed.</p>
+          <ul id="usage-list" class="mt-4 space-y-3 text-sm text-slate-700"></ul>
+          <p id="usage-empty" class="mt-4 text-sm text-slate-500">No usage yet. Start a tool to see it here.</p>
+        </article>
+        <article class="rounded-3xl border border-blue-200 bg-white p-6 shadow-card">
+          <div class="flex items-start justify-between">
+            <div>
+              <h3 class="text-lg font-semibold text-slate-900">Plan &amp; access</h3>
+              <p class="mt-1 text-sm text-slate-600">Active plan and upgrade options.</p>
+            </div>
+            <span id="plan-badge" class="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">Starter</span>
+          </div>
+          <div class="mt-4 space-y-2 text-sm text-slate-700">
+            <p><span class="font-semibold text-slate-900">Plan:</span> <span id="plan-name">Starter</span></p>
+            <p><span class="font-semibold text-slate-900">Status:</span> <span id="plan-status">Active</span></p>
+          </div>
+          <div class="mt-4 flex flex-wrap gap-3">
+            <a class="inline-flex items-center rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brandDark" href="/pricing.html#plans">Upgrade</a>
+            <button id="cancel-plan" class="inline-flex items-center rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-blue-200 hover:text-blue-700" type="button">Cancel plan</button>
+          </div>
+          <p id="plan-action-status" class="mt-3 text-sm text-slate-500" role="status"></p>
+        </article>
+        <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-card">
+          <h3 class="text-lg font-semibold text-slate-900">Billing &amp; payments</h3>
+          <p class="mt-1 text-sm text-slate-600">Billing setup is coming soon.</p>
+          <div class="mt-4 space-y-2 text-sm text-slate-700">
+            <p><span class="font-semibold text-slate-900">Payment method:</span> Not configured</p>
+            <p><span class="font-semibold text-slate-900">Next invoice:</span> —</p>
+          </div>
+          <button class="mt-4 inline-flex items-center rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-500" type="button" disabled>Manage billing (coming soon)</button>
+        </article>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-6xl px-4 pb-12" aria-labelledby="profile-settings">
+      <div class="grid gap-6 lg:grid-cols-2">
+        <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-card">
+          <h3 id="profile-settings" class="text-lg font-semibold text-slate-900">Profile settings</h3>
+          <p class="mt-1 text-sm text-slate-600">Update your name and email.</p>
+          <div class="mt-5 grid gap-4">
+            <label class="block">
+              <span class="text-xs font-semibold uppercase tracking-wide text-slate-500">Full name</span>
+              <input id="profile-full-name" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400" type="text" placeholder="Your name" />
+            </label>
+            <label class="block">
+              <span class="text-xs font-semibold uppercase tracking-wide text-slate-500">Email</span>
+              <input id="profile-email" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400" type="email" placeholder="you@example.com" />
+            </label>
+          </div>
+          <div class="mt-4 flex flex-wrap gap-3">
+            <button id="profile-save" class="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700" type="button">Save changes</button>
+            <span id="profile-status" class="text-sm text-slate-500" role="status"></span>
+          </div>
+        </article>
+        <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-card">
+          <h3 class="text-lg font-semibold text-slate-900">Connected accounts</h3>
+          <p class="mt-1 text-sm text-slate-600">Manage social sign-in connections.</p>
+          <div class="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm font-semibold text-slate-900">Google</p>
+                <p id="google-status" class="text-xs text-slate-500">Not connected</p>
+              </div>
+              <div class="flex gap-2">
+                <button id="google-connect" class="inline-flex items-center rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 transition hover:border-blue-200 hover:text-blue-700" type="button">Connect</button>
+                <button id="google-disconnect" class="inline-flex items-center rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-400" type="button" disabled>Disconnect</button>
+              </div>
+            </div>
+          </div>
+          <p class="mt-3 text-xs text-slate-500">Disconnect is coming soon.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-6xl px-4 pb-12" aria-labelledby="tools-access">
+      <div class="flex items-center justify-between gap-3">
+        <div>
+          <h3 id="tools-access" class="text-lg font-semibold text-slate-900">Tool library</h3>
+          <p class="text-sm text-slate-600">Jump back into any workflow.</p>
+        </div>
+        <a class="text-sm font-semibold text-blue-600 hover:text-blue-700" href="/tools/index.html">Open full library →</a>
+      </div>
+      <div class="mt-6 grid gap-6 md:grid-cols-3">
         <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">PDF</p>
-          <h3 class="mt-2 text-lg font-semibold text-slate-900">Merge and optimize</h3>
+          <h4 class="mt-2 text-base font-semibold text-slate-900">Merge and optimize</h4>
           <p class="mt-2 text-sm text-slate-600">Combine PDFs, compress, and clean pages without leaving your browser.</p>
           <a class="mt-3 inline-flex text-sm font-semibold text-blue-600 hover:text-blue-700" href="/tools/pdf/index.html">Open PDF tools →</a>
         </article>
         <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Image</p>
-          <h3 class="mt-2 text-lg font-semibold text-slate-900">Resize and convert</h3>
+          <h4 class="mt-2 text-base font-semibold text-slate-900">Resize and convert</h4>
           <p class="mt-2 text-sm text-slate-600">Batch convert, compress, and prep assets for every channel.</p>
           <a class="mt-3 inline-flex text-sm font-semibold text-blue-600 hover:text-blue-700" href="/tools/image/index.html">Open image tools →</a>
         </article>
         <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Docs</p>
-          <h3 class="mt-2 text-lg font-semibold text-slate-900">Convert and standardize</h3>
+          <h4 class="mt-2 text-base font-semibold text-slate-900">Convert and standardize</h4>
           <p class="mt-2 text-sm text-slate-600">Handle DOCX, slides, and sheets with reliable conversions.</p>
           <a class="mt-3 inline-flex text-sm font-semibold text-blue-600 hover:text-blue-700" href="/tools/docs/index.html">Open doc tools →</a>
         </article>
       </div>
     </section>
+
+    <section class="mx-auto max-w-6xl px-4 pb-16" aria-labelledby="danger-zone">
+      <article class="rounded-3xl border border-rose-200 bg-rose-50 p-6 shadow-card">
+        <h3 id="danger-zone" class="text-lg font-semibold text-rose-700">Danger zone</h3>
+        <p class="mt-2 text-sm text-rose-700">Request account deletion. Your data will be retained for 30 days before permanent removal.</p>
+        <button id="delete-account" class="mt-4 inline-flex items-center rounded-lg bg-rose-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-rose-700" type="button">Delete account</button>
+        <p id="delete-status" class="mt-3 text-sm text-rose-700" role="status"></p>
+      </article>
+    </section>
   </main>
+
+  <div id="delete-modal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"></div>
+    <div class="absolute inset-0 flex items-center justify-center px-4">
+      <div class="w-full max-w-lg rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_30px_120px_-60px_rgba(15,23,42,0.6)]">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <h3 class="text-lg font-semibold text-slate-900">Confirm account deletion</h3>
+            <p class="mt-1 text-sm text-slate-600">Type DELETE to confirm. We will keep your data for 30 days before removing it.</p>
+          </div>
+          <button id="delete-close" class="text-slate-400 transition hover:text-slate-600" type="button" aria-label="Close">×</button>
+        </div>
+        <label class="mt-4 block">
+          <span class="text-xs font-semibold uppercase tracking-wide text-slate-500">Type DELETE</span>
+          <input id="delete-confirm" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-rose-400 focus:outline-none focus:ring-1 focus:ring-rose-400" type="text" placeholder="DELETE" />
+        </label>
+        <p id="delete-modal-status" class="mt-3 text-sm text-rose-600" role="status"></p>
+        <div class="mt-5 flex items-center justify-end gap-3">
+          <button id="delete-cancel" class="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300" type="button">Cancel</button>
+          <button id="delete-confirm-btn" class="rounded-lg bg-rose-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-rose-700" type="button">Delete my account</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div id="footer"></div>
 
@@ -86,41 +205,243 @@
     const emailEl = document.getElementById("dash-email");
     const initialEl = document.getElementById("dash-initial");
     const logoutBtn = document.getElementById("dash-logout");
+    const usageList = document.getElementById("usage-list");
+    const usageEmpty = document.getElementById("usage-empty");
+    const dashPlan = document.getElementById("dash-plan");
+    const dashUsage = document.getElementById("dash-usage");
+    const planBadge = document.getElementById("plan-badge");
+    const planName = document.getElementById("plan-name");
+    const planStatus = document.getElementById("plan-status");
+    const planActionStatus = document.getElementById("plan-action-status");
+    const cancelPlanBtn = document.getElementById("cancel-plan");
+    const profileNameInput = document.getElementById("profile-full-name");
+    const profileEmailInput = document.getElementById("profile-email");
+    const profileSaveBtn = document.getElementById("profile-save");
+    const profileStatus = document.getElementById("profile-status");
+    const googleStatus = document.getElementById("google-status");
+    const googleConnect = document.getElementById("google-connect");
+    const googleDisconnect = document.getElementById("google-disconnect");
+    const deleteBtn = document.getElementById("delete-account");
+    const deleteStatus = document.getElementById("delete-status");
+    const deleteModal = document.getElementById("delete-modal");
+    const deleteClose = document.getElementById("delete-close");
+    const deleteCancel = document.getElementById("delete-cancel");
+    const deleteConfirm = document.getElementById("delete-confirm");
+    const deleteConfirmBtn = document.getElementById("delete-confirm-btn");
+    const deleteModalStatus = document.getElementById("delete-modal-status");
 
-    async function fetchProfile() {
-      if (!window.CanIEditAuth || typeof window.CanIEditAuth.getUser !== "function") {
-        return null;
-      }
-      return await window.CanIEditAuth.getUser();
+    const apiBase = typeof resolveApiBase === "function" ? resolveApiBase() : "https://api.caniedit.in/api";
+
+    async function getAuthClient() {
+      return window.CanIEditAuth && typeof window.CanIEditAuth.getClient === "function"
+        ? await window.CanIEditAuth.getClient()
+        : null;
     }
 
-    async function requireAuth() {
-      const user = await fetchProfile();
-      if (user) return user;
+    async function getAccessToken() {
+      return window.CanIEditAuth && typeof window.CanIEditAuth.getAccessToken === "function"
+        ? await window.CanIEditAuth.getAccessToken()
+        : null;
+    }
 
-      window.location.replace("/login.html");
-      return null;
+    async function apiRequest(path, options = {}) {
+      const token = await getAccessToken();
+      const headers = { ...(options.headers || {}) };
+      if (token) headers.Authorization = `Bearer ${token}`;
+      const response = await fetch(`${apiBase}${path}`, {
+        ...options,
+        headers,
+        credentials: "include",
+      });
+      const contentType = response.headers.get("content-type") || "";
+      const data = contentType.includes("application/json") ? await response.json().catch(() => ({})) : {};
+      if (!response.ok) {
+        const detail = data?.detail || "Request failed";
+        throw new Error(typeof detail === "string" ? detail : "Request failed");
+      }
+      return data;
     }
 
     function hydrateUserCard(user) {
       if (!user) return;
-      emailEl.textContent = user.email;
+      emailEl.textContent = user.email || "";
       const displayName = user.full_name || user.email || "there";
       nameEl.textContent = displayName.split(" ")[0];
       initialEl.textContent = (displayName.trim()[0] || "?").toUpperCase();
+      if (profileNameInput) profileNameInput.value = user.full_name || "";
+      if (profileEmailInput) profileEmailInput.value = user.email || "";
+    }
+
+    function renderUsage(usage = []) {
+      if (!usageList || !usageEmpty) return;
+      usageList.innerHTML = "";
+      if (!usage.length) {
+        usageEmpty.classList.remove("hidden");
+        dashUsage.textContent = "0 tools";
+        return;
+      }
+      usageEmpty.classList.add("hidden");
+      usage.forEach((row) => {
+        const li = document.createElement("li");
+        li.className = "flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2";
+        li.innerHTML = `
+          <span class="text-sm font-semibold text-slate-900">${row.tool.replace(/_/g, " ")}</span>
+          <span class="text-xs text-slate-600">${row.used} / ${row.limit}</span>
+        `;
+        usageList.appendChild(li);
+      });
+      dashUsage.textContent = `${usage.length} tool${usage.length === 1 ? "" : "s"}`;
+    }
+
+    function renderPlan(planResponse) {
+      const activePlan = planResponse?.active?.plan;
+      const planLabel = activePlan?.name || "Starter";
+      dashPlan.textContent = planLabel;
+      planBadge.textContent = planLabel;
+      planName.textContent = planLabel;
+      planStatus.textContent = planResponse?.active?.status || "Active";
+    }
+
+    async function loadDashboard() {
+      const client = await getAuthClient();
+      if (!client) {
+        window.location.replace("/login.html");
+        return;
+      }
+      const { data } = await client.auth.getUser();
+      const authUser = data?.user;
+      if (!authUser) {
+        window.location.replace("/login.html");
+        return;
+      }
+
+      const profile = {
+        email: authUser.email || "",
+        full_name: authUser.user_metadata?.full_name || authUser.user_metadata?.name || "",
+      };
+      hydrateUserCard(profile);
+
+      const identities = authUser.identities || [];
+      const hasGoogle = identities.some((identity) => identity.provider === "google");
+      if (googleStatus) {
+        googleStatus.textContent = hasGoogle ? "Connected" : "Not connected";
+      }
+      if (googleDisconnect) {
+        googleDisconnect.disabled = !hasGoogle;
+        googleDisconnect.classList.toggle("text-slate-400", !hasGoogle);
+        googleDisconnect.classList.toggle("text-slate-700", hasGoogle);
+      }
+
+      try {
+        const [usageResponse, planResponse] = await Promise.all([
+          apiRequest("/users/me/usage"),
+          apiRequest("/users/me/subscription"),
+        ]);
+        renderUsage(usageResponse.usage || []);
+        renderPlan(planResponse);
+      } catch (error) {
+        renderUsage([]);
+      }
     }
 
     logoutBtn?.addEventListener("click", async () => {
-      if (window.CanIEditAuth && typeof window.CanIEditAuth.getClient === "function") {
-        const client = await window.CanIEditAuth.getClient();
-        if (client) {
-          await client.auth.signOut();
-        }
+      const client = await getAuthClient();
+      if (client) {
+        await client.auth.signOut();
       }
       window.location.href = "/login.html";
     });
 
-    requireAuth().then(hydrateUserCard);
+    cancelPlanBtn?.addEventListener("click", () => {
+      planActionStatus.textContent = "Plan cancellations will be available soon.";
+    });
+
+    profileSaveBtn?.addEventListener("click", async () => {
+      profileStatus.textContent = "Saving...";
+      profileSaveBtn.disabled = true;
+      try {
+        const client = await getAuthClient();
+        if (!client) throw new Error("Auth not available");
+        const payload = { data: { full_name: profileNameInput.value.trim() } };
+        if (profileEmailInput.value.trim()) {
+          payload.email = profileEmailInput.value.trim();
+        }
+        const { error } = await client.auth.updateUser(payload);
+        if (error) throw error;
+        await apiRequest("/users/me", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            full_name: profileNameInput.value.trim(),
+            email: profileEmailInput.value.trim(),
+          }),
+        });
+        profileStatus.textContent = payload.email ? "Saved. Check your email to confirm the change." : "Profile saved.";
+        loadDashboard();
+      } catch (error) {
+        profileStatus.textContent = error.message || "Unable to save profile.";
+      } finally {
+        profileSaveBtn.disabled = false;
+      }
+    });
+
+    googleConnect?.addEventListener("click", async () => {
+      const client = await getAuthClient();
+      if (!client) return;
+      await client.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: `${window.location.origin}/dashboard.html` },
+      });
+    });
+
+    googleDisconnect?.addEventListener("click", () => {
+      planActionStatus.textContent = "Disconnecting social accounts is coming soon.";
+    });
+
+    function openDeleteModal() {
+      deleteModal?.classList.remove("hidden");
+      document.body.classList.add("overflow-hidden");
+      deleteConfirm.value = "";
+      deleteModalStatus.textContent = "";
+    }
+
+    function closeDeleteModal() {
+      deleteModal?.classList.add("hidden");
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    deleteBtn?.addEventListener("click", openDeleteModal);
+    deleteClose?.addEventListener("click", closeDeleteModal);
+    deleteCancel?.addEventListener("click", closeDeleteModal);
+    deleteModal?.addEventListener("click", (event) => {
+      if (event.target === deleteModal) closeDeleteModal();
+    });
+
+    deleteConfirmBtn?.addEventListener("click", async () => {
+      if (deleteConfirm.value.trim() !== "DELETE") {
+        deleteModalStatus.textContent = "Type DELETE to confirm.";
+        return;
+      }
+      deleteModalStatus.textContent = "Requesting deletion...";
+      deleteConfirmBtn.disabled = true;
+      try {
+        const response = await apiRequest("/users/me/delete", { method: "POST" });
+        deleteStatus.textContent = `Deletion scheduled. Data will be removed on ${new Date(response.delete_at).toLocaleDateString()}.`;
+        const client = await getAuthClient();
+        if (client) {
+          await client.auth.signOut();
+        }
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1200);
+      } catch (error) {
+        deleteModalStatus.textContent = error.message || "Unable to request deletion.";
+      } finally {
+        deleteConfirmBtn.disabled = false;
+      }
+    });
+
+    loadDashboard();
   </script>
 </body>
 </html>

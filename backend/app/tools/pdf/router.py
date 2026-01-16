@@ -21,7 +21,7 @@ async def merge_pdfs_route(
 @router.delete("/merge/{filename}")
 def delete_merged_pdf_route(
 	filename: str,
-	current_user=Depends(get_current_user),
+	current_user=Depends(get_optional_user),
 	db: Session = Depends(get_db),
 ):
 	return delete_merged_pdf(filename, current_user, db)

@@ -6,8 +6,11 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.db.session import init_db
+from app.db.session import SessionLocal, init_db
+from app.subscriptions.router import router as subscriptions_router
 from app.tools.pdf.router import router as pdf_merge_router
+from app.users.router import router as users_router
+from app.users.service import cleanup_deleted_users_loop
 from app.utils.storage import cleanup_old_files
 
 
@@ -46,6 +49,8 @@ def root():
 
 # API routes
 app.include_router(pdf_merge_router, prefix="/api/pdf")
+app.include_router(subscriptions_router, prefix="/api")
+app.include_router(users_router, prefix="/api")
 
 # Serve merged files
 app.mount(
@@ -59,3 +64,4 @@ app.mount(
 def start_cleanup_thread() -> None:
     init_db()
     threading.Thread(target=cleanup_old_files, daemon=True).start()
+    threading.Thread(target=cleanup_deleted_users_loop, args=(SessionLocal,), daemon=True).start()

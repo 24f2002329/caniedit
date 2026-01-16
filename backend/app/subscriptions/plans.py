@@ -24,9 +24,10 @@ def _env_limit(key: str, default: int) -> int:
 
 
 PLAN_DEFINITIONS = [
-	PlanDefinition("starter", "Starter", _env_limit("PLAN_STARTER_DAILY_LIMIT", 30)),
+	PlanDefinition("starter", "Starter", _env_limit("PLAN_STARTER_DAILY_LIMIT", 20)),
+	PlanDefinition("individual", "Individual", _env_limit("PLAN_INDIVIDUAL_DAILY_LIMIT", 100)),
 	PlanDefinition("team", "Team", _env_limit("PLAN_TEAM_DAILY_LIMIT", 200)),
-	PlanDefinition("business", "Business", _env_limit("PLAN_BUSINESS_DAILY_LIMIT", 1000)),
+	PlanDefinition("business", "Business", _env_limit("PLAN_BUSINESS_DAILY_LIMIT", 9999)),
 ]
 
 
