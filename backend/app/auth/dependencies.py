@@ -1,6 +1,12 @@
+import json
 import os
+import threading
+import time
 import uuid
 from datetime import datetime
+from urllib.parse import urlparse
+from urllib.request import Request as UrlRequest
+from urllib.request import urlopen
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -12,46 +18,144 @@ from app.db.models.user import User
 from app.db.session import get_db
 from app.subscriptions.service import ensure_starter_subscription
 
-SUPABASE_JWT_SECRET = os.getenv("SUPABASE_JWT_SECRET", "")
 SUPABASE_JWT_AUDIENCE = os.getenv("SUPABASE_JWT_AUDIENCE", "authenticated")
-JWT_ALGORITHMS = ["HS256"]
+SUPABASE_PROJECT_REF = os.getenv("SUPABASE_PROJECT_REF", "")
+SUPABASE_URL = os.getenv("SUPABASE_URL", "")
+SUPABASE_DATABASE_URL = os.getenv("SUPABASE_DATABASE_URL", "")
+SUPABASE_JWKS_TTL_SECONDS = int(os.getenv("SUPABASE_JWKS_TTL_SECONDS", "3600"))
+JWT_ALGORITHMS = ["ES256"]
 
 bearer_scheme = HTTPBearer(auto_error=False)
 
 
-def _decode_supabase_token(token: str) -> dict:
-	if not SUPABASE_JWT_SECRET:
+_jwks_cache: dict = {"keys": [], "expires_at": 0.0}
+_jwks_lock = threading.Lock()
+
+
+def _extract_project_ref_from_url(url: str) -> str:
+	if not url:
+		return ""
+	parsed = urlparse(url)
+	host = parsed.netloc or parsed.path
+	if not host:
+		return ""
+	return host.split(".")[0]
+
+
+def _extract_project_ref_from_db_url(db_url: str) -> str:
+	if not db_url:
+		return ""
+	parsed = urlparse(db_url)
+	userinfo = parsed.netloc.split("@", 1)[0] if "@" in parsed.netloc else ""
+	username = userinfo.split(":", 1)[0] if userinfo else ""
+	if username.startswith("postgres."):
+		return username.split("postgres.", 1)[1]
+	return ""
+
+
+def _get_supabase_project_ref() -> str:
+	if SUPABASE_PROJECT_REF:
+		return SUPABASE_PROJECT_REF
+	ref = _extract_project_ref_from_url(SUPABASE_URL)
+	if ref:
+		return ref
+	return _extract_project_ref_from_db_url(SUPABASE_DATABASE_URL)
+
+
+def _jwks_url() -> str:
+	project_ref = _get_supabase_project_ref()
+	if not project_ref:
 		raise HTTPException(
 			status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-			detail="Supabase JWT secret is not configured",
+			detail="Supabase project reference is not configured",
+		)
+	return f"https://{project_ref}.supabase.co/auth/v1/.well-known/jwks.json"
+
+
+def _fetch_jwks() -> list[dict]:
+	request = UrlRequest(_jwks_url(), headers={"Accept": "application/json"})
+	with urlopen(request, timeout=5) as response:
+		payload = response.read()
+	data = json.loads(payload.decode("utf-8"))
+	keys = data.get("keys", []) if isinstance(data, dict) else []
+	if not isinstance(keys, list):
+		return []
+	return keys
+
+
+def _get_jwks(force_refresh: bool = False) -> list[dict]:
+	now = time.time()
+	with _jwks_lock:
+		if not force_refresh and _jwks_cache["keys"] and now < _jwks_cache["expires_at"]:
+			return _jwks_cache["keys"]
+		keys = _fetch_jwks()
+		ttl = max(SUPABASE_JWKS_TTL_SECONDS, 60)
+		_jwks_cache.update({"keys": keys, "expires_at": now + ttl})
+		return keys
+
+
+def _get_signing_key(kid: str) -> dict:
+	keys = _get_jwks()
+	for key in keys:
+		if key.get("kid") == kid:
+			return key
+	# Key rotation: refresh once and retry
+	keys = _get_jwks(force_refresh=True)
+	for key in keys:
+		if key.get("kid") == kid:
+			return key
+	raise HTTPException(
+		status_code=status.HTTP_401_UNAUTHORIZED,
+		detail="Invalid or expired Supabase token",
+		headers={"WWW-Authenticate": "Bearer"},
+	)
+
+
+def _decode_supabase_token(token: str) -> dict:
+	try:
+		header = jwt.get_unverified_header(token)
+	except JWTError as exc:
+		raise HTTPException(
+			status_code=status.HTTP_401_UNAUTHORIZED,
+			detail="Invalid or expired Supabase token",
+			headers={"WWW-Authenticate": "Bearer"},
+		) from exc
+
+	alg = header.get("alg")
+	if alg != "ES256":
+		raise HTTPException(
+			status_code=status.HTTP_401_UNAUTHORIZED,
+			detail="Invalid or expired Supabase token",
+			headers={"WWW-Authenticate": "Bearer"},
+		)
+	kid = header.get("kid")
+	if not kid:
+		raise HTTPException(
+			status_code=status.HTTP_401_UNAUTHORIZED,
+			detail="Invalid or expired Supabase token",
+			headers={"WWW-Authenticate": "Bearer"},
 		)
 
+	signing_key = _get_signing_key(kid)
 	audience_values = [value.strip() for value in SUPABASE_JWT_AUDIENCE.split(",") if value.strip()]
 	audience = audience_values or None
-	options = {"verify_aud": bool(audience)}
+	issuer = f"https://{_get_supabase_project_ref()}.supabase.co"
+	options = {"verify_aud": bool(audience), "verify_iss": True}
 	try:
 		return jwt.decode(
 			token,
-			SUPABASE_JWT_SECRET,
+			signing_key,
 			algorithms=JWT_ALGORITHMS,
 			audience=audience,
+			issuer=issuer,
 			options=options,
 		)
 	except JWTClaimsError as exc:
-		# If the only issue is audience mismatch, allow tokens by skipping aud check.
-		try:
-			return jwt.decode(
-				token,
-				SUPABASE_JWT_SECRET,
-				algorithms=JWT_ALGORITHMS,
-				options={"verify_aud": False},
-			)
-		except JWTError:
-			raise HTTPException(
-				status_code=status.HTTP_401_UNAUTHORIZED,
-				detail="Invalid or expired Supabase token",
-				headers={"WWW-Authenticate": "Bearer"},
-			) from exc
+		raise HTTPException(
+			status_code=status.HTTP_401_UNAUTHORIZED,
+			detail="Invalid or expired Supabase token",
+			headers={"WWW-Authenticate": "Bearer"},
+		) from exc
 	except JWTError as exc:
 		raise HTTPException(
 			status_code=status.HTTP_401_UNAUTHORIZED,
@@ -125,6 +229,23 @@ def get_current_user(
 	return _sync_user(db, user_id, payload)
 
 
+def get_current_claims(
+	credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
+) -> dict:
+	if not credentials:
+		raise HTTPException(
+			status_code=status.HTTP_401_UNAUTHORIZED,
+			detail="Missing authorization token",
+			headers={"WWW-Authenticate": "Bearer"},
+		)
+	payload = _decode_supabase_token(credentials.credentials)
+	return {
+		"sub": payload.get("sub"),
+		"email": payload.get("email"),
+		"role": payload.get("role"),
+	}
+
+
 def get_optional_user(
 	credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
 	db: Session = Depends(get_db),
@@ -141,4 +262,4 @@ def get_optional_user(
 		raise
 
 
-__all__ = ["get_current_user", "get_optional_user"]
+__all__ = ["get_current_user", "get_optional_user", "get_current_claims"]
