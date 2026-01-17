@@ -88,14 +88,32 @@ def _get_usage_record(
     return record
 
 
+def _normalize_ip(value: str) -> str:
+    cleaned = value.strip()
+    if not cleaned:
+        return "unknown"
+    if cleaned.startswith("[") and "]" in cleaned:
+        bracket_end = cleaned.find("]")
+        return cleaned[1:bracket_end] or "unknown"
+    if ":" in cleaned:
+        last_colon = cleaned.rfind(":")
+        host_part = cleaned[:last_colon]
+        port_part = cleaned[last_colon + 1 :]
+        if host_part and port_part.isdigit() and "." in host_part:
+            return host_part
+    return cleaned
+
+
 def client_ip(request: Request) -> str:
     forwarded = request.headers.get("x-forwarded-for")
     if forwarded:
-        return forwarded.split(",")[0].strip()
+        return _normalize_ip(forwarded.split(",")[0])
     real_ip = request.headers.get("x-real-ip")
     if real_ip:
-        return real_ip.strip()
-    return request.client.host if request.client else "unknown"
+        return _normalize_ip(real_ip)
+    if request.client and request.client.host:
+        return _normalize_ip(request.client.host)
+    return "unknown"
 
 
 def increment_usage(

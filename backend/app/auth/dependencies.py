@@ -135,8 +135,10 @@ def get_optional_user(
 		payload = _decode_supabase_token(credentials.credentials)
 		user_id = _extract_user_id(payload)
 		return _sync_user(db, user_id, payload)
-	except HTTPException:
-		return None
+	except HTTPException as exc:
+		if exc.status_code in (status.HTTP_401_UNAUTHORIZED, status.HTTP_403_FORBIDDEN):
+			return None
+		raise
 
 
 __all__ = ["get_current_user", "get_optional_user"]
