@@ -11,6 +11,8 @@
   <link rel="prefetch" href="../../partials/header.html" as="fetch" crossorigin="anonymous" />
   <link rel="prefetch" href="../../partials/footer.html" as="fetch" crossorigin="anonymous" />
   <link rel="stylesheet" href="/assets/css/output.css" />
+  <script src="/assets/env.js"></script>
+  <script src="/assets/config.js"></script>
 </head>
 <body class="flex min-h-screen flex-col bg-slate-50 font-sans text-slate-900">
   <div id="header"></div>
@@ -79,12 +81,21 @@
 
   <div id="footer"></div>
 
-  <script>
+  <script type="module">
     (function () {
       const params = new URLSearchParams(window.location.search);
       const toolKey = params.get("tool") || "";
       const file = params.get("file");
-      const API_BASE = "https://api.caniedit.in";
+      const resolveBackendOrigin = () => {
+        const raw = (import.meta.env && import.meta.env.API_BASE_URL)
+          || (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL)
+          || (window.__ENV__ && window.__ENV__.API_BASE_URL)
+          || "";
+        if (!raw) return "";
+        const normalized = raw.replace(/\/$/, "");
+        return normalized.endsWith("/api") ? normalized.slice(0, -4) : normalized;
+      };
+      const API_BASE = resolveBackendOrigin();
 
       const BASE_CONFIG = {
         pageTitle: "Download Your Files | CanIEdit",

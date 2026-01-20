@@ -1,5 +1,6 @@
 Frontend for CanIEdit (HTML + Tailwind + SEO pages)
 
 - Static pages load shared header/footer via `assets/include.js`.
-- Auth UI lives at `/login.html` and expects the backend at `https://api.caniedit.in/api` by default.
-- Override the API origin by setting `window.APP_CONFIG = { API_BASE_URL: "https://api.example.com/api" }` before loading page scripts.
+- Auth UI reads the backend origin from `API_BASE_URL` (no hard-coded URLs).
+- For Vite builds, set `API_BASE_URL` in your `.env` file and access it via `import.meta.env.API_BASE_URL`.
+- For plain static builds, set `window.__ENV__ = { API_BASE_URL: "http://127.0.0.1:8000" }` in `assets/env.js` (loaded before `assets/config.js`).

@@ -367,7 +367,13 @@ async function getSupabaseAccessToken() {
   const client = await getSupabaseClient();
   if (!client) return null;
   const { data } = await client.auth.getSession();
-  return data?.session?.access_token || null;
+  if (data?.session?.access_token) return data.session.access_token;
+  try {
+    const { data: refreshed } = await client.auth.refreshSession();
+    return refreshed?.session?.access_token || null;
+  } catch (error) {
+    return null;
+  }
 }
 
 function normalizeSupabaseUser(user) {
@@ -386,8 +392,16 @@ async function fetchCurrentSupabaseUser() {
   return normalizeSupabaseUser(data?.user);
 }
 
+function resolveBackendOrigin() {
+  const fromConfig = (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL)
+    || (window.__ENV__ && window.__ENV__.API_BASE_URL)
+    || "";
+  return fromConfig ? fromConfig.replace(/\/$/, "") : "";
+}
+
 function resolveApiBase() {
-  return (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL) || "https://api.caniedit.in/api";
+  const origin = resolveBackendOrigin();
+  return origin ? `${origin}/api` : "";
 }
 
 function applyHomeAuthState(user, options = {}) {

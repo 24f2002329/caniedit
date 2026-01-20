@@ -16,11 +16,15 @@ DELETE_GRACE_DAYS = 30
 
 
 def get_profile(user: User) -> dict:
+	delete_at = None
+	if user.delete_requested_at:
+		delete_at = user.delete_requested_at + timedelta(days=DELETE_GRACE_DAYS)
 	return {
 		"id": str(user.id),
 		"email": user.email,
 		"full_name": user.full_name,
 		"delete_requested_at": user.delete_requested_at.isoformat() if user.delete_requested_at else None,
+		"delete_at": delete_at.isoformat() if delete_at else None,
 		"deleted_at": user.deleted_at.isoformat() if user.deleted_at else None,
 	}
 
@@ -59,6 +63,25 @@ def request_account_deletion(db: Session, user: User) -> dict:
 	return {
 		"delete_requested_at": user.delete_requested_at,
 		"delete_at": user.delete_requested_at + timedelta(days=DELETE_GRACE_DAYS),
+	}
+
+
+def cancel_account_deletion(db: Session, user: User) -> dict:
+	if not user.delete_requested_at:
+		return {
+			"delete_requested_at": None,
+			"delete_at": None,
+		}
+
+	now = datetime.utcnow()
+	user.delete_requested_at = None
+	user.touch(now)
+	db.add(user)
+	db.commit()
+	db.refresh(user)
+	return {
+		"delete_requested_at": None,
+		"delete_at": None,
 	}
 
 
@@ -160,6 +183,7 @@ __all__ = [
 	"get_profile",
 	"update_profile",
 	"request_account_deletion",
+	"cancel_account_deletion",
 	"get_usage_summary",
 	"get_subscription_summary",
 	"cleanup_deleted_users_loop",

@@ -8,6 +8,7 @@ from app.users.service import (
 	get_profile,
 	get_subscription_summary,
 	get_usage_summary,
+	cancel_account_deletion,
 	request_account_deletion,
 	update_profile,
 )
@@ -63,6 +64,19 @@ def delete_me(
 		"success": True,
 		"delete_requested_at": result["delete_requested_at"].isoformat(),
 		"delete_at": result["delete_at"].isoformat(),
+	}
+
+
+@router.post("/me/delete/cancel")
+def cancel_delete_me(
+	current_user=Depends(get_current_user),
+	db: Session = Depends(get_db),
+):
+	result = cancel_account_deletion(db, current_user)
+	return {
+		"success": True,
+		"delete_requested_at": result["delete_requested_at"],
+		"delete_at": result["delete_at"],
 	}
 
 

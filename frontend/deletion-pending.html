@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Account Deletion Scheduled | CanIEdit</title>
+  <meta name="description" content="Your account is scheduled for deletion. You can stop the deletion or log out." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/assets/images/favicon-48.png" sizes="48x48" type="image/png">
+  <link rel="icon" href="/assets/images/favicon-96.png" sizes="96x96" type="image/png">
+  <link rel="icon" href="/assets/images/favicon.ico">
+  <link rel="prefetch" href="./partials/header.html" as="fetch" crossorigin="anonymous" />
+  <link rel="prefetch" href="./partials/footer.html" as="fetch" crossorigin="anonymous" />
+  <link rel="stylesheet" href="/assets/css/output.css" />
+  <script src="/assets/env.js"></script>
+  <script src="/assets/config.js"></script>
+</head>
+<body class="flex min-h-screen flex-col bg-slate-50 text-slate-900">
+  <div id="header"></div>
+
+  <main class="flex-1">
+    <section class="bg-white">
+      <div class="mx-auto max-w-4xl px-4 py-16">
+        <div class="rounded-3xl border border-rose-100 bg-rose-50 p-8 shadow-card">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-rose-500">Account deletion scheduled</p>
+          <h1 class="mt-3 text-3xl font-bold text-slate-900">Your account is queued for deletion</h1>
+          <p id="deleteMessage" class="mt-4 text-sm text-slate-600">Your account will be deleted soon. You can stop the deletion to keep your data.</p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <button id="stopDeletion" type="button" class="inline-flex items-center justify-center rounded-lg bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400">Stop deletion</button>
+            <button id="logoutButton" type="button" class="inline-flex items-center justify-center rounded-lg border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-slate-300">Log out</button>
+          </div>
+          <p id="statusMessage" class="mt-4 text-sm text-slate-500"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="./assets/include.js"></script>
+  <script type="module">
+    const deleteMessage = document.getElementById("deleteMessage");
+    const statusMessage = document.getElementById("statusMessage");
+    const stopDeletion = document.getElementById("stopDeletion");
+    const logoutButton = document.getElementById("logoutButton");
+
+    const resolveApiBase = () => {
+      const raw = (import.meta.env && import.meta.env.API_BASE_URL)
+        || (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL)
+        || (window.__ENV__ && window.__ENV__.API_BASE_URL)
+        || "";
+      if (!raw) return "";
+      const normalized = raw.replace(/\/$/, "");
+      return normalized.endsWith("/api") ? normalized : `${normalized}/api`;
+    };
+
+    async function getAccessToken() {
+      return window.CanIEditAuth && typeof window.CanIEditAuth.getAccessToken === "function"
+        ? await window.CanIEditAuth.getAccessToken()
+        : null;
+    }
+
+    async function apiRequest(path, options = {}) {
+      const apiBase = resolveApiBase();
+      const token = await getAccessToken();
+      const headers = { ...(options.headers || {}) };
+      if (token) headers.Authorization = `Bearer ${token}`;
+      const response = await fetch(`${apiBase}${path}`, {
+        ...options,
+        headers,
+        credentials: "include",
+      });
+      const contentType = response.headers.get("content-type") || "";
+      const data = contentType.includes("application/json") ? await response.json().catch(() => ({})) : {};
+      if (!response.ok) {
+        const detail = data?.detail || "Request failed";
+        throw new Error(typeof detail === "string" ? detail : "Request failed");
+      }
+      return data;
+    }
+
+    async function loadProfile() {
+      try {
+        const profile = await apiRequest("/users/me");
+        if (!profile?.delete_requested_at) {
+          window.location.replace("/dashboard.html");
+          return;
+        }
+        if (profile.delete_at) {
+          const date = new Date(profile.delete_at).toLocaleDateString();
+          deleteMessage.textContent = `Your account will be deleted on ${date}. You can stop the deletion to keep your data.`;
+        }
+      } catch (error) {
+        window.location.replace("/login.html");
+      }
+    }
+
+    stopDeletion?.addEventListener("click", async () => {
+      statusMessage.textContent = "Stopping deletion...";
+      stopDeletion.disabled = true;
+      try {
+        await apiRequest("/users/me/delete/cancel", { method: "POST" });
+        statusMessage.textContent = "Deletion cancelled. Redirecting to dashboard...";
+        setTimeout(() => {
+          window.location.replace("/dashboard.html");
+        }, 800);
+      } catch (error) {
+        statusMessage.textContent = error.message || "Unable to cancel deletion.";
+      } finally {
+        stopDeletion.disabled = false;
+      }
+    });
+
+    logoutButton?.addEventListener("click", async () => {
+      const client = await (window.CanIEditAuth && window.CanIEditAuth.getClient ? window.CanIEditAuth.getClient() : null);
+      if (client) {
+        await client.auth.signOut();
+      }
+      window.location.href = "/login.html";
+    });
+
+    loadProfile();
+  </script>
+</body>
+</html>

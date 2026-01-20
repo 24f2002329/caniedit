@@ -1,4 +1,3 @@
-import os
 import threading
 
 from fastapi import FastAPI
@@ -6,20 +5,13 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.core.config import settings
 from app.db.session import SessionLocal, init_db
 from app.subscriptions.router import router as subscriptions_router
 from app.tools.pdf.router import router as pdf_merge_router
 from app.users.router import router as users_router
 from app.users.service import cleanup_deleted_users_loop
 from app.utils.storage import cleanup_old_files
-
-
-def parse_allowed_origins() -> list[str]:
-    raw = os.getenv(
-        "ALLOWED_ORIGINS",
-        "https://caniedit.in,https://api.caniedit.in,https://www.caniedit.in",
-    )
-    return [origin.strip() for origin in raw.split(",") if origin.strip()]
 
 app = FastAPI(
     title="CanIEdit API",
@@ -31,7 +23,7 @@ app = FastAPI(
 # ✅ CORS middleware (VERY IMPORTANT)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=parse_allowed_origins(),
+    allow_origins=settings.allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

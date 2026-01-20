@@ -13,6 +13,8 @@
   <link rel="prefetch" href="../../partials/header.html" as="fetch" crossorigin="anonymous" />
   <link rel="prefetch" href="../../partials/footer.html" as="fetch" crossorigin="anonymous" />
   <link rel="stylesheet" href="/assets/css/output.css" />
+  <script src="/assets/env.js"></script>
+  <script src="/assets/config.js"></script>
 </head>
 <body class="flex min-h-screen flex-col bg-slate-50 font-sans text-slate-900">
   <div id="header"></div>
@@ -130,7 +132,7 @@
   <div id="footer"></div>
 
   <script src="../../assets/tool-download.js"></script>
-  <script>
+  <script type="module">
     const form = document.getElementById("mergeForm");
     const status = document.getElementById("status");
     const submitButton = form.querySelector("button[type='submit']");
@@ -142,8 +144,15 @@
     const selectedFilesList = document.getElementById("selectedFilesList");
     const clearFilesButton = document.getElementById("clearFilesButton");
     let selectedFiles = [];
-    const API_BASE = (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL)
-      || "https://api.caniedit.in/api";
+    const resolveApiBase = () => {
+      const raw = (import.meta.env && import.meta.env.API_BASE_URL)
+        || (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL)
+        || (window.__ENV__ && window.__ENV__.API_BASE_URL)
+        || "";
+      if (!raw) return "";
+      const normalized = raw.replace(/\/$/, "");
+      return normalized.endsWith("/api") ? normalized : `${normalized}/api`;
+    };
 
     const STATUS_RESET_CLASSES = [
       "border-rose-200",
@@ -361,7 +370,8 @@
           ? await window.CanIEditAuth.getAccessToken()
           : null;
         const headers = accessToken ? { Authorization: `Bearer ${accessToken}` } : undefined;
-        const response = await fetch(`${API_BASE}/pdf/merge`, {
+        const apiBase = resolveApiBase();
+        const response = await fetch(`${apiBase}/pdf/merge`, {
           method: "POST",
           body: formData,
           headers,
