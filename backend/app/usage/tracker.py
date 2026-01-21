@@ -6,11 +6,13 @@ from sqlalchemy.orm import Session
 
 from app.db.models.plan import Plan
 from app.db.models.subscription import Subscription
+from app.db.models.tool import ToolDefinition
 from app.db.models.usage import Usage
 from app.db.models.user import User
 from app.subscriptions.plans import DEFAULT_PLAN_SLUG, PLAN_DEFINITIONS
 
 USAGE_WINDOW_SECONDS = int(os.getenv("USAGE_WINDOW_SECONDS", str(60 * 60 * 24)))
+USAGE_RETENTION_DAYS = int(os.getenv("USAGE_RETENTION_DAYS", "30"))
 ANON_DAILY_LIMIT = int(os.getenv("ANON_DAILY_LIMIT", "10"))
 LOGGED_IN_DAILY_LIMIT = int(os.getenv("LOGGED_IN_DAILY_LIMIT", "20"))
 
@@ -40,6 +42,17 @@ def _get_active_plan(db: Session, user_id) -> Plan | None:
         if plan:
             return plan
     return db.query(Plan).filter(Plan.slug == DEFAULT_PLAN_SLUG).first()
+
+
+def _get_tool_definition(db: Session, tool: str) -> ToolDefinition | None:
+    return db.query(ToolDefinition).filter(ToolDefinition.slug == tool).first()
+
+
+def _get_tool_weight(db: Session, tool: str) -> int:
+    definition = _get_tool_definition(db, tool)
+    if definition and definition.weight > 0:
+        return definition.weight
+    return 1
 
 
 def _get_usage_record(
@@ -121,9 +134,25 @@ def increment_usage(
     request: Request,
     user: User | None,
     tool: str,
-    amount: int = 1,
+    amount: int | None = None,
     window_seconds: int = USAGE_WINDOW_SECONDS,
 ) -> Usage:
+    definition = _get_tool_definition(db, tool)
+    if definition and definition.is_premium:
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_402_PAYMENT_REQUIRED,
+                detail="This tool is available on paid plans. Please sign in and upgrade.",
+            )
+        plan = _get_active_plan(db, user.id)
+        if not plan or plan.slug == DEFAULT_PLAN_SLUG:
+            raise HTTPException(
+                status_code=status.HTTP_402_PAYMENT_REQUIRED,
+                detail="This tool is available on paid plans. Please upgrade.",
+            )
+
+    if amount is None:
+        amount = _get_tool_weight(db, tool)
     if user:
         plan = _get_active_plan(db, user.id)
         limit = plan.daily_merge_limit if plan else LOGGED_IN_DAILY_LIMIT
@@ -158,3 +187,40 @@ def increment_usage(
     db.commit()
     db.refresh(record)
     return record
+
+
+def cleanup_usage_rows(db: Session) -> int:
+    cutoff = datetime.utcnow() - timedelta(days=USAGE_RETENTION_DAYS)
+    deleted = (
+        db.query(Usage)
+        .filter(Usage.period_end < cutoff)
+        .delete(synchronize_session=False)
+    )
+    if deleted:
+        db.commit()
+    return deleted or 0
+
+
+def cleanup_anonymous_usage_rows(db: Session) -> int:
+    today_start, _ = _daily_window(datetime.utcnow())
+    deleted = (
+        db.query(Usage)
+        .filter(Usage.anon_key.isnot(None), Usage.period_end <= today_start)
+        .delete(synchronize_session=False)
+    )
+    if deleted:
+        db.commit()
+    return deleted or 0
+
+
+def cleanup_usage_rows_loop(session_factory, sleep_seconds: int = 6 * 60 * 60) -> None:
+    import time
+
+    while True:
+        try:
+            with session_factory() as db:
+                cleanup_usage_rows(db)
+                cleanup_anonymous_usage_rows(db)
+        except Exception:
+            pass
+        time.sleep(sleep_seconds)

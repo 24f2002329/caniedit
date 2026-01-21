@@ -39,6 +39,8 @@ def init_db() -> None:
     Base.metadata.create_all(bind=engine)
 
     from app.subscriptions.plans import seed_default_plans
+    from app.tools.registry import seed_tool_definitions
 
     with SessionLocal() as db:
         seed_default_plans(db)
+        seed_tool_definitions(db)

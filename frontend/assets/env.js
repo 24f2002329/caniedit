@@ -3,6 +3,10 @@
 // Example: window.__ENV__ = { API_BASE_URL: "http://127.0.0.1:8000" };
 window.__ENV__ = window.__ENV__ || {};
 
+if (!window.__ENV__.GA_MEASUREMENT_ID) {
+	window.__ENV__.GA_MEASUREMENT_ID = "G-8JQZXQQZRN";
+}
+
 if (!window.__ENV__.API_BASE_URL) {
 	const host = window.location && window.location.hostname;
 	if (host === "localhost" || host === "127.0.0.1" || host === "0.0.0.0") {

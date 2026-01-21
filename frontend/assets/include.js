@@ -511,27 +511,42 @@ function buildAuthModal() {
         <div class="grid gap-6 px-6 py-6 sm:px-8 sm:py-8">
           <div class="space-y-2">
             <p class="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300">Frictionless access</p>
-            <h2 class="text-2xl font-semibold">Sign in with email or Google</h2>
+            <h2 class="text-2xl font-semibold">Sign in to CanIEdit</h2>
             <p class="text-sm text-slate-400">No password required. We’ll send a one-time code. Signing in doubles your daily limits and saves history.</p>
           </div>
           <div class="space-y-4">
+            <div class="grid gap-3">
+              <button class="auth-oauth-btn inline-flex w-full items-center justify-center gap-3 rounded-xl border border-slate-800 bg-white/5 px-4 py-3 text-sm font-semibold text-white transition hover:border-slate-700" data-auth-provider="google" type="button">
+                <span class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white">
+                  <svg aria-hidden="true" viewBox="0 0 48 48" class="h-3.5 w-3.5">
+                    <path fill="#EA4335" d="M24 9.5c3.3 0 6.3 1.1 8.6 3.3l6.4-6.4C34.9 2.3 29.8 0 24 0 14.6 0 6.5 5.2 2.6 12.8l7.5 5.8C12 13 17.6 9.5 24 9.5z"/>
+                    <path fill="#4285F4" d="M46.1 24.6c0-1.6-.1-2.8-.4-4.2H24v7.9h12.4c-.5 3-2.3 5.4-5 7.1l7.7 6c4.5-4.2 7-10.4 7-16.8z"/>
+                    <path fill="#FBBC05" d="M10.1 28.5c-.5-1.4-.8-2.8-.8-4.5s.3-3.1.8-4.5L2.6 13.8C.9 17.3 0 20.9 0 24s.9 6.7 2.6 10.2l7.5-5.7z"/>
+                    <path fill="#34A853" d="M24 48c5.8 0 10.9-1.9 14.6-5.1l-7.7-6c-2.1 1.4-4.8 2.2-6.9 2.2-6.4 0-12-3.5-14.2-8.6l-7.5 5.7C6.5 42.8 14.6 48 24 48z"/>
+                  </svg>
+                </span>
+                Continue with Google
+              </button>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="h-px flex-1 bg-slate-800"></div>
+              <span class="text-xs uppercase tracking-[0.18em] text-slate-500">or email</span>
+              <div class="h-px flex-1 bg-slate-800"></div>
+            </div>
             <label class="block space-y-2">
               <span class="text-sm font-semibold text-slate-200">Email</span>
-              <input id="auth-email" class="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-400" type="email" name="email" autocomplete="email" required />
+              <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <input id="auth-email" class="w-full flex-1 rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-400" type="email" name="email" autocomplete="email" placeholder="you@company.com" required />
+                <button id="auth-send" class="inline-flex items-center justify-center rounded-xl border border-emerald-400/40 bg-emerald-500/10 px-4 py-3 text-sm font-semibold text-emerald-200 transition hover:border-emerald-300/60 hover:bg-emerald-500/20 disabled:cursor-not-allowed disabled:opacity-60" type="button" disabled>Send code</button>
+              </div>
             </label>
             <div class="grid gap-3 sm:grid-cols-[1fr,auto] sm:items-end">
               <label class="block space-y-2">
                 <span class="text-sm font-semibold text-slate-200">6-digit code</span>
                 <input id="auth-code" class="w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-400 disabled:opacity-60" type="text" name="code" inputmode="numeric" minlength="4" maxlength="8" autocomplete="one-time-code" placeholder="Enter code" disabled />
               </label>
-              <div class="flex gap-2 sm:flex-col sm:items-stretch">
-                <button id="auth-send" class="inline-flex items-center justify-center rounded-xl border border-emerald-400/40 bg-emerald-500/10 px-4 py-2.5 text-sm font-semibold text-emerald-200 transition hover:border-emerald-300/60 hover:bg-emerald-500/20" type="button">Send code</button>
-                <button id="auth-verify" class="inline-flex items-center justify-center rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-60" type="button" disabled>Verify & Continue</button>
-              </div>
+              <button id="auth-verify" class="inline-flex items-center justify-center rounded-xl bg-emerald-500 px-4 py-3 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-60" type="button" disabled>Verify & Continue</button>
             </div>
-            <button id="auth-google" class="inline-flex w-full items-center justify-center gap-3 rounded-xl border border-slate-800 bg-white/5 px-4 py-3 text-sm font-semibold text-white transition hover:border-slate-700">
-              <span aria-hidden="true">🔒</span> Continue with Google
-            </button>
             <p id="auth-status" class="min-h-[1.25rem] text-sm text-slate-300" role="status"></p>
             <p class="text-xs text-slate-500">We never store plaintext passwords. Codes expire in minutes.</p>
           </div>
@@ -576,15 +591,28 @@ function wireAuthModal() {
   const closeBtn = modal?.querySelector("[data-auth-close]");
   const sendBtn = document.getElementById("auth-send");
   const verifyBtn = document.getElementById("auth-verify");
-  const googleBtn = document.getElementById("auth-google");
+  const oauthButtons = modal?.querySelectorAll("[data-auth-provider]");
   const codeInput = document.getElementById("auth-code");
   const emailInput = document.getElementById("auth-email");
+
+  const isValidEmail = (value) => /\S+@\S+\.\S+/.test(value);
+  const syncSendState = () => {
+    if (!sendBtn || !emailInput) return;
+    const email = emailInput.value.trim();
+    sendBtn.disabled = !isValidEmail(email);
+  };
+  const syncVerifyState = () => {
+    if (!verifyBtn || !codeInput) return;
+    verifyBtn.disabled = codeInput.value.trim().length < 4;
+  };
 
   const open = (message = DEFAULT_AUTH_PROMPT) => {
     modal?.classList.remove("hidden");
     document.body.classList.add("overflow-hidden");
     setAuthStatus("neutral", message);
     emailInput?.focus();
+    syncSendState();
+    syncVerifyState();
   };
 
   const close = () => {
@@ -617,10 +645,25 @@ function wireAuthModal() {
     if (event.key === "Escape") close();
   });
 
+  emailInput?.addEventListener("input", syncSendState);
+  codeInput?.addEventListener("input", syncVerifyState);
+  emailInput?.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      sendBtn?.click();
+    }
+  });
+  codeInput?.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      verifyBtn?.click();
+    }
+  });
+
   sendBtn?.addEventListener("click", async () => {
     if (!emailInput) return;
     const email = emailInput.value.trim();
-    if (!email) {
+    if (!isValidEmail(email)) {
       setAuthStatus("error", "Enter your email to get a code.");
       return;
     }
@@ -643,7 +686,7 @@ function wireAuthModal() {
     } catch (error) {
       setAuthStatus("error", error.message || "Unable to send code");
     } finally {
-      sendBtn.disabled = false;
+      sendBtn.disabled = !isValidEmail(emailInput.value.trim());
     }
   });
 
@@ -680,22 +723,28 @@ function wireAuthModal() {
     }
   });
 
-  googleBtn?.addEventListener("click", () => {
-    setAuthStatus("neutral", "Redirecting to Google...");
-    (async () => {
-      const client = await getSupabaseClient();
-      if (!client) {
-        setAuthStatus("error", "Supabase is not configured yet.");
-        return;
-      }
-      const { error } = await client.auth.signInWithOAuth({
-        provider: "google",
-        options: { redirectTo: `${window.location.origin}/dashboard.html` },
-      });
-      if (error) {
-        setAuthStatus("error", error.message || "Unable to start Google sign-in.");
-      }
-    })();
+  oauthButtons?.forEach((button) => {
+    if (!button) return;
+    button.addEventListener("click", () => {
+      const provider = button.getAttribute("data-auth-provider");
+      if (!provider) return;
+      const providerName = provider.charAt(0).toUpperCase() + provider.slice(1);
+      setAuthStatus("neutral", `Redirecting to ${providerName}...`);
+      (async () => {
+        const client = await getSupabaseClient();
+        if (!client) {
+          setAuthStatus("error", "Supabase is not configured yet.");
+          return;
+        }
+        const { error } = await client.auth.signInWithOAuth({
+          provider,
+          options: { redirectTo: `${window.location.origin}/dashboard.html` },
+        });
+        if (error) {
+          setAuthStatus("error", error.message || `Unable to start ${providerName} sign-in.`);
+        }
+      })();
+    });
   });
 
   const promptForLimit = (message) => open(message || DEFAULT_LIMIT_PROMPT);
@@ -865,6 +914,31 @@ function bindLogoutHandler() {
   });
 }
 
+function initGoogleAnalytics() {
+  if (window.__gaInitialized) return;
+  const measurementId = window.APP_CONFIG?.GA_MEASUREMENT_ID;
+  if (!measurementId) return;
+  const host = window.location && window.location.hostname;
+  if (host === "localhost" || host === "127.0.0.1" || host === "0.0.0.0") {
+    return;
+  }
+
+  window.__gaInitialized = true;
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    window.dataLayer.push(arguments);
+  }
+  window.gtag = window.gtag || gtag;
+
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+  document.head.appendChild(script);
+
+  gtag("js", new Date());
+  gtag("config", measurementId, { anonymize_ip: true });
+}
+
 document.addEventListener("partial:loaded", (event) => {
   if (event?.detail?.id !== "header") return;
   bindLogoutHandler();
@@ -890,6 +964,7 @@ window.addEventListener("DOMContentLoaded", () => {
   }
   applyHomeAuthState(null);
   wireAuthModal();
+  initGoogleAnalytics();
   (async () => {
     const client = await getSupabaseClient();
     if (!client || window.__supabaseListenerBound) return;

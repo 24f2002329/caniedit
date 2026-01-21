@@ -11,6 +11,7 @@ from app.subscriptions.router import router as subscriptions_router
 from app.tools.pdf.router import router as pdf_merge_router
 from app.users.router import router as users_router
 from app.users.service import cleanup_deleted_users_loop
+from app.usage.tracker import cleanup_usage_rows_loop
 from app.utils.storage import cleanup_old_files
 
 app = FastAPI(
@@ -57,3 +58,4 @@ def start_cleanup_thread() -> None:
     init_db()
     threading.Thread(target=cleanup_old_files, daemon=True).start()
     threading.Thread(target=cleanup_deleted_users_loop, args=(SessionLocal,), daemon=True).start()
+    threading.Thread(target=cleanup_usage_rows_loop, args=(SessionLocal,), daemon=True).start()

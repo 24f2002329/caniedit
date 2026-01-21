@@ -51,6 +51,19 @@ CREATE TABLE IF NOT EXISTS public.usage (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS public.tools (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    slug TEXT UNIQUE NOT NULL,
+    category TEXT,
+    weight INTEGER NOT NULL DEFAULT 1,
+    is_premium BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS tools_slug_idx ON public.tools(slug);
+CREATE INDEX IF NOT EXISTS tools_category_idx ON public.tools(category);
+
 CREATE INDEX IF NOT EXISTS usage_anon_key_idx ON public.usage(anon_key);
 
 CREATE INDEX IF NOT EXISTS usage_user_tool_idx ON public.usage(user_id, tool);
