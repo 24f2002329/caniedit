@@ -914,31 +914,6 @@ function bindLogoutHandler() {
   });
 }
 
-function initGoogleAnalytics() {
-  if (window.__gaInitialized) return;
-  const measurementId = window.APP_CONFIG?.GA_MEASUREMENT_ID;
-  if (!measurementId) return;
-  const host = window.location && window.location.hostname;
-  if (host === "localhost" || host === "127.0.0.1" || host === "0.0.0.0") {
-    return;
-  }
-
-  window.__gaInitialized = true;
-  window.dataLayer = window.dataLayer || [];
-  function gtag() {
-    window.dataLayer.push(arguments);
-  }
-  window.gtag = window.gtag || gtag;
-
-  const script = document.createElement("script");
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
-  document.head.appendChild(script);
-
-  gtag("js", new Date());
-  gtag("config", measurementId, { anonymize_ip: true });
-}
-
 document.addEventListener("partial:loaded", (event) => {
   if (event?.detail?.id !== "header") return;
   bindLogoutHandler();
@@ -964,7 +939,6 @@ window.addEventListener("DOMContentLoaded", () => {
   }
   applyHomeAuthState(null);
   wireAuthModal();
-  initGoogleAnalytics();
   (async () => {
     const client = await getSupabaseClient();
     if (!client || window.__supabaseListenerBound) return;

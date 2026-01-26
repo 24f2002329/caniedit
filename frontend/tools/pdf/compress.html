@@ -2,15 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Compress PDF – Coming Soon | CanIEdit</title>
-  <meta name="description" content="Reduce PDF size without losing clarity. Join the waitlist and help shape the Compress PDF launch." />
+  <title>Compress PDF Online – Reduce PDF Size | CanIEdit</title>
+  <meta name="description" content="Compress PDF files online without losing clarity. Upload, compress, and download in minutes." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="keywords" content="compress pdf, reduce pdf size, pdf compressor, shrink pdf" />
+  <link rel="canonical" href="https://www.caniedit.in/tools/pdf/compress.html" />
   <link rel="icon" href="/assets/images/favicon-48.png" sizes="48x48" type="image/png">
   <link rel="icon" href="/assets/images/favicon-96.png" sizes="96x96" type="image/png">
   <link rel="icon" href="assets/images/favicon.ico">
   <link rel="prefetch" href="../../partials/header.html" as="fetch" crossorigin="anonymous" />
   <link rel="prefetch" href="../../partials/footer.html" as="fetch" crossorigin="anonymous" />
   <link rel="stylesheet" href="/assets/css/output.css" />
+  <script src="/assets/env.js"></script>
+  <script src="/assets/config.js"></script>
 </head>
 <body class="flex min-h-screen flex-col bg-slate-50 font-sans text-slate-900">
   <div id="header"></div>
@@ -18,49 +22,168 @@
   <main class="flex-1">
     <section class="bg-white">
       <div class="mx-auto max-w-6xl px-4 py-16">
-        <div class="space-y-6">
-          <nav class="text-sm text-slate-500" aria-label="Breadcrumb">
-            <ol class="flex flex-wrap items-center gap-2">
-              <li><a class="font-semibold text-slate-600 transition hover:text-brand" href="/tools/index.html">Tool library</a></li>
-              <li aria-hidden="true">/</li>
-              <li class="font-semibold text-slate-900">Compress PDF</li>
-            </ol>
-          </nav>
-          <span class="inline-flex w-fit items-center gap-2 rounded-full bg-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-slate-600">Coming soon</span>
-          <div class="space-y-4">
-            <h1 class="text-3xl font-bold text-slate-900 sm:text-4xl">Compress PDF is almost ready</h1>
-            <p class="text-lg text-slate-600">Shrink large PDF decks while keeping text sharp and images clear. Tell us about your typical file sizes so we can tune presets for email, e-sign, and archival workflows.</p>
+        <div class="grid gap-12 lg:grid-cols-[1.25fr,0.75fr]">
+          <div class="space-y-6">
+            <nav class="text-sm text-slate-500" aria-label="Breadcrumb">
+              <ol class="flex flex-wrap items-center gap-2">
+                <li><a class="font-semibold text-slate-600 transition hover:text-brand" href="/tools/index.html">Tool library</a></li>
+                <li aria-hidden="true">/</li>
+                <li><a class="font-semibold text-slate-600 transition hover:text-brand" href="/tools/pdf/index.html">PDF tools</a></li>
+                <li aria-hidden="true">/</li>
+                <li class="font-semibold text-slate-900">Compress PDF</li>
+              </ol>
+            </nav>
+            <div class="space-y-4">
+              <h1 class="text-3xl font-bold leading-snug text-slate-900 sm:text-4xl">Compress PDFs without sacrificing clarity</h1>
+              <p class="text-lg leading-8 text-slate-600">Shrink large PDF files for email, portals, and storage. Upload a single file, choose a compression preset, and download the optimized PDF in seconds.</p>
+            </div>
+            <ul class="grid gap-3 text-sm text-slate-600 sm:grid-cols-2">
+              <li class="flex items-start gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+                <span class="mt-1 h-2 w-2 rounded-full bg-brand"></span>
+                <span>Up to 10&nbsp;MB per file with automatic cleanup.</span>
+              </li>
+              <li class="flex items-start gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+                <span class="mt-1 h-2 w-2 rounded-full bg-brand"></span>
+                <span>Balanced presets for email, web, and archiving.</span>
+              </li>
+            </ul>
+
+            <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-card">
+              <div class="flex flex-wrap items-center justify-between gap-3">
+                <h2 class="text-xl font-semibold text-slate-900">Upload your PDF</h2>
+                <span id="targetBadge" class="hidden rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">Target: -- KB</span>
+              </div>
+              <p class="mt-2 text-sm text-slate-600">Keep the upload front-and-center, then dial in the target size you need.</p>
+
+              <form id="compressForm" class="mt-6 space-y-6" enctype="multipart/form-data">
+                <div class="rounded-3xl border border-dashed border-slate-300 bg-slate-50 px-6 py-8 text-center">
+                  <input class="sr-only" type="file" id="pdfFile" name="file" accept="application/pdf" required />
+                  <label class="inline-flex cursor-pointer items-center rounded-lg bg-brand px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-brandDark" for="pdfFile">Select a PDF file</label>
+                  <p class="mt-3 text-sm text-slate-500">PDF only · Max 10&nbsp;MB</p>
+                </div>
+
+                <section id="selectedFileSection" class="hidden space-y-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm" aria-live="polite">
+                  <div class="flex items-center justify-between gap-3">
+                    <div class="min-w-0">
+                      <p id="selectedFileName" class="truncate text-sm font-semibold text-slate-900"></p>
+                      <p id="selectedFileSize" class="text-xs font-medium text-slate-500"></p>
+                    </div>
+                    <button type="button" id="clearFileButton" class="rounded-lg border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700 transition hover:border-rose-300 hover:text-rose-600">Remove</button>
+                  </div>
+                  <div class="space-y-2">
+                    <div class="flex items-center justify-between text-xs font-semibold text-slate-500">
+                      <span>Estimated compression</span>
+                      <span id="compressionPercent">0%</span>
+                    </div>
+                    <div class="h-2 w-full rounded-full bg-slate-200">
+                      <div id="compressionBar" class="h-2 rounded-full bg-emerald-500 transition-all" style="width: 0%"></div>
+                    </div>
+                    <p id="compressionEstimate" class="text-xs text-slate-500">Add a target size to see the estimated reduction.</p>
+                  </div>
+                </section>
+
+                <div class="grid gap-4 sm:grid-cols-2">
+                  <label class="flex flex-col gap-2 text-sm font-semibold text-slate-700">
+                    Compression preset
+                    <select id="compressionLevel" name="level" class="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 shadow-sm focus:border-brand focus:outline-none">
+                      <option value="light">Light – best quality</option>
+                      <option value="balanced" selected>Balanced – recommended</option>
+                      <option value="strong">Strong – smallest size</option>
+                    </select>
+                  </label>
+                  <label class="flex flex-col gap-2 text-sm font-semibold text-slate-700">
+                    Compress to (KB)
+                    <input id="targetSizeKb" name="target_kb" type="number" min="50" step="10" placeholder="e.g. 250" class="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 shadow-sm focus:border-brand focus:outline-none" />
+                    <span class="text-xs font-medium text-slate-500">Target size is a goal; results vary by content.</span>
+                  </label>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-xs text-slate-600">
+                  <p class="font-semibold text-slate-700">Tip</p>
+                  <p>Strong compression may reduce image clarity in scanned PDFs. Target sizes below the original file increase compression.</p>
+                </div>
+
+                <div class="flex flex-col gap-4">
+                  <button type="submit" class="inline-flex items-center justify-center rounded-lg bg-brand px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-brandDark">Compress PDF</button>
+                  <p id="status" class="hidden rounded-3xl border px-5 py-4 text-sm font-semibold transition" role="status" aria-live="polite"></p>
+                </div>
+              </form>
+            </div>
           </div>
-          <div class="flex flex-wrap gap-3">
-            <a class="inline-flex items-center rounded-lg bg-brand px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-brandDark" href="/#submit-tool">Request early access</a>
-            <a class="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="mailto:hello@caniedit.in">Share requirements</a>
-          </div>
+
+          <aside class="space-y-6">
+            <div class="flex flex-col gap-3 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center shadow-sm" aria-label="Compress tool hero sponsor slot">
+              <strong class="text-base font-semibold text-slate-900">Sponsor this slot</strong>
+              <span class="text-sm text-slate-600">Tool page hero · ₹4,999/month · Early sponsor pricing available.</span>
+              <a class="inline-flex items-center justify-center rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="/sponsor-pricing.html">See sponsor pricing</a>
+            </div>
+            <div class="rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-6 text-sm text-slate-600">
+              <h2 class="text-base font-semibold text-slate-900">Typical savings</h2>
+              <p class="mt-2">Most PDFs compress 20–60% depending on images and fonts. The Balanced preset keeps visuals crisp for client delivery.</p>
+              <p class="mt-3 font-semibold text-slate-700">Upload one PDF at a time · Max 10&nbsp;MB</p>
+            </div>
+            <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-card">
+              <h2 class="text-base font-semibold text-slate-900">More PDF workflows</h2>
+              <ul class="mt-3 space-y-2 text-sm">
+                <li><a class="font-semibold text-brand transition hover:text-brandDark" href="/tools/pdf/merge.html" data-tool-link data-tool-title="Merge PDF" data-tool-description="Combine multiple PDFs into one.">Merge PDF</a></li>
+                <li><a class="font-semibold text-slate-800 transition hover:text-brand" href="/tools/pdf/split.html" data-tool-link data-tool-title="Split and Reorder" data-tool-description="Rearrange pages before sending." data-tool-soon="true">Split and Reorder</a></li>
+              </ul>
+            </div>
+          </aside>
         </div>
       </div>
     </section>
 
     <section class="mx-auto max-w-6xl px-4 pb-16">
       <div class="grid gap-10 lg:grid-cols-[1.4fr,0.6fr]">
-        <article class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-card">
-          <h2 class="text-xl font-semibold text-slate-900">What we are building</h2>
-          <p class="text-sm leading-6 text-slate-600">Compression presets that understand compliance-sensitive workflows. Expect fast processing, small exports, and predictable quality for every deliverable.</p>
-          <ul class="space-y-3 text-sm text-slate-600">
-            <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-brand"></span><span>Batch-friendly uploads so entire case files and handbooks compress together.</span></li>
-            <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-brand"></span><span>Privacy-first processing with automatic deletion after the job completes.</span></li>
-            <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-brand"></span><span>Preset targets for email, print, and e-sign portals.</span></li>
-          </ul>
+        <article class="rounded-3xl border border-slate-200 bg-white p-8 shadow-card">
+          <h2 class="text-xl font-semibold text-slate-900">Compression snapshots</h2>
+          <p class="mt-2 text-sm text-slate-600">Use the target size to guide compression. The bar updates with your file size and chosen target so you can estimate the reduction.</p>
+          <div class="mt-6 grid gap-4 sm:grid-cols-2">
+            <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-600">
+              <p class="font-semibold text-slate-700">Email-ready</p>
+              <p class="mt-2">Aim for 250–500 KB for quick sharing.</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-600">
+              <p class="font-semibold text-slate-700">Portal uploads</p>
+              <p class="mt-2">Use 1–2 MB to keep page previews crisp.</p>
+            </div>
+          </div>
+          <div class="mt-6 rounded-2xl border border-slate-200 bg-white px-4 py-4">
+            <h3 class="text-base font-semibold text-slate-900">Compression guides</h3>
+            <p class="mt-2 text-sm text-slate-600">Explore common use cases and shortcut targets.</p>
+            <ul class="mt-3 space-y-2 text-sm text-slate-600">
+              <li><a class="font-semibold text-brand transition hover:text-brandDark" href="/how-to-compress-pdf-online-free">How to compress PDF online free</a></li>
+              <li><a class="font-semibold text-brand transition hover:text-brandDark" href="/tools/pdf/compress-pdf-for-email.html">Compress PDF for email</a></li>
+              <li><a class="font-semibold text-brand transition hover:text-brandDark" href="/tools/pdf/compress-pdf-for-whatsapp.html">Compress PDF for WhatsApp</a></li>
+              <li><a class="font-semibold text-brand transition hover:text-brandDark" href="/tools/pdf/reduce-pdf-size-online.html">Reduce PDF size online</a></li>
+              <li><a class="font-semibold text-brand transition hover:text-brandDark" href="/tools/pdf/compress-pdf-for-google-drive.html">Compress PDF for Google Drive</a></li>
+            </ul>
+          </div>
         </article>
+
         <aside class="space-y-6">
-          <div class="rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-6 text-sm text-slate-600">
-            <h2 class="text-base font-semibold text-slate-900">Launch timeline</h2>
-            <p class="mt-2">We are gathering sample files now. Verified partners will get first access to the beta build.</p>
-            <p class="mt-3 font-semibold text-slate-700">Target: Q1 2026</p>
+          <div id="planUpsell" class="hidden rounded-3xl border border-amber-200 bg-amber-50 p-6 text-sm text-amber-800">
+            <h3 class="text-base font-semibold text-amber-900">Need bigger files?</h3>
+            <p class="mt-2">Upgrade for larger upload limits and higher compression throughput.</p>
+            <a class="mt-4 inline-flex items-center rounded-lg border border-amber-200 bg-white px-4 py-2 text-sm font-semibold text-amber-900 transition hover:border-amber-300" href="/pricing.html">Compare plans</a>
+          </div>
+          <div class="flex flex-col gap-3 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center shadow-sm" aria-label="Compress tool sidebar sponsor slot">
+            <strong class="text-base font-semibold text-slate-900">Sponsor this sidebar</strong>
+            <span class="text-sm text-slate-600">Tool page sidebar · ₹4,999/month · Early sponsor pricing available.</span>
+            <a class="inline-flex items-center justify-center rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-800 transition hover:border-brand hover:text-brand" href="/sponsor-pricing.html">See sponsor pricing</a>
+          </div>
+          <div id="unlockUpsell" class="hidden rounded-3xl border border-blue-200 bg-blue-50 p-6 text-sm text-blue-800">
+            <h3 class="text-base font-semibold text-blue-900">Password protected?</h3>
+            <p class="mt-2">Unlock the PDF first, then return here to compress it.</p>
+            <a class="mt-4 inline-flex items-center rounded-lg border border-blue-200 bg-white px-4 py-2 text-sm font-semibold text-blue-900 transition hover:border-blue-300" href="/tools/pdf/unlock.html">Open PDF Unlock</a>
           </div>
           <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-card">
-            <h2 class="text-base font-semibold text-slate-900">Explore more PDF workflows</h2>
-            <ul class="mt-3 space-y-2 text-sm">
-              <li><a class="font-semibold text-brand transition hover:text-brandDark" href="/tools/pdf/merge.html" data-tool-link data-tool-title="Merge PDF" data-tool-description="Combine multiple PDFs into one.">Merge PDF</a></li>
-              <li><a class="font-semibold text-slate-800 transition hover:text-brand" href="/tools/pdf/split.html" data-tool-link data-tool-title="Split and Reorder" data-tool-description="Rearrange pages before sending." data-tool-soon="true">Split and Reorder</a></li>
+            <h3 class="text-base font-semibold text-slate-900">Compression checklist</h3>
+            <ul class="mt-3 space-y-2 text-sm text-slate-600">
+              <li class="flex items-start gap-2"><span class="mt-1 h-2 w-2 rounded-full bg-brand"></span><span>Review your file after download for any blurred scans.</span></li>
+              <li class="flex items-start gap-2"><span class="mt-1 h-2 w-2 rounded-full bg-brand"></span><span>Send the compressed PDF through your normal approval flow.</span></li>
+              <li class="flex items-start gap-2"><span class="mt-1 h-2 w-2 rounded-full bg-brand"></span><span>Delete the file instantly from the download page if needed.</span></li>
             </ul>
           </div>
         </aside>
@@ -73,6 +196,284 @@
   </noscript>
 
   <div id="footer"></div>
+
+  <script src="../../assets/tool-download.js"></script>
+  <script type="module">
+    const form = document.getElementById("compressForm");
+    const status = document.getElementById("status");
+    const submitButton = form.querySelector("button[type='submit']");
+    const fileInput = document.getElementById("pdfFile");
+    const selectedFileSection = document.getElementById("selectedFileSection");
+    const selectedFileName = document.getElementById("selectedFileName");
+    const selectedFileSize = document.getElementById("selectedFileSize");
+    const clearFileButton = document.getElementById("clearFileButton");
+    const compressionLevel = document.getElementById("compressionLevel");
+    const targetSizeInput = document.getElementById("targetSizeKb");
+    const compressionBar = document.getElementById("compressionBar");
+    const compressionPercent = document.getElementById("compressionPercent");
+    const compressionEstimate = document.getElementById("compressionEstimate");
+    const targetBadge = document.getElementById("targetBadge");
+    const planUpsell = document.getElementById("planUpsell");
+    const unlockUpsell = document.getElementById("unlockUpsell");
+
+    const resolveApiBase = () => {
+      const raw = (import.meta.env && import.meta.env.API_BASE_URL)
+        || (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL)
+        || (window.__ENV__ && window.__ENV__.API_BASE_URL)
+        || "";
+      if (!raw) return "/api";
+      return raw.replace(/\/$/, "");
+    };
+
+    const formatBytes = (bytes) => {
+      if (!Number.isFinite(bytes)) return "";
+      const units = ["B", "KB", "MB", "GB"]; 
+      let index = 0;
+      let value = bytes;
+      while (value >= 1024 && index < units.length - 1) {
+        value /= 1024;
+        index += 1;
+      }
+      return `${value.toFixed(value < 10 ? 1 : 0)} ${units[index]}`;
+    };
+
+    const shortenFilename = (name) => {
+      if (!name || name.length <= 32) return name || "";
+      const extIndex = name.lastIndexOf(".");
+      const ext = extIndex > -1 ? name.slice(extIndex) : "";
+      return name.slice(0, 24) + "…" + ext;
+    };
+
+    const setStatus = (message, type) => {
+      if (!message) {
+        status.classList.add("hidden");
+        status.textContent = "";
+        return;
+      }
+      status.textContent = message;
+      status.classList.remove("hidden");
+      status.classList.remove("border-emerald-200", "bg-emerald-50", "text-emerald-800");
+      status.classList.remove("border-rose-200", "bg-rose-50", "text-rose-700");
+      status.classList.remove("border-slate-200", "bg-slate-50", "text-slate-600");
+
+      if (type === "success") {
+        status.classList.add("border-emerald-200", "bg-emerald-50", "text-emerald-800");
+      } else if (type === "error") {
+        status.classList.add("border-rose-200", "bg-rose-50", "text-rose-700");
+      } else {
+        status.classList.add("border-slate-200", "bg-slate-50", "text-slate-600");
+      }
+    };
+
+    const presetReduction = {
+      light: 20,
+      balanced: 40,
+      strong: 60
+    };
+
+    const updateTargetBadge = (valueKb) => {
+      if (!targetBadge) return;
+      if (!Number.isFinite(valueKb) || valueKb <= 0) {
+        targetBadge.classList.add("hidden");
+        targetBadge.textContent = "Target: -- KB";
+        return;
+      }
+      targetBadge.textContent = `Target: ${Math.round(valueKb)} KB`;
+      targetBadge.classList.remove("hidden");
+    };
+
+    const updateCompressionEstimate = () => {
+      const file = fileInput.files && fileInput.files[0];
+      const targetKb = Number(targetSizeInput.value);
+      let percent = presetReduction[compressionLevel.value] ?? 35;
+
+      if (file && Number.isFinite(targetKb) && targetKb > 0) {
+        const originalKb = file.size / 1024;
+        const ratio = Math.min(targetKb / originalKb, 1);
+        percent = Math.max(0, Math.min(95, Math.round((1 - ratio) * 100)));
+        if (targetKb >= originalKb) {
+          compressionEstimate.textContent = `Target ${Math.round(targetKb)} KB is larger than the current file (${formatBytes(file.size)}).`;
+        } else {
+          compressionEstimate.textContent = `Target ${Math.round(targetKb)} KB · Current ${formatBytes(file.size)}.`;
+        }
+      } else if (file) {
+        compressionEstimate.textContent = `Current size ${formatBytes(file.size)} · ${percent}% typical reduction.`;
+      } else if (Number.isFinite(targetKb) && targetKb > 0) {
+        compressionEstimate.textContent = `Target ${Math.round(targetKb)} KB set. Upload a PDF to estimate the reduction.`;
+      } else {
+        compressionEstimate.textContent = "Add a target size to see the estimated reduction.";
+      }
+
+      compressionPercent.textContent = `${percent}%`;
+      compressionBar.style.width = `${percent}%`;
+      updateTargetBadge(Number.isFinite(targetKb) && targetKb > 0 ? targetKb : null);
+    };
+
+    const applyTargetFromUrl = () => {
+      const params = new URLSearchParams(window.location.search);
+      let targetValue = Number(params.get("target_kb") || params.get("target"));
+
+      if (!Number.isFinite(targetValue) || targetValue <= 0) {
+        const match = window.location.pathname.match(/compress-pdf-to-(\d+)-(kb|mb)\/?$/i);
+        if (match) {
+          const rawValue = Number(match[1]);
+          const unit = match[2].toLowerCase();
+          if (Number.isFinite(rawValue)) {
+            targetValue = unit === "mb" ? rawValue * 1024 : rawValue;
+          }
+        }
+      }
+
+      if (Number.isFinite(targetValue) && targetValue > 0) {
+        targetSizeInput.value = Math.round(targetValue);
+        updateTargetBadge(targetValue);
+      } else {
+        updateTargetBadge(null);
+      }
+    };
+
+    const hideUpsells = () => {
+      planUpsell.classList.add("hidden");
+      unlockUpsell.classList.add("hidden");
+    };
+
+    const isPasswordError = (message) => /password|encrypted|unlock/i.test(message || "");
+
+    const updateSelectedFile = () => {
+      const file = fileInput.files && fileInput.files[0];
+      if (!file) {
+        selectedFileSection.classList.add("hidden");
+        updateCompressionEstimate();
+        return;
+      }
+      selectedFileName.textContent = shortenFilename(file.name);
+      selectedFileSize.textContent = formatBytes(file.size);
+      selectedFileSection.classList.remove("hidden");
+      updateCompressionEstimate();
+    };
+
+    fileInput.addEventListener("change", () => {
+      updateSelectedFile();
+      hideUpsells();
+      setStatus("", "");
+    });
+
+    compressionLevel.addEventListener("change", () => {
+      updateCompressionEstimate();
+    });
+
+    targetSizeInput.addEventListener("input", () => {
+      updateCompressionEstimate();
+    });
+
+    clearFileButton.addEventListener("click", () => {
+      fileInput.value = "";
+      updateSelectedFile();
+      hideUpsells();
+      setStatus("", "");
+    });
+
+    applyTargetFromUrl();
+    updateCompressionEstimate();
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const file = fileInput.files && fileInput.files[0];
+      if (!file) {
+        setStatus("Select a PDF to compress.", "error");
+        return;
+      }
+
+      setStatus("Compressing your PDF…");
+      hideUpsells();
+      submitButton.disabled = true;
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("level", compressionLevel.value || "balanced");
+      const targetKb = Number(targetSizeInput.value);
+      if (Number.isFinite(targetKb) && targetKb > 0) {
+        formData.append("target_kb", String(Math.round(targetKb)));
+      }
+
+      try {
+        const accessToken = window.CanIEditAuth && typeof window.CanIEditAuth.getAccessToken === "function"
+          ? await window.CanIEditAuth.getAccessToken()
+          : null;
+        const headers = accessToken ? { Authorization: `Bearer ${accessToken}` } : undefined;
+        const apiBase = resolveApiBase();
+        const response = await fetch(`${apiBase}/pdf/compress`, {
+          method: "POST",
+          body: formData,
+          headers,
+          credentials: "include"
+        });
+
+        const contentType = response.headers.get("content-type") || "";
+        let data = {};
+        if (contentType.includes("application/json")) {
+          try {
+            data = await response.json();
+          } catch (parseError) {
+            data = {};
+          }
+        } else {
+          try {
+            const text = await response.text();
+            data = text ? { detail: text } : {};
+          } catch (textError) {
+            data = {};
+          }
+        }
+
+        if (!response.ok) {
+          const detail = typeof data.detail === "string" ? data.detail : "Unable to compress this PDF right now.";
+
+          if (response.status === 413) {
+            setStatus("This PDF is over 10 MB. Choose a smaller file or upgrade for larger limits.", "error");
+            planUpsell.classList.remove("hidden");
+          } else if (response.status === 400 && isPasswordError(detail)) {
+            setStatus("This PDF is password protected. Unlock it first, then compress again.", "error");
+            unlockUpsell.classList.remove("hidden");
+          } else if (response.status === 429) {
+            setStatus(detail, "error");
+            if (typeof window.promptAuthForLimit === "function") {
+              window.promptAuthForLimit();
+            }
+            planUpsell.classList.remove("hidden");
+          } else {
+            setStatus(detail, "error");
+          }
+          return;
+        }
+
+        if (data.success) {
+          setStatus("PDF compressed successfully! Redirecting to download page…", "success");
+          fileInput.value = "";
+          updateSelectedFile();
+          hideUpsells();
+          const fileId = data.file;
+          setTimeout(() => {
+            const redirect = window.CanIEdit && typeof window.CanIEdit.redirectToDownload === "function" ? window.CanIEdit.redirectToDownload : null;
+            if (redirect) {
+              redirect("compress", fileId);
+              return;
+            }
+            const fallback = encodeURIComponent(fileId);
+            window.location.href = `/tools/shared/download.html?tool=compress&file=${fallback}`;
+          }, 600);
+        } else {
+          setStatus("Something went wrong. Please try again.", "error");
+        }
+      } catch (error) {
+        setStatus("We couldn't process that file. If it's password protected, unlock it first and try again.", "error");
+        unlockUpsell.classList.remove("hidden");
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+  </script>
 
   <script src="../../assets/include.js"></script>
 </body>

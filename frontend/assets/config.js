@@ -10,7 +10,3 @@ window.APP_CONFIG.API_BASE_URL =
   || (window.__ENV__ && window.__ENV__.API_BASE_URL)
   || "";
 
-window.APP_CONFIG.GA_MEASUREMENT_ID =
-  window.APP_CONFIG.GA_MEASUREMENT_ID
-  || (window.__ENV__ && window.__ENV__.GA_MEASUREMENT_ID)
-  || "";

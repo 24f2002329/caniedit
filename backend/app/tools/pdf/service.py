@@ -137,3 +137,123 @@ def delete_merged_pdf(filename: str, current_user, db: Session) -> dict:
 		db.commit()
 
 	return {"success": True}
+
+
+async def compress_pdf(
+	request: Request,
+	file: UploadFile,
+	current_user,
+	db: Session,
+	level: str = "balanced",
+) -> dict:
+	# Enforce daily usage before processing.
+	increment_usage(db, request, current_user, tool="pdf_compress")
+
+	max_bytes = MAX_FILE_SIZE_MB * 1024 * 1024
+	file_size = getattr(file, "size", None)
+	if file_size is not None and file_size > max_bytes:
+		raise HTTPException(
+			status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
+			detail="File too large. Max 10MB allowed.",
+		)
+
+	contents = await file.read()
+	if file_size is None and len(contents) > max_bytes:
+		raise HTTPException(
+			status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
+			detail="File too large. Max 10MB allowed.",
+		)
+
+	allowed_levels = {"light", "balanced", "strong"}
+	if level not in allowed_levels:
+		raise HTTPException(
+			status_code=status.HTTP_400_BAD_REQUEST,
+			detail="Invalid compression level.",
+		)
+
+	original_name = file.filename or "document"
+	stem, _ = os.path.splitext(original_name)
+	slug = re.sub(r"[^a-zA-Z0-9]+", "-", stem).strip("-").lower()
+	if not slug:
+		slug = "document"
+
+	input_path = os.path.join(UPLOAD_DIR, f"{uuid.uuid4()}.pdf")
+	with open(input_path, "wb") as handle:
+		handle.write(contents)
+
+	reader = PdfReader(input_path)
+	if reader.is_encrypted:
+		try:
+			decrypted = reader.decrypt("")
+		except Exception:
+			decrypted = 0
+
+		if not decrypted:
+			raise HTTPException(
+				status_code=status.HTTP_400_BAD_REQUEST,
+				detail="This PDF is password protected. Please unlock it first and try again.",
+			)
+
+	writer = PdfWriter()
+	for page in reader.pages:
+		try:
+			page.compress_content_streams()
+		except Exception:
+			pass
+		writer.add_page(page)
+
+	if level == "strong":
+		writer.add_metadata({"/Producer": "CanIEdit Compression"})
+
+	token = uuid.uuid4().hex[:6]
+	output_name = f"caniedit-compressed-{slug}-{token}.pdf"
+	output_path = os.path.join(OUTPUT_DIR, output_name)
+
+	with open(output_path, "wb") as handle:
+		writer.write(handle)
+
+	if current_user:
+		file_record = FileRecord(
+			user_id=current_user.id,
+			tool="pdf_compress",
+			filename=output_name,
+			storage_path=output_path,
+		)
+		db.add(file_record)
+		db.commit()
+
+	return {
+		"success": True,
+		"file": output_name,
+	}
+
+
+def delete_compressed_pdf(filename: str, current_user, db: Session) -> dict:
+	if not re.fullmatch(r"[\w.-]+", filename):
+		raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid filename")
+
+	file_record = db.query(FileRecord).filter(FileRecord.filename == filename).first()
+	if file_record:
+		if not current_user:
+			raise HTTPException(
+				status_code=status.HTTP_401_UNAUTHORIZED,
+				detail="Missing authorization token",
+				headers={"WWW-Authenticate": "Bearer"},
+			)
+		if file_record.user_id != current_user.id:
+			raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to delete this file")
+
+	file_path = os.path.join(OUTPUT_DIR, filename)
+	if not os.path.isfile(file_path):
+		raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="File not found")
+
+	try:
+		os.remove(file_path)
+	except OSError as exc:
+		raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Unable to delete file right now") from exc
+
+	if file_record:
+		db.delete(file_record)
+		db.commit()
+
+	return {"success": True}

@@ -11,6 +11,12 @@ TOOL_DEFINITIONS = [
         "weight": 1,
         "is_premium": False,
     },
+    {
+        "slug": "pdf_compress",
+        "category": "pdf",
+        "weight": 2,
+        "is_premium": False,
+    },
 ]
 
 
